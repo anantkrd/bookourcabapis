@@ -61,6 +61,11 @@ module.exports={
         var msg='your otp to login with prayag tourse & travels is '+otp;
         var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
            //console.log(url); 
+           await request.get({ url: url },      function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //console.log("==otp sent=="+JSON.stringify(response));
+               }
+           });
            var sqlUpdate="update prayag_otp set isExpired='Y' where mobileNo=? and isExpired='N' and verified='N' and isDeleted='N'";
           
           new Promise((resolve, reject)=>{
@@ -68,11 +73,7 @@ module.exports={
                 if(error){
                     //return reject(error);
                 }
-                await request.get({ url: url },      function(error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        //console.log("==otp sent=="+JSON.stringify(response));
-                       }
-                   });
+                
                    
                 var sql="INSERT INTO prayag_otp (mobileNo, otp) VALUES (?,?)";
                 return new Promise((resolve, reject)=>{
