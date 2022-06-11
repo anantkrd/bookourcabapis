@@ -62,7 +62,7 @@ module.exports={
         var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
            //console.log(url); 
         
-          request.get({ url: url },      function(error, response, body) {
+          await request.get({ url: url },      function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 //console.log("==otp sent=="+JSON.stringify(response));
                }
