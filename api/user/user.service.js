@@ -68,7 +68,7 @@ module.exports={
                }
            });
            var sqlUpdate="update prayag_otp set isExpired='Y' where mobileNo=? and isExpired='N' and verified='N' and isDeleted='N'";
-           pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
+            await pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
                
            })   
         var sql="INSERT INTO prayag_otp (mobileNo, otp) VALUES (?,?)";
