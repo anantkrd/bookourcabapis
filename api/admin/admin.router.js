@@ -114,7 +114,7 @@ router.get('/get_booking_admin', async function(req, res, next) {
   });
 
 router.get('/get_completed_bookings',async function(req,res,next){
-    results =await getcompletedBookings(req.query.userId,req.query.pageId);
+    results =await getCompletedBookings(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
    
     res.send(results);

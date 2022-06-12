@@ -8,8 +8,7 @@ module.exports={
          //console.log("datares*=="+JSON.stringify(datares));
          if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
-        }else{
-            
+        }else{            
             responce=JSON.stringify({code:'200',msg:'',data:results});
         }
          return responce;        
@@ -20,8 +19,7 @@ module.exports={
          //console.log("datares*=="+JSON.stringify(datares));
          if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
-        }else{
-            
+        }else{            
             responce=JSON.stringify({code:'200',msg:'',data:results});
         }
          return responce;        
