@@ -87,12 +87,12 @@ module.exports={
     updateBookingDetails:async(razorpayOrderId,rawResponce)=>{
         sqlGetPay="select * from prayag_booking_payment where paymentId='"+razorpayOrderId+"'";
         console.log("sqlGetPay=="+sqlGetPay);
+        let rawResponcedata=JSON.stringify(rawResponce);
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  (error, result)=>{
                 console.log("result==="+JSON.stringify(result));
-                let rawResponce=JSON.stringify(rawResponce);
                 bookingAmount=result[0]['amount'];
-                sqlUpdatePayment="UPDATE `prayag_booking_payment` SET `status`='completed',rawResponce='"+rawResponce+"' WHERE paymentId='"+razorpayOrderId+"'";
+                sqlUpdatePayment="UPDATE `prayag_booking_payment` SET `status`='completed',rawResponce='"+rawResponcedata+"' WHERE paymentId='"+razorpayOrderId+"'";
                 pool.query(sqlUpdatePayment,  (error, elements)=>{                
                 });
                 sqlUpdateBooking="UPDATE `prayag_booking` SET `paid`='"+bookingAmount+"',`status`='waiting' WHERE payment_orderId='"+razorpayOrderId+"'";
