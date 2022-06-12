@@ -72,7 +72,7 @@ module.exports={
     },    
     updateBookingDetails:async(razorpayOrderId,rawResponce)=>{
         sqlGetPay="select * from prayag_agent_booking where paymentId='"+razorpayOrderId+"'";
-        
+        let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  (error, result)=>{
                 
@@ -95,9 +95,9 @@ module.exports={
                     }
                 });
                 
-                return resolve();
+                return resolve(resData);
             });
-            return resolve();
+            return resolve(resData);
             
             
             
