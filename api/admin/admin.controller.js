@@ -1,5 +1,5 @@
 const { json } = require('body-parser');
-const{getBookingsAdminHome,updateAgentAmount,getBookingsForAgent,getCompletedBookings,getReadyBooking}=require('./admin.service');
+const{getBookingsAdminHome,updateAgentAmount,getBookingsForAgent,getCompletedBookings,getReadyBooking,getConfirmBooking}=require('./admin.service');
 module.exports={
     getBookingsAdminHome:async(pageId=1)=>{   
         let data=await getBookingsAdminHome(pageId); 
