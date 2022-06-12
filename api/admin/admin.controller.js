@@ -46,6 +46,19 @@ module.exports={
         }
          return responce;        
     },
+    getConfirmBooking:async(userId,pageId=1)=>{
+        //console.log("Here in controleler");
+        let results=await getConfirmBooking(pageId); 
+         //console.log("datares*=="+JSON.stringify(datares));
+         if(results.length<=0){
+            responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
+        }else{
+            
+            responce=JSON.stringify({code:'200',msg:'',data:results});
+        }
+         return responce;        
+    },
+    
 
     /*getMyCompletedBookings:async(agentId,pageId=1)=>{
         //console.log("Here in controleler");
