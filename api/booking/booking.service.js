@@ -2,7 +2,7 @@ const pool=require('../../config/database');
 module.exports={
     create:(data,callBack)=>{
         let returndate=data.returnDate;
-        if(returndate==null or returndate==""){
+        if(returndate==null || returndate==""){
             returndate='0000-00-00 00:00:00';
         }
         sqlBooking="INSERT INTO prayag_booking (userId,userName,orderId,cabId,pickup,destination,pickupDate,returnDate,isReturn,pickupLat,pickupLong,destinationLat,destinationLong,distance,journyTime,rate,amount,discount,finalAmount,payment_orderId,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
