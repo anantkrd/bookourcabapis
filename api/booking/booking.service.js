@@ -90,7 +90,7 @@ module.exports={
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  (error, result)=>{
                 console.log("result==="+JSON.stringify(result));
-
+                let rawResponce=JSON.stringify(rawResponce);
                 bookingAmount=result[0]['amount'];
                 sqlUpdatePayment="UPDATE `prayag_booking_payment` SET `status`='completed',rawResponce='"+rawResponce+"' WHERE paymentId='"+razorpayOrderId+"'";
                 pool.query(sqlUpdatePayment,  (error, elements)=>{                
