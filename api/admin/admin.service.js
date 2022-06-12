@@ -74,7 +74,7 @@ module.exports={
     getConfirmBooking:async(pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;
-        sqlcheck="SELECT booking.*,cabs.cabType,cabs.ac,cabs.bags,cabs.capacity,cabs.cars,cabs.note,(select mobileNo from prayag_users where id=booking.userId ) as mobileNo FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and driverId=0  and agentId>0 and booking.status='confirm' order by booking.id desc limit ?,?";
+        sqlcheck="SELECT booking.*,cabs.cabType,cabs.ac,cabs.bags,cabs.capacity,cabs.cars,cabs.note,(select mobileNo from prayag_users where id=booking.userId ) as mobileNo FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and (driverId=0 or carId=0)  and agentId>0 and booking.status='confirm' order by booking.id desc limit ?,?";
         
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[start,perPage],  (error, results)=>{
