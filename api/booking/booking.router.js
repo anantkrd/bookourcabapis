@@ -544,7 +544,8 @@ router.post('/success',async function(req,res,next){
    let rawResponce=req.body.rawResponce;
    let bookingAmount=0;//req.body.bookingAmount;
     console.log("Body=="+JSON.stringify(req.body))
-    await updateBookingDetails(razorpayOrderId,rawResponce);
+    let resData=await updateBookingDetails(razorpayOrderId,rawResponce);
+    res.json(resData);
 });
 router.get('/prepayment',async function(req,res,next){
     try {

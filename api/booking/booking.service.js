@@ -88,6 +88,7 @@ module.exports={
         sqlGetPay="select * from prayag_booking_payment where paymentId='"+razorpayOrderId+"'";
         console.log("sqlGetPay=="+sqlGetPay);
         let rawResponcedata=JSON.stringify(rawResponce);
+        let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  (error, result)=>{
                 console.log("result==="+JSON.stringify(result));
@@ -101,9 +102,9 @@ module.exports={
                 });
                 console.log("sqlUpdatePayment=="+sqlUpdatePayment);
                 console.log("sqlUpdateBooking=="+sqlUpdateBooking);
-                return resolve();
+                return resolve(resData);
             });
-            return resolve();
+            return resolve(resData);
             
             
             
