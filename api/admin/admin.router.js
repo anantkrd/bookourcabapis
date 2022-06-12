@@ -1,6 +1,6 @@
 const express=require('express');
 const jwt=require('jsonwebtoken');
-const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings}=require('./admin.controller');
+const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking}=require('./admin.controller');
 const{addPaymentAgent,updateBookingDetails}=require('./admin.service');
 const {authenticate}=require('../auth/index');
 

@@ -13,7 +13,7 @@ module.exports={
     }
     ,
     getWaitingForAgentBooking:async(userId,pageId)=>{
-        let results=await getBookingsForAgent(agentId,pageId); 
+        let results=await getBookingsForAgent(pageId); 
          //console.log("datares*=="+JSON.stringify(datares));
          if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
@@ -22,7 +22,7 @@ module.exports={
         }
          return responce;         
     },
-    getCompletedBookings:async(agentId,pageId=1)=>{
+    getCompletedBookings:async(userId,pageId=1)=>{
         //console.log("Here in controleler");
         let results=await getCompletedBookings(pageId); 
          //console.log("datares*=="+JSON.stringify(datares));
@@ -34,7 +34,7 @@ module.exports={
         }
          return responce;        
     },
-    getReadyBooking:async(agentId,pageId=1)=>{
+    getReadyBooking:async(userId,pageId=1)=>{
         //console.log("Here in controleler");
         let results=await getReadyBooking(pageId); 
          //console.log("datares*=="+JSON.stringify(datares));

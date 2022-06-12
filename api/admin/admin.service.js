@@ -15,7 +15,7 @@ module.exports={
             });
         })
     },
-    getBookingsForAgent:async(agentId,pageId)=>{
+    getBookingsForAgent:async(pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;
         sqlcheck="SELECT booking.*,cabs.cabType,cabs.ac,cabs.bags,cabs.capacity,cabs.cars,cabs.note,(select mobileNo from prayag_users where id=booking.userId ) as mobileNo FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and agentPrice>0 and agentId=0 and booking.status='waiting' order by booking.id desc limit ?,?";
