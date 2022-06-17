@@ -1,5 +1,5 @@
 const { json } = require('body-parser');
-const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount}=require('./user.service');
+const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount,getUserByID}=require('./user.service');
 const {getCabs}=require('../common/cabs');
 const pool = require('../../config/database');
 module.exports={
@@ -45,6 +45,17 @@ module.exports={
             return callBack(null,results)
         });        */
     },
+    getUserByID:async(mobileNo,callBack)=>{
+       return results=await getUserByID(mobileNo);
+        
+       /* res=getUserByMobile(mobileNo,(err,results)=>{
+            if(err){
+                return callBack(err)
+            }
+            return callBack(null,results)
+        });        */
+    },
+    
     sendOTP:async(mobileNo,callBack)=>{             
         results=await getUserByMobile(mobileNo);
         if(results.length<=0){            

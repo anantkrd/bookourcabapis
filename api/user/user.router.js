@@ -3,7 +3,7 @@ const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 var router = express.Router();
 const{createUser,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,
-    getBookingSearchLog}=require('./user.controller');
+    getBookingSearchLog,getUserByID}=require('./user.controller');
 const { json } = require('body-parser');
 const authenticate=require("../auth/index");
 
@@ -20,6 +20,19 @@ router.get('/create_user', function(req, res, next) {
         }
         res.send(responce);
     });  
+    
+  });
+  router.get('/get_user_byid', authenticate,function(req, res, next) {
+    
+    res1=getUserByID(req.query.userid,(err,results)=>{
+        if(err){
+            responce=JSON.stringify({code:'501',error:err,data:''});
+        }else{
+            console.log("last inserted id="+results);
+            responce=JSON.stringify({code:'200',msg:'',data:results});
+        }
+        res.send(responce);
+    }); 
     
   });
   router.get('/get_user', function(req, res, next) {

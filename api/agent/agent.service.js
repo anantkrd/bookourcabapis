@@ -14,6 +14,19 @@ module.exports={
             });
         });
     },  
+    getAgent:async(agentId)=>{
+        
+        sqlcheck="SELECT * FROM `prayag_users` where id=?";
+        
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[agentId],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
+    },  
     getMyCompletedBookings:async(agentId,pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;

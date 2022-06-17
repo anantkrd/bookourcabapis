@@ -48,13 +48,19 @@ module.exports={
                 return resolve(results);
             });
         });
-        /*pool.query(sqlcheck,[mobileNo],(err,result)=>{
-            if(err){
-                return callBack(err);
-            }else{
-                return callBack(null,result);
-            }
-        })*/
+    },
+    getUserByID:async (mobileNo)=>{
+        sqlcheck="select id,firstName,lastName,mobileNo,email,userType,createdTime from prayag_users where id=?";
+        console.log("select id,firstName,lastName,mobileNo,email,userType,idProof,idNumber,profileImage,createdTime from prayag_users where id="+getUserByID)
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[getUserByID],  (error, results)=>{
+                if(error){
+                    console.log("error=="+error);
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
     },
     sendOTP:async(mobileNo)=>{
         let otp=Math.round(Math.random() * (9999 -1000 ) + 1000);
