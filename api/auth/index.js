@@ -3,7 +3,7 @@ authenticate=(req,res,next)=>{
     console.log('check authenticate');
    
     let result;
-    console.log("in Auth==="+JSON.stringify(req.headers));
+    //console.log("in Auth==="+JSON.stringify(req.headers));
     const authorizationHeaader = req.headers.authorization;
     console.log("authorizationHeaader***"+authorizationHeaader);
     if(authorizationHeaader){

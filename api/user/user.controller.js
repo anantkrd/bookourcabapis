@@ -46,8 +46,8 @@ module.exports={
             return callBack(null,results)
         });        */
     },
-    getUserByID:async(mobileNo,callBack)=>{
-       return results=await getUserByID(mobileNo);
+    getUserByID:async(userId,callBack)=>{
+       return results=await getUserByID(userId);
         
        /* res=getUserByMobile(mobileNo,(err,results)=>{
             if(err){
