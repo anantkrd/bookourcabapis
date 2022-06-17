@@ -47,8 +47,9 @@ module.exports={
         });        */
     },
     getUserByID:async(userId,callBack)=>{
-       return results=await getUserByID(userId);
-        
+       let results=await getUserByID(userId);
+       console.log("===resultsUser==="+JSON.stringify(results));
+       return results;
        /* res=getUserByMobile(mobileNo,(err,results)=>{
             if(err){
                 return callBack(err)
