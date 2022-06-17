@@ -2,6 +2,7 @@ const { json } = require('body-parser');
 const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount,getUserByID}=require('./user.service');
 const {getCabs}=require('../common/cabs');
 const pool = require('../../config/database');
+const jwt=require('jsonwebtoken');
 module.exports={
     createUser_old:(req,res)=>{
         const body=req.query;
@@ -102,6 +103,9 @@ module.exports={
             if(resultsUser.length<=0){
                 responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
             }else{
+                const token= jwt.sign({ id: results[0]['id'] }, process.env.secrete);
+                //console.log("token=="+token);
+                resultsUser[0]['token']=token;   
                 responce=JSON.stringify({code:'200',msg:'',data:resultsUser});
             }
         }

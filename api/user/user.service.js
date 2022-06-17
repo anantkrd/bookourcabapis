@@ -2,6 +2,8 @@ const { PayloadTooLarge } = require("http-errors");
 const pool=require("../../config/database");
 var http = require('http');
 var request = require('request');
+
+
 module.exports={
     create:async(data,callBack)=>{
         sqlcheck="select * from prayag_users where mobileNo=?";
