@@ -23,7 +23,7 @@ router.get('/create_user', async function(req, res, next) {
     
   });
   router.get('/get_user_byid', authenticate,async function(req, res, next) {
-    console.log("In get_user_byid")
+    //console.log("In get_user_byid")
     results =await getUserByID(req.query.userId);
     console.log("result="+JSON.stringify(results))
     if(results.length<=0){
