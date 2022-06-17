@@ -24,7 +24,16 @@ router.get('/create_user', async function(req, res, next) {
   });
   router.get('/get_user_byid', authenticate,async function(req, res, next) {
     console.log("In get_user_byid")
-    res1=getUserByID(req.query.userId,(err,results)=>{
+    results =await getUserByID(req.query.userId);
+    console.log("result="+JSON.stringify(results))
+    if(results.length<=0){
+        responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
+    }else{
+        responce=JSON.stringify({code:'200',msg:'',data:results});
+    }
+    res.send(responce);
+
+    /*res1=getUserByID(req.query.userId,(err,results)=>{
         console.log("===resultsUser *****==="+JSON.stringify(results));
         if(err){
             responce=JSON.stringify({code:'501',error:err,data:''});
@@ -33,7 +42,7 @@ router.get('/create_user', async function(req, res, next) {
             responce=JSON.stringify({code:'200',msg:'',data:results});
         }
         res.send(responce);
-    }); 
+    }); */
     
   });
   router.get('/get_user', async function(req, res, next) {
