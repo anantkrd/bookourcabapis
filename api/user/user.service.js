@@ -51,11 +51,11 @@ module.exports={
             });
         });
     },
-    getUserByID:async (mobileNo)=>{
+    getUserByID:async (userId)=>{
         sqlcheck="select id,firstName,lastName,mobileNo,email,userType,createdTime from prayag_users where id=?";
-        console.log("select id,firstName,lastName,mobileNo,email,userType,idProof,idNumber,profileImage,createdTime from prayag_users where id="+getUserByID)
+        console.log("select id,firstName,lastName,mobileNo,email,userType,idProof,idNumber,profileImage,createdTime from prayag_users where id="+userId)
         return new Promise((resolve, reject)=>{
-            pool.query(sqlcheck,[getUserByID],  (error, results)=>{
+            pool.query(sqlcheck,[userId],  (error, results)=>{
                 if(error){
                     console.log("error=="+error);
                     return reject(error);
