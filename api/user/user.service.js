@@ -52,7 +52,7 @@ module.exports={
         });
     },
     getUserByID:async (userId)=>{
-        sqlcheck="select id,firstName,lastName,mobileNo,email,userType,createdTime from prayag_users where id=?";
+        sqlcheck="select id,firstName,lastName,mobileNo,email,userType,createdTime,idProof,idNumber,profileImage from prayag_users where id=?";
         console.log("select id,firstName,lastName,mobileNo,email,userType,idProof,idNumber,profileImage,createdTime from prayag_users where id="+userId)
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[userId],  (error, results)=>{
