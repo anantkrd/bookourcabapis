@@ -23,7 +23,7 @@ router.get('/create_user', function(req, res, next) {
     
   });
   router.get('/get_user_byid', authenticate,function(req, res, next) {
-    
+    console.log("In get_user_byid")
     res1=getUserByID(req.query.userId,(err,results)=>{
         console.log("===resultsUser *****==="+JSON.stringify(results));
         if(err){
