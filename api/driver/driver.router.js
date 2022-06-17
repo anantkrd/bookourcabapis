@@ -8,7 +8,7 @@ const router=express.Router();
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
 
-router.get('/get_my_trip',async function(req,res,next){
+router.get('/get_my_trip',authenticate,async function(req,res,next){
     results =await getMyBookings(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
     if(results.length<=0){
