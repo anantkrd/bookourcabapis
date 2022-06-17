@@ -3,7 +3,9 @@ const jwt=require('jsonwebtoken');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 const {}=require('./driver.controller');
 const{getMyBookings,getbookingReport,getPaymentReport}=require('./driver.service');
-const {authenticate}=require('../auth/index');
+
+
+const authenticate=require("../auth/index");
 const router=express.Router();
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
