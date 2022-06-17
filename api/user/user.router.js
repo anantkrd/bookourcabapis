@@ -9,7 +9,7 @@ const authenticate=require("../auth/index");
 
 /* GET home page. */
 //router.get('/create_user', createUser);
-router.get('/create_user', function(req, res, next) {
+router.get('/create_user', async function(req, res, next) {
     
     res1=createUser(req.query.fname,req.query.lname,req.query.mobileNo,req.query.email,(err,results)=>{
         if(err){
@@ -22,7 +22,7 @@ router.get('/create_user', function(req, res, next) {
     });  
     
   });
-  router.get('/get_user_byid', authenticate,function(req, res, next) {
+  router.get('/get_user_byid', authenticate,async function(req, res, next) {
     console.log("In get_user_byid")
     res1=getUserByID(req.query.userId,(err,results)=>{
         console.log("===resultsUser *****==="+JSON.stringify(results));
@@ -36,7 +36,7 @@ router.get('/create_user', function(req, res, next) {
     }); 
     
   });
-  router.get('/get_user', function(req, res, next) {
+  router.get('/get_user', async function(req, res, next) {
     
     res1=getUserByMobile(req.query.mobileNo,(err,results)=>{
         if(err){
