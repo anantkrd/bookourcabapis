@@ -1,5 +1,5 @@
 const { json } = require('body-parser');
-const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount,getUserByID}=require('./user.service');
+const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount,getUserByID,getAgentByID}=require('./user.service');
 const {getCabs}=require('../common/cabs');
 const pool = require('../../config/database');
 const jwt=require('jsonwebtoken');
@@ -50,13 +50,13 @@ module.exports={
        let results=await getUserByID(userId);
        
        return results;
-       /* res=getUserByMobile(mobileNo,(err,results)=>{
-            if(err){
-                return callBack(err)
-            }
-            return callBack(null,results)
-        });        */
     },
+    getAgentByID:async(userId,callBack)=>{
+       let results=await getAgentByID(userId);
+       
+       return results;
+    },
+    
     
     sendOTP:async(mobileNo,callBack)=>{             
         results=await getUserByMobile(mobileNo);

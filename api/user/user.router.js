@@ -3,7 +3,7 @@ const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 var router = express.Router();
 const{createUser,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,
-    getBookingSearchLog,getUserByID}=require('./user.controller');
+    getBookingSearchLog,getUserByID,getAgentByID}=require('./user.controller');
 const { json } = require('body-parser');
 const authenticate=require("../auth/index");
 
@@ -29,6 +29,22 @@ router.get('/create_user', async function(req, res, next) {
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
+        results[0]['agentData']=[];
+        if(results[0]['userType']=='agent'){
+            
+            agentData =await getAgentByID(req.query.userId);
+            results[0]['agentData']['adharNo']=agentData[0]['adharNo'];
+            results[0]['agentData']['comapnyName']=agentData[0]['comapnyName'];
+            results[0]['agentData']['registrationId']=agentData[0]['registrationId'];
+            results[0]['agentData']['adharLink']=agentData[0]['adharLink'];
+            results[0]['agentData']['licenseLink']=agentData[0]['licenseLink'];
+            results[0]['agentData']['isBankAdded']=agentData[0]['isBankAdded'];
+            results[0]['agentData']['isDriverAdded']=agentData[0]['isDriverAdded'];
+            results[0]['agentData']['isCarAdded']=agentData[0]['isCarAdded'];
+            results[0]['agentData']['panNumber']=agentData[0]['panNumber'];
+            results[0]['agentData']['panLink']=agentData[0]['panLink'];
+            results[0]['agentData']['officeAddress']=agentData[0]['officeAddress'];
+        }
         responce=JSON.stringify({code:'200',msg:'',data:results});
     }
     res.send(responce);
