@@ -25,7 +25,7 @@ router.get('/create_user', async function(req, res, next) {
   router.get('/get_user_byid', authenticate,async function(req, res, next) {
     //console.log("In get_user_byid")
     results =await getUserByID(req.query.userId);
-    console.log("result="+JSON.stringify(results))
+    //console.log("result="+JSON.stringify(results))
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
@@ -34,7 +34,7 @@ router.get('/create_user', async function(req, res, next) {
         if(results[0]['userType']=='agent'){
             console.log("=Get agent detILS=**");
             agentData =await getAgentByID(req.query.userId);
-            console.log("result="+JSON.stringify(agentData))
+            //console.log("result="+JSON.stringify(agentData))
             results[0]['agentData']['adharNo']=agentData[0]['adharNo'];
             results[0]['agentData']['comapnyName']=agentData[0]['comapnyName'];
             results[0]['agentData']['registrationId']=agentData[0]['registrationId'];
@@ -46,6 +46,7 @@ router.get('/create_user', async function(req, res, next) {
             results[0]['agentData']['panNumber']=agentData[0]['panNumber'];
             results[0]['agentData']['panLink']=agentData[0]['panLink'];
             results[0]['agentData']['officeAddress']=agentData[0]['officeAddress'];
+            console.log("results="+JSON.stringify(results))
         }
         responce=JSON.stringify({code:'200',msg:'',data:results});
     }
