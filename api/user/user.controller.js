@@ -199,6 +199,12 @@ module.exports={
                 data['destinationLong']=results[i]['destinationLong'];
                 data['distance']=results[i]['distance'];
                 data['journyDistance']=results[i]['journyDistance'];
+                let extraDistance=0;
+                if(results[i]['journyDistance']>results[i]['distance'])
+                {
+                    extraDistance=results[i]['journyDistance']-results[i]['distance'];
+                }
+                data['extraDistance']=extraDistance;
                 data['journyTime']=results[i]['journyTime'];
                 data['rate']=results[i]['rate'];
                 data['amount']=results[i]['amount'];
