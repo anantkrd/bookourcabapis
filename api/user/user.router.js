@@ -30,7 +30,7 @@ router.get('/create_user', async function(req, res, next) {
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
         let agentData=[];
-        results[0]['agentData']=agentData;
+        //results[0]['agentData']=agentData;
         console.log("=userType=**"+results[0]['userType']);
         if(results[0]['userType']=='agent'){
             console.log("=Get agent detILS=**");
