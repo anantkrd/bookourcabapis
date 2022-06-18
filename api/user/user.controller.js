@@ -227,7 +227,7 @@ module.exports={
                 data['cars']=results[i]['cars']+"Or Similar";
                 data['note']=results[i]['note'];
                 data['note']=results[i]['note'];
-                data['note']=results[i]['note'];
+                data['mobileNo']=results[i]['mobileNo'];
                 dataObj.push(data)
             }
             responce=JSON.stringify({code:'200',msg:'',data:dataObj});
