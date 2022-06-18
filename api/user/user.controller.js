@@ -212,6 +212,11 @@ module.exports={
                 data['pending']=results[i]['finalAmount']-results[i]['paid'];
                 data['driverName']=results[i]['driverName'];
                 data['driverContact']=results[i]['driverContact'];
+                data['journyStatus']=results[i]['journyStatus'];
+                data['journyStartTime']=results[i]['journyStartTime'];
+                data['journyEndTime']=results[i]['journyEndTime'];
+                data['startKm']=results[i]['startKm'];
+                data['endKm']=results[i]['endKm'];
                 data['gadiNo']=results[i]['gadiNo'];
                 data['status']=bokkingStatus;
                 data['createdTime']=results[i]['createdTime'];
@@ -220,6 +225,8 @@ module.exports={
                 data['bags']=results[i]['bags'];
                 data['capacity']=results[i]['capacity'];
                 data['cars']=results[i]['cars']+"Or Similar";
+                data['note']=results[i]['note'];
+                data['note']=results[i]['note'];
                 data['note']=results[i]['note'];
                 dataObj.push(data)
             }
