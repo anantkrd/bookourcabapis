@@ -37,7 +37,7 @@ router.get('/create_user', async function(req, res, next) {
             agentDataDetails =await getAgentByID(req.query.userId);
             //console.log("result="+JSON.stringify(agentData))
             results[0]['adharNo']=agentDataDetails[0]['adharNo'];
-            results[0]['comapnyName']=agentDataDetails[0]['comapnyName'];
+            results[0]['companyName']=agentDataDetails[0]['companyName'];
             results[0]['registrationId']=agentDataDetails[0]['registrationId'];
             results[0]['adharLink']=agentDataDetails[0]['adharLink'];
             results[0]['licenseLink']=agentDataDetails[0]['licenseLink'];
