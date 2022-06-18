@@ -4,8 +4,11 @@ const{createUser,getUserByMobile}=require('../user/user.controller');
 module.exports={
     startTrip:async(userId,bookingId,startKm)=>{
         treipRes=await startTrip(userId,bookingId,startKm);
+        console.log("treipRes==="+JSON.stringify(treipRes));
+        return treipRes;
     },
     endTrip:async(userId,bookingId, endKm)=>{
-        treipRes=await endTrip(userId,bookingId,endKm)
+        treipRes=await endTrip(userId,bookingId,endKm);
+        return treipRes;
     },
 }
