@@ -42,7 +42,7 @@ router.get('/get_trip_report',authenticate,async function(req,res,next){
     res.send(responce);
 });
 router.get('/start_trip',authenticate,async function(req,res,next){
-    results =await startTrip(req.query.userId,req.query.bookingId,req.query.startKm);
+    results =await startTrip(req.query.userId,req.query.bookingId,req.query.startkm);
     console.log("result="+JSON.stringify(results))
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
