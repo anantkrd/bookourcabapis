@@ -47,7 +47,7 @@ router.get('/start_trip',authenticate,async function(req,res,next){
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
-        responce=JSON.stringify({code:'200',msg:'',data:results});
+        responce=JSON.stringify({code:'200',msg:'Trip status updated',data:''});
     }
    
     res.send(responce);
