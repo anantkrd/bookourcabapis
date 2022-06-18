@@ -48,7 +48,7 @@ router.get('/create_user', async function(req, res, next) {
             agentData['panLink']=agentDataDetails[0]['panLink'];
             agentData['officeAddress']=agentDataDetails[0]['officeAddress'];
             //let adata['adharNo']='adharNo';
-            results[0]['agentData']='dasdd';
+            results[0]['agentData']=agentData;
             //results[0]['agentData']=agentData;
             console.log("results="+JSON.stringify(results))
         }
