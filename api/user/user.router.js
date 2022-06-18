@@ -33,19 +33,20 @@ router.get('/create_user', async function(req, res, next) {
         console.log("=userType=**"+results[0]['userType']);
         if(results[0]['userType']=='agent'){
             console.log("=Get agent detILS=**");
-            agentData =await getAgentByID(req.query.userId);
+            agentDataDetails =await getAgentByID(req.query.userId);
             //console.log("result="+JSON.stringify(agentData))
-            results[0]['agentData']['adharNo']=agentData[0]['adharNo'];
-            results[0]['agentData']['comapnyName']=agentData[0]['comapnyName'];
-            results[0]['agentData']['registrationId']=agentData[0]['registrationId'];
-            results[0]['agentData']['adharLink']=agentData[0]['adharLink'];
-            results[0]['agentData']['licenseLink']=agentData[0]['licenseLink'];
-            results[0]['agentData']['isBankAdded']=agentData[0]['isBankAdded'];
-            results[0]['agentData']['isDriverAdded']=agentData[0]['isDriverAdded'];
-            results[0]['agentData']['isCarAdded']=agentData[0]['isCarAdded'];
-            results[0]['agentData']['panNumber']=agentData[0]['panNumber'];
-            results[0]['agentData']['panLink']=agentData[0]['panLink'];
-            results[0]['agentData']['officeAddress']=agentData[0]['officeAddress'];
+            agentData['adharNo']=agentDataDetails[0]['adharNo'];
+            agentData['comapnyName']=agentDataDetails[0]['comapnyName'];
+            agentData['registrationId']=agentDataDetails[0]['registrationId'];
+            agentData['adharLink']=agentDataDetails[0]['adharLink'];
+            agentData['licenseLink']=agentDataDetails[0]['licenseLink'];
+            agentData['isBankAdded']=agentDataDetails[0]['isBankAdded'];
+            agentData['isDriverAdded']=agentDataDetails[0]['isDriverAdded'];
+            agentData['isCarAdded']=agentDataDetails[0]['isCarAdded'];
+            agentData['panNumber']=agentDataDetails[0]['panNumber'];
+            agentData['panLink']=agentDataDetails[0]['panLink'];
+            agentData['officeAddress']=agentDataDetails[0]['officeAddress'];
+            results[0]['agentData']=agentData;
             console.log("results="+JSON.stringify(results))
         }
         responce=JSON.stringify({code:'200',msg:'',data:results});
