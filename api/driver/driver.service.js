@@ -31,7 +31,8 @@ module.exports={
     },  
     startTrip:async(userId,bookingId,startKm)=>{
         let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
-        sqlcheck="update `prayag_booking` set startKm=?,journyStartTime=? WHERE id=?";        
+        console.log("startKm=========="+startKm);
+        sqlcheck="update `prayag_booking` set startKm=?,journyStartTime=?,journyStatus='start' WHERE id=?";        
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[startKm,dateNow,bookingId],  (error, results)=>{
                 if(error){
