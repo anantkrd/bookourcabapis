@@ -36,20 +36,18 @@ router.get('/create_user', async function(req, res, next) {
             console.log("=Get agent detILS=**");
             agentDataDetails =await getAgentByID(req.query.userId);
             //console.log("result="+JSON.stringify(agentData))
-            //agentData['adharNo']=agentDataDetails[0]['adharNo'];
-            agentData['comapnyName']=agentDataDetails[0]['comapnyName'];
-            agentData['registrationId']=agentDataDetails[0]['registrationId'];
-            agentData['adharLink']=agentDataDetails[0]['adharLink'];
-            agentData['licenseLink']=agentDataDetails[0]['licenseLink'];
-            agentData['isBankAdded']=agentDataDetails[0]['isBankAdded'];
-            agentData['isDriverAdded']=agentDataDetails[0]['isDriverAdded'];
-            agentData['isCarAdded']=agentDataDetails[0]['isCarAdded'];
-            agentData['panNumber']=agentDataDetails[0]['panNumber'];
-            agentData['panLink']=agentDataDetails[0]['panLink'];
-            agentData['officeAddress']=agentDataDetails[0]['officeAddress'];
-            //let adata['adharNo']='adharNo';
-            results[0]['agentData']=agentData;
-            //results[0]['agentData']=agentData;
+            results[0]['adharNo']=agentDataDetails[0]['adharNo'];
+            results[0]['comapnyName']=agentDataDetails[0]['comapnyName'];
+            results[0]['registrationId']=agentDataDetails[0]['registrationId'];
+            results[0]['adharLink']=agentDataDetails[0]['adharLink'];
+            results[0]['licenseLink']=agentDataDetails[0]['licenseLink'];
+            results[0]['isBankAdded']=agentDataDetails[0]['isBankAdded'];
+            results[0]['isDriverAdded']=agentDataDetails[0]['isDriverAdded'];
+            results[0]['isCarAdded']=agentDataDetails[0]['isCarAdded'];
+            results[0]['panNumber']=agentDataDetails[0]['panNumber'];
+            results[0]['panLink']=agentDataDetails[0]['panLink'];
+            results[0]['officeAddress']=agentDataDetails[0]['officeAddress'];
+            
             console.log("results="+JSON.stringify(results))
         }
         responce=JSON.stringify({code:'200',msg:'',data:results});
