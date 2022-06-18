@@ -1,4 +1,5 @@
 const pool=require('../../config/database');
+var moment = require('moment')
 module.exports={
     getMyBookings:async(driverId,pageId)=>{
         let start=((pageId-1)*10);
@@ -29,7 +30,7 @@ module.exports={
         });
     },  
     startTrip:async(userId,bookingId,startKm)=>{
-        let dateNow=now();
+        let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
         sqlcheck="update `prayag_booking` set startKm=?,journyStartTime=?, WHERE id=?";        
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[startKm,dateNow,bookingId],  (error, results)=>{
@@ -46,6 +47,9 @@ module.exports={
             pool.query(sqlcheck,[bookingId],  (error, results)=>{
                 if(error){
                     return reject(error);
+                }else{
+                    console.log(JSON.stringify(results));
+                    let startKm=results[0]['startKm'];
                 }
                 return resolve(results);
             });
