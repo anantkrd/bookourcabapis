@@ -52,6 +52,26 @@ module.exports={
                 }else{
                     console.log(JSON.stringify(results));
                     let startKm=results[0]['startKm'];
+                    let rate=results[0]['rate'];
+                    let journyDistance=endKm-startKm;
+                    let distance=results[0]['distance'];
+                    let extraKm=0;
+                    let extraAmount=0;
+                    if(journyDistance>distance)
+                    {
+                        extraKm=journyDistance-distance;
+                    }
+                    extraAmount=rate*extraKm;
+                    sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed' WHERE orderId=?";   
+                    console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=? WHERE orderId="+bookingId)     
+                    return new Promise((resolve, reject)=>{
+                        pool.query(sqlcheck,[endKm,dateNow,bookingId,extraAmount,rate],  (error, results)=>{
+                            if(error){
+                                return reject(error);
+                            }
+                            return resolve(results);
+                        });
+                    });
                 }
                 return resolve(results);
             });
