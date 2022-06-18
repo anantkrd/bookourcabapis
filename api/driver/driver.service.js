@@ -28,6 +28,30 @@ module.exports={
             });
         });
     },  
+    startTrip:async(userId,bookingId,startKm)=>{
+        let dateNow=now();
+        sqlcheck="update `prayag_booking` set startKm=?,journyStartTime=?, WHERE id=?";        
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[startKm,dateNow,bookingId],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
+    },  
+    endTrip:async(userId,bookingId,endKm)=>{
+        sqlcheck="SELECT * FROM `prayag_booking` WHERE booking.isDeleted='N' and id=?";        
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[bookingId],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
+    },    
+    
     getPaymentReport:async(driverId,pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;
