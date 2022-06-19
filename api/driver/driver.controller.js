@@ -9,6 +9,7 @@ module.exports={
     },
     endTrip:async(userId,bookingId, endKm)=>{
         treipRes=await endTrip(userId,bookingId,endKm);
+        console.log("endTrip==="+JSON.stringify(treipRes));
         return treipRes;
     },
 }
