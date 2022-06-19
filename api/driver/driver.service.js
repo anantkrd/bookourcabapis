@@ -18,7 +18,7 @@ module.exports={
     getbookingReport:async(driverId,pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;
-        sqlcheck="SELECT * FROM `prayag_booking` WHERE booking.isDeleted='N' and driverId=? order by id desc limit ?,?";
+        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and driverId=? order by id desc limit ?,?";
         
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[driverId,start,perPage],  (error, results)=>{
@@ -93,7 +93,7 @@ module.exports={
     getPaymentReport:async(driverId,pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;
-        sqlcheck="SELECT * FROM `prayag_booking` WHERE booking.isDeleted='N' and driverId=? order by id desc limit ?,?";        
+        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and driverId=? order by id desc limit ?,?";        
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[driverId,start,perPage],  (error, results)=>{
                 if(error){
