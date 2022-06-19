@@ -51,7 +51,7 @@ module.exports={
                 if(error){
                     return reject(error);
                 }else{
-                    console.log(JSON.stringify(results));
+                    console.log("********"+JSON.stringify(results));
                     let startKm=results[0]['startKm'];
                     let rate=results[0]['rate'];
                     let journyDistance=endKm-startKm;
