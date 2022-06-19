@@ -182,6 +182,8 @@ module.exports={
                 }else if(status=='returnRejected')
                 {
                     bokkingStatus="Return Rejected";
+                }else{
+                    bokkingStatus=status;
                 }
                 data['id']=results[i]['id'];
                 data['userId']=results[i]['userId'];
