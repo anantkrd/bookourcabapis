@@ -63,7 +63,7 @@ module.exports={
                         extraKm=journyDistance-distance;
                     }
                     extraAmount=rate*extraKm;
-                    sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed',extraAmount=?,extraRate=? WHERE orderId=?";   
+                    sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId=?";   
                     console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId="+bookingId)     
                     new Promise((resolve, reject)=>{
                         pool.query(sqlcheck,[endKm,dateNow,extraAmount,rate,journyDistance,bookingId],  (error, resultsup)=>{
