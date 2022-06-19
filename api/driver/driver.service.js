@@ -44,6 +44,7 @@ module.exports={
         });
     },  
     endTrip:async(userId,bookingId,endKm)=>{
+        let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
         sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and orderId=?";        
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[bookingId],  (error, results)=>{
