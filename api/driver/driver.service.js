@@ -32,7 +32,7 @@ module.exports={
     startTrip:async(userId,bookingId,startKm)=>{
         let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
         console.log("startKm=========="+startKm+"***bookingId*"+bookingId);
-        sqlcheck="update `prayag_booking` set startKm=?,journyStartTime=?,journyStatus='start' WHERE orderId=?";   
+        sqlcheck="update `prayag_booking` set startKm=?,journyStartTime=?,status='started',journyStatus='start' WHERE orderId=?";   
         console.log("update `prayag_booking` set startKm='"+startKm+"',journyStartTime='"+dateNow+"',journyStatus='start' WHERE orderId="+bookingId)     
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[startKm,dateNow,bookingId],  (error, results)=>{
@@ -62,10 +62,10 @@ module.exports={
                         extraKm=journyDistance-distance;
                     }
                     extraAmount=rate*extraKm;
-                    sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed' WHERE orderId=?";   
+                    sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed',extraAmount=?,extraRate=? WHERE orderId=?";   
                     console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=? WHERE orderId="+bookingId)     
                     return new Promise((resolve, reject)=>{
-                        pool.query(sqlcheck,[endKm,dateNow,bookingId,extraAmount,rate],  (error, results)=>{
+                        pool.query(sqlcheck,[endKm,dateNow,extraAmount,rate,bookingId],  (error, results)=>{
                             if(error){
                                 return reject(error);
                             }
