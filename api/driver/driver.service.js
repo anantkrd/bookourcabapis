@@ -88,10 +88,10 @@ module.exports={
                     let pending=results[0]['pending']+results[0]['extraAmount'];
                     let finalAmount=results[0]['finalAmount']+extraAmount;
                     let cashAmount=pending;
-                    sqlcheck="update `prayag_booking` set status='completed',pending='0',finalAmount=?,extraAmount=?,cashAmount=? WHERE orderId=?";   
+                    sqlcheck="update `prayag_booking` set status='completed',pending='0',finalAmount=?,paid=?,extraAmount=?,cashAmount=? WHERE orderId=?";   
                     console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
                     new Promise((resolve, reject)=>{
-                        pool.query(sqlcheck,[finalAmount,extraAmount,cashAmount,bookingId],  (error, resultsup)=>{
+                        pool.query(sqlcheck,[finalAmount,finalAmount,extraAmount,cashAmount,bookingId],  (error, resultsup)=>{
                             
                         });
                     });
