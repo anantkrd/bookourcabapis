@@ -44,7 +44,7 @@ module.exports={
         });
     },  
     endTrip:async(userId,bookingId,endKm)=>{
-        sqlcheck="SELECT * FROM `prayag_booking` WHERE booking.isDeleted='N' and orderId=?";        
+        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and orderId=?";        
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[bookingId],  (error, results)=>{
                 if(error){
