@@ -77,7 +77,27 @@ module.exports={
     },    
     completeTrip:async(userId,bookingId)=>{
         let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
-  
+        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and orderId=?";        
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[bookingId],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }else{
+                    console.log(JSON.stringify(results));
+                    let extraAmount=results[0]['extraAmount'];
+                    let finalAmount=results[0]['finalAmount']+extraAmount;
+                   
+                    sqlcheck="update `prayag_booking` set status='completed',finalAmount=?,extraAmount=? WHERE orderId=?";   
+                    console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
+                    new Promise((resolve, reject)=>{
+                        pool.query(sqlcheck,[finalAmount,extraAmount,bookingId],  (error, resultsup)=>{
+                            
+                        });
+                    });
+                }
+                return resolve(results);
+            });
+        });
         sqlcheck="update `prayag_booking` set status='completed' WHERE orderId=?";   
         console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
         return new Promise((resolve, reject)=>{
