@@ -53,7 +53,7 @@ router.get('/start_trip',authenticate,async function(req,res,next){
     res.send(responce);
 });
 router.get('/end_trip',authenticate,async function(req,res,next){
-    results =await endTrip(req.query.userId,req.query.bookingId,req.query.endKm);
+    results =await endTrip(req.query.userId,req.query.bookingId,req.query.endkm);
     console.log("result="+JSON.stringify(results))
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
