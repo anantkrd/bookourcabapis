@@ -31,9 +31,9 @@ module.exports={
     },  
     startTrip:async(userId,bookingId,startKm)=>{
         let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
-        console.log("startKm=========="+startKm+"***bookingId*"+bookingId);
+        //console.log("startKm=========="+startKm+"***bookingId*"+bookingId);
         sqlcheck="update `prayag_booking` set startKm=?,journyStartTime=?,status='started',journyStatus='start' WHERE orderId=?";   
-        console.log("update `prayag_booking` set startKm='"+startKm+"',journyStartTime='"+dateNow+"',journyStatus='start' WHERE orderId="+bookingId)     
+        //console.log("update `prayag_booking` set startKm='"+startKm+"',journyStartTime='"+dateNow+"',journyStatus='start' WHERE orderId="+bookingId)     
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[startKm,dateNow,bookingId],  (error, results)=>{
                 if(error){
@@ -51,7 +51,7 @@ module.exports={
                 if(error){
                     return reject(error);
                 }else{
-                    console.log("********"+JSON.stringify(results));
+                    //console.log("********"+JSON.stringify(results));
                     let startKm=results[0]['startKm'];
                     let rate=results[0]['rate'];
                     let journyDistance=endKm-startKm;
@@ -64,7 +64,7 @@ module.exports={
                     }
                     extraAmount=rate*extraKm;
                     sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId=?";   
-                    console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId="+bookingId)     
+                    //console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId="+bookingId)     
                     new Promise((resolve, reject)=>{
                         pool.query(sqlcheck,[endKm,dateNow,extraAmount,rate,journyDistance,bookingId],  (error, resultsup)=>{
                             
@@ -83,13 +83,13 @@ module.exports={
                 if(error){
                     return reject(error);
                 }else{
-                    console.log(JSON.stringify(results));
+                    //console.log(JSON.stringify(results));
                     let extraAmount=results[0]['extraAmount'];
                     let pending=results[0]['pending']+results[0]['extraAmount'];
                     let finalAmount=results[0]['finalAmount']+extraAmount;
                     let cashAmount=pending;
                     sqlcheck="update `prayag_booking` set status='completed',pending='0',finalAmount=?,paid=?,extraAmount=?,cashAmount=? WHERE orderId=?";   
-                    console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
+                    //console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
                     new Promise((resolve, reject)=>{
                         pool.query(sqlcheck,[finalAmount,finalAmount,extraAmount,cashAmount,bookingId],  (error, resultsup)=>{
                             
@@ -100,7 +100,7 @@ module.exports={
             });
         });
         sqlcheck="update `prayag_booking` set status='completed' WHERE orderId=?";   
-        console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
+        //console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[bookingId],  (error, results)=>{
                 if(error){

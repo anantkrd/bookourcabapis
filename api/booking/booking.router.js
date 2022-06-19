@@ -14,7 +14,7 @@ const Razorpay = require("razorpay");
     next();
 }*/
 router.get('/book_cab', async function(req,res,next){
-    console.log("mobileNo=="+req.query.mobileNo);
+    //console.log("mobileNo=="+req.query.mobileNo);
     let userId=0;
     let error='';
     
@@ -42,7 +42,6 @@ router.get('/book_cab', async function(req,res,next){
     resultUser=await getUserByMobile(req.query.mobileNo);
     if(resultUser.length<=0){
         
-        // console.log("Here2");
         results=await createUser(req.query.fname,req.query.lname,req.query.mobileNo,req.query.email,'user');
         if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
@@ -50,17 +49,15 @@ router.get('/book_cab', async function(req,res,next){
             userId=results.insertId;
                         //userId=results[0]['id'];
                         userName=fname+" "+lname;
-                        //console.log("last *** inserted id...="+results.insertId);
                         const body={userId:userId,userName:userName,email:req.query.email,orderId:orderId,cabId:req.query.cabId,pickup:req.query.pickup,destination:req.query.destination,pickupDate:req.query.pickupDate,returnDate:req.query.returnDate,isReturn:req.query.isReturn,pickupLat:req.query.pickupLat,pickupLong:req.query.pickupLong,
                             destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,payment_orderId:req.query.payment_orderId}
-                        console.log("logData***2*==="+JSON.stringify(body));
+                        //console.log("logData***2*==="+JSON.stringify(body));
                         create_booking(body,(err,results)=>{
                             if(err){
                                 error=err;
                                 responce=JSON.stringify({code:'500',msg:'some internal error'+err,data:''});
                                 
                             }else{
-                                //console.log("last **** booking inserted id...="+results.insertId);
                                 responce=JSON.stringify({code:'200',msg:'success',data:results.insertId});
                                                                 //responce=JSON.stringify({code:'200',msg:'user added',data:results.insertId});
                             }
@@ -72,25 +69,20 @@ router.get('/book_cab', async function(req,res,next){
     }else{
         userId=results[0]['id'];
         userName=fname+" "+lname;
-        console.log("=== userId id="+userId);
         const body={userId:userId,userName:userName,email:req.query.email,orderId:orderId,cabId:req.query.cabId,pickup:req.query.pickup,destination:req.query.destination,pickupDate:req.query.pickupDate,returnDate:req.query.returnDate,isReturn:req.query.isReturn,pickupLat:req.query.pickupLat,pickupLong:req.query.pickupLong,
             destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,payment_orderId:req.query.payment_orderId}
-            console.log("logData**1**==="+JSON.stringify(body));
+            
             create_booking(body,(err,results)=>{
                 if(err){
-                   // console.log("=== err id="+err);
                     responce=JSON.stringify({code:'500',msg:'some internal error 2'+err,data:''});
                     
                 }else{
                     userId=results.insertId;
-                    //console.log("last ** booking inserted id...="+userId);
                     //responce=JSON.stringify({code:'200',msg:'user added',data:results.insertId});
                     responce=JSON.stringify({code:'200',msg:'success',data:userId});  
                     //res.send(responce);                      
                 }
-                //console.log("Here4");
                 res.send(responce);
-                //console.log("here1");
             });
     }
     /*res1=await getUserByMobile(req.query.mobileNo,(err,results)=>{
