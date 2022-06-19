@@ -4,7 +4,7 @@ module.exports={
     getMyBookings:async(driverId,pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;
-        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and status='confirm' and driverId=? order by id desc limit ?,?";
+        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and (status='confirm' || status='started') and driverId=? order by id desc limit ?,?";
         
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[driverId,start,perPage],  (error, results)=>{
