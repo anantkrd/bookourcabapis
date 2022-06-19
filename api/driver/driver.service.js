@@ -77,7 +77,7 @@ module.exports={
     },    
     completeTrip:async(userId,bookingId)=>{
         let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
-        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and orderId=?";        
+        sqlcheck="SELECT * FROM `prayag_booking` WHERE isDeleted='N' and journyStatus='completed' and status='started' and orderId=?";        
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[bookingId],  (error, results)=>{
                 if(error){
@@ -85,12 +85,13 @@ module.exports={
                 }else{
                     console.log(JSON.stringify(results));
                     let extraAmount=results[0]['extraAmount'];
+                    let pending=results[0]['pending']+results[0]['extraAmount'];
                     let finalAmount=results[0]['finalAmount']+extraAmount;
-                   
-                    sqlcheck="update `prayag_booking` set status='completed',finalAmount=?,extraAmount=? WHERE orderId=?";   
+                    let cashAmount=pending;
+                    sqlcheck="update `prayag_booking` set status='completed',pending='0',finalAmount=?,extraAmount=?,cashAmount=? WHERE orderId=?";   
                     console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
                     new Promise((resolve, reject)=>{
-                        pool.query(sqlcheck,[finalAmount,extraAmount,bookingId],  (error, resultsup)=>{
+                        pool.query(sqlcheck,[finalAmount,extraAmount,cashAmount,bookingId],  (error, resultsup)=>{
                             
                         });
                     });
