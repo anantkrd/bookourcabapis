@@ -216,7 +216,7 @@ module.exports={
                 data['finalAmount']=results[i]['finalAmount'];
                 data['paid']=results[i]['paid'];
                 let pending=results[i]['finalAmount']-results[i]['paid']+results[i]['extraAmount'];
-                if(results[i]['status']=='Completed'){
+                if(status=='completed'){
                     pending=0;
                 }
                 data['pending']=pending;
