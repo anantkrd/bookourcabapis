@@ -31,14 +31,13 @@ router.get('/get_payment_report',authenticate,async function(req,res,next){
     res.send(responce);
 });
 router.get('/get_trip_report',authenticate,async function(req,res,next){
-    results =await getbookingReport(req.query.userId,req.query.pageId);
+    results =await getMyBookings(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
         responce=JSON.stringify({code:'200',msg:'',data:results});
     }
-   
     res.send(responce);
 });
 router.get('/start_trip',authenticate,async function(req,res,next){
