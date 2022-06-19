@@ -12,4 +12,10 @@ module.exports={
         //console.log("endTrip==="+JSON.stringify(treipRes));
         return treipRes;
     },
+    completeTrip:async(userId,bookingId)=>{
+        treipRes=await completeTrip(userId,bookingId);
+        //console.log("endTrip==="+JSON.stringify(treipRes));
+        return treipRes;
+    },
+    
 }

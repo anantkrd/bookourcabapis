@@ -63,4 +63,15 @@ router.get('/end_trip',authenticate,async function(req,res,next){
    
     res.send(responce);
 });
+router.get('/complete_trip',authenticate,async function(req,res,next){
+    results =await completeTrip(req.query.userId,req.query.bookingId);
+    console.log("result="+JSON.stringify(results))
+    if(results.length<=0){
+        responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
+    }else{
+        responce=JSON.stringify({code:'200',msg:'Trip updated',data:''});
+    }
+   
+    res.send(responce);
+});
 module.exports=router;

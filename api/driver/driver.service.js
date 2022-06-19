@@ -75,6 +75,20 @@ module.exports={
             });
         });
     },    
+    completeTrip:async(userId,bookingId)=>{
+        let dateNow=moment().format('YYYY-MM-DD hh:mm:ss');
+  
+        sqlcheck="update `prayag_booking` set status='completed' WHERE orderId=?";   
+        console.log("update `prayag_booking` set status='completed' WHERE orderId="+bookingId)     
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[bookingId],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
+    },  
     
     getPaymentReport:async(driverId,pageId)=>{
         let start=((pageId-1)*10);
