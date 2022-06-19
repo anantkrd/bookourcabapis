@@ -231,6 +231,7 @@ module.exports={
                 data['endKm']=results[i]['endKm'];
                 data['gadiNo']=results[i]['gadiNo'];
                 data['status']=bokkingStatus;
+                data['tripStatus']=status;
                 data['createdTime']=results[i]['createdTime'];
                 data['cabType']=results[i]['cabType'];
                 data['ac']=results[i]['ac'];
