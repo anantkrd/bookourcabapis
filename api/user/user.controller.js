@@ -215,7 +215,11 @@ module.exports={
                 data['charges']=results[i]['charges'];
                 data['finalAmount']=results[i]['finalAmount'];
                 data['paid']=results[i]['paid'];
-                data['pending']=results[i]['finalAmount']-results[i]['paid']+results[i]['extraAmount'];
+                let pending=results[i]['finalAmount']-results[i]['paid']+results[i]['extraAmount'];
+                if(results[i]['status']=='Completed'){
+                    pending=0;
+                }
+                data['pending']=pending;
                 data['driverName']=results[i]['driverName'];
                 data['driverContact']=results[i]['driverContact'];
                 data['journyStatus']=results[i]['journyStatus'];
