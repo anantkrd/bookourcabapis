@@ -1,6 +1,6 @@
 const express=require('express');
 const jwt=require('jsonwebtoken');
-const{startTrip,endTrip}=require('../driver/driver.controller');
+const{startTrip,endTrip,completeTrip}=require('../driver/driver.controller');
 const {}=require('./driver.controller');
 const{getMyBookings,getbookingReport,getPaymentReport}=require('./driver.service');
 

@@ -1,5 +1,5 @@
 const { json } = require('body-parser');
-const{startTrip,endTrip}=require('./driver.service');
+const{startTrip,endTrip,completeTrip}=require('./driver.service');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 module.exports={
     startTrip:async(userId,bookingId,startKm)=>{
