@@ -79,6 +79,12 @@ module.exports={
                 if(error){
                     return reject(error);
                 }
+                sqlcheck="update `prayag_booking` set agentPaid=? WHERE orderId=?";       
+                    new Promise((resolve, reject)=>{
+                        pool.query(sqlcheck,[advance,bookingId],  (error, resultsup)=>{
+                            
+                        });
+                    });
                 return resolve(elements);
             });
         });
