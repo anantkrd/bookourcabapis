@@ -64,9 +64,9 @@ module.exports={
                     }
                     extraAmount=rate*extraKm;
                     sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed',extraAmount=?,extraRate=? WHERE orderId=?";   
-                    console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=? WHERE orderId="+bookingId)     
+                    console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId="+bookingId)     
                     new Promise((resolve, reject)=>{
-                        pool.query(sqlcheck,[endKm,dateNow,extraAmount,rate,bookingId],  (error, resultsup)=>{
+                        pool.query(sqlcheck,[endKm,dateNow,extraAmount,rate,journyDistance,bookingId],  (error, resultsup)=>{
                             
                         });
                     });
