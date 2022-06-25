@@ -276,6 +276,9 @@ router.get('/getCabs',async function(req,res,next){
                     console.log("finalRate"+finalRate);
                     idKey='id';
                     //console.log("ID: " + id);
+                    if(returnDateTime=="" || returnDateTime==undefined){
+                        returnDateTime="0000-00-00 00:00:00";
+                    }
                     dataObj1={};
                     bookingId=id+""+Date.now();
                     dataObj1['id']=id;
