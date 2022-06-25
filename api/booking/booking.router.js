@@ -240,10 +240,10 @@ router.get('/getCabs',async function(req,res,next){
                     }
                     
                     let cabTypecheck=cabType.toLowerCase();
-                    console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabTypecheck);
+                    console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabType);
                     if(cabTypecheck!=""){
-                        surgePrice=surgekm*surgePickpuResult[0][cabTypecheck];
-                        surgePrice=surgePrice+surgekm*surgedestinationResult[0][cabTypecheck];
+                        surgePrice=surgekm*surgePickpuResult[0][cabType];
+                        surgePrice=surgePrice+surgekm*surgedestinationResult[0][cabType];
                         console.log("============surgePrice=========="+surgePrice);
                         finalRate=finalRate+surgePrice;
                         sedanPrice=finalRate;
