@@ -238,11 +238,13 @@ router.get('/getCabs',async function(req,res,next){
                         finalRate=returnTripRate;
                         originalRate=returnTripRate;
                     }
-                    console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply);
+                    
                     let cabTypecheck=cabType.toLowerCase();
+                    console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabTypecheck);
                     if(cabTypecheck!=""){
-                        surgePrice=surgekm*surgePickpuResult[0]['sedan'];
+                        surgePrice=surgekm*surgePickpuResult[0][cabTypecheck];
                         surgePrice=surgePrice+surgekm*surgedestinationResult[0][cabTypecheck];
+                        console.log("============surgePrice=========="+surgePrice);
                         finalRate=finalRate+surgePrice;
                         sedanPrice=finalRate;
                     }
