@@ -239,7 +239,14 @@ router.get('/getCabs',async function(req,res,next){
                         originalRate=returnTripRate;
                     }
                     console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply);
-                    if(cabType=='Sedan'){
+                    let cabTypecheck=cabType.toLowerCase();
+                    if(cabTypecheck!=""){
+                        surgePrice=surgekm*surgePickpuResult[0]['sedan'];
+                        surgePrice=surgePrice+surgekm*surgedestinationResult[0][cabTypecheck];
+                        finalRate=finalRate+surgePrice;
+                        sedanPrice=finalRate;
+                    }
+                    /*if(cabType=='Sedan'){
                         surgePrice=surgekm*surgePickpuResult[0]['sedan'];
                         surgePrice=surgePrice+surgekm*surgedestinationResult[0]['sedan'];
                         finalRate=finalRate+surgePrice;
@@ -256,7 +263,7 @@ router.get('/getCabs',async function(req,res,next){
                         surgePrice=surgePrice+surgekm*surgedestinationResult[0]['compact'];
                         finalRate=finalRate+surgePrice;
                         compactPrice=finalRate;
-                    }
+                    }*/
                     amount=(distanceValue*finalRate);
                     discountAmount=(distanceValue*discount);
                     discountedRate=finalRate-discount;

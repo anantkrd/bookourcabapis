@@ -64,7 +64,7 @@ module.exports={
                 console.log("errorerror==="+elements)
                 if(elements=='' || elements.length<=0){
                     console.log("No elements")
-                    let json=[{"city":"Pune","compact":1,"sedan":1,"luxury":1,"other":1}]
+                    let json=[{"city":"Pune","compact":1,"sedan":1,"luxury":1,"SUVErtiga":1,"Innova":1,"InnovaCrysta":1,"other":1}]
                     return resolve(json);
                 }
                 console.log(JSON.stringify(elements))
