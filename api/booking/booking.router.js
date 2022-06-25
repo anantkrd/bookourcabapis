@@ -176,6 +176,14 @@ router.get('/getCabs',async function(req,res,next){
    let bookingId=req.query.bookingId;
    var origins = [originObj.lat+','+originObj.lng];
     var destinations = [destinationObj.lat+','+destinationObj.lng];
+    
+   let pickupCityName=req.query.pickupCityName;
+   let pickupDistrict=req.query.pickupDistrict;
+   let pickupState=req.query.pickupState;
+   let dropCityName=req.query.dropCityName;
+   let dropDistrict=req.query.dropDistrict;
+   let dropState=req.query.dropState;
+   
     let distancekm=0;
     
     distance.matrix(origins, destinations, async function (err, distances) {
@@ -198,9 +206,9 @@ router.get('/getCabs',async function(req,res,next){
             let luxuryPrice=0;
             let compactPrice=0;
             let pickupcityName=pickupCity.split(",")[0]
-            let surgePickpuResult=await getSurge(pickupcityName);
+            let surgePickpuResult=await getSurge(pickupDistrict);
             let destinationcityName=destinationCity.split(",")[0]
-            let surgedestinationResult=await getSurge(destinationcityName);
+            let surgedestinationResult=await getSurge(dropDistrict);
             console.log("surgeResult==="+surgePickpuResult[0]['sedan']);
             
             let results=await getCabs(req);
@@ -285,6 +293,13 @@ router.get('/getCabs',async function(req,res,next){
                     bookingId=id+""+Date.now();
                     dataObj1['id']=id;
                     dataObj1['bookingId']=bookingId;
+                    
+                    dataObj1['pickupCityName']=pickupCityName;
+                    dataObj1['pickupDistrict']=pickupDistrict;
+                    dataObj1['pickupState']=pickupState;
+                    dataObj1['dropCityName']=dropCityName;
+                    dataObj1['dropDistrict']=dropDistrict;
+                    dataObj1['dropState']=dropState;
                     dataObj1['cabType']=cabType;
                     dataObj1['image']=image;
                     dataObj1['ac']=ac;
