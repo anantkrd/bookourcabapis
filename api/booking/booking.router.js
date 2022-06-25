@@ -275,8 +275,8 @@ router.get('/getCabs',async function(req,res,next){
                     console.log("surgePrice"+surgePrice);
                     console.log("finalRate"+finalRate);
                     idKey='id';
-                    //console.log("ID: " + id);
-                    if(returnDateTime=="" || returnDateTime==undefined){
+                    console.log("returnDateTime*****************: " + returnDateTime);
+                    if(returnDateTime=="" || returnDateTime==undefined || returnDateTime==null){
                         returnDateTime="0000-00-00 00:00:00";
                     }
                     dataObj1={};
