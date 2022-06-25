@@ -241,6 +241,8 @@ router.get('/getCabs',async function(req,res,next){
                     
                     let cabTypecheck=cabType.toLowerCase();
                     console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabType);
+                    console.log("surgePickpuResult==="+JSON.stringify(surgePickpuResult));
+                    console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
                     if(cabTypecheck!=""){
                         surgePrice=surgekm*surgePickpuResult[0][cabType];
                         surgePrice=surgePrice+surgekm*surgedestinationResult[0][cabType];
