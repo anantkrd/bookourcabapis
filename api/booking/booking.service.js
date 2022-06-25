@@ -20,6 +20,7 @@ module.exports={
     },
     createSearchLog:(data,callBack)=>{
         let returndate=data.returnDate;
+        console.log("===========================In Log===============");
         if(returndate==null || returndate==""){
             returndate='0000-00-00 00:00:00';
         }
