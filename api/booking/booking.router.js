@@ -59,7 +59,7 @@ router.get('/book_cab', async function(req,res,next){
                             destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,
                             payment_orderId:req.query.payment_orderId,pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
                             dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState}
-                        //console.log("logData***2*==="+JSON.stringify(body));
+                        console.log("logData***2*==="+JSON.stringify(body));
                         create_booking(body,(err,results)=>{
                             if(err){
                                 error=err;
@@ -78,7 +78,9 @@ router.get('/book_cab', async function(req,res,next){
         userId=results[0]['id'];
         userName=fname+" "+lname;
         const body={userId:userId,userName:userName,email:req.query.email,orderId:orderId,cabId:req.query.cabId,pickup:req.query.pickup,destination:req.query.destination,pickupDate:req.query.pickupDate,returnDate:req.query.returnDate,isReturn:req.query.isReturn,pickupLat:req.query.pickupLat,pickupLong:req.query.pickupLong,
-            destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,payment_orderId:req.query.payment_orderId}
+            destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,payment_orderId:req.query.payment_orderId,
+            pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
+            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState}
             
             create_booking(body,(err,results)=>{
                 if(err){
