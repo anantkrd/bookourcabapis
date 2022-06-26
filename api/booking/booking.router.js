@@ -262,8 +262,16 @@ router.get('/getCabs',async function(req,res,next){
                     console.log("surgePickpuResult==="+JSON.stringify(surgePickpuResult));
                     console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
                     if(cabTypecheck!=""){
+                        let surgeData=surgePickpuResult[0]['surge'];
+                        console.log("surgeData============="+surgeData+"====="+surgeData[cabType]);
                         surgePrice=surgekm*surgePickpuResult[0][cabType];
                         surgePrice=surgePrice+(surgekm*surgedestinationResult[0][cabType]);
+                        console.log("============surgePrice=========="+surgePrice);
+                        finalRate=finalRate+surgePrice;
+                        sedanPrice=finalRate;
+                    }else{
+                        surgePrice=surgekm*1;
+                        surgePrice=surgePrice+(surgekm*1);
                         console.log("============surgePrice=========="+surgePrice);
                         finalRate=finalRate+surgePrice;
                         sedanPrice=finalRate;
