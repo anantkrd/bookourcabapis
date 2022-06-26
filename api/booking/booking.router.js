@@ -263,7 +263,7 @@ router.get('/getCabs',async function(req,res,next){
                     console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
                     if(cabTypecheck!=""){
                         surgePrice=surgekm*surgePickpuResult[0][cabType];
-                        surgePrice=surgePrice+surgekm*surgedestinationResult[0][cabType];
+                        surgePrice=surgePrice+(surgekm*surgedestinationResult[0][cabType]);
                         console.log("============surgePrice=========="+surgePrice);
                         finalRate=finalRate+surgePrice;
                         sedanPrice=finalRate;
