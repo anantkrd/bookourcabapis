@@ -3,6 +3,7 @@ const{create,getCabs,createSearchLog}=require('./booking.service');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 module.exports={
     create_booking:(data,callBack)=>{
+        console.log("data===="+JSON.stringify(data));
         create(data,(err,results)=>{
             if(err)return callBack(err);
             return callBack(null,results);
