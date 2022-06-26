@@ -247,7 +247,7 @@ router.get('/getCabs',async function(req,res,next){
                     capacity=results[i]['capacity'];
                     note=results[i]['note'];
                     multiply=2;
-                    if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00+"){
+                    if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00"){
                         multiply=1;
                         finalRate=rate;
                     }else{
