@@ -219,7 +219,7 @@ router.get('/getCabs',async function(req,res,next){
             let surgePickpuResult=await getSurge(pickupDistrict);
             let destinationcityName=destinationCity.split(",")[0]
             let surgedestinationResult=await getSurge(dropDistrict);
-            //console.log("surgeResult==="+surgePickpuResult[0]['sedan']);
+            console.log("surgeResult==="+surgePickpuResult[0]['sedan']);
             
             let results=await getCabs(req);
             distanceValue=distancekm;
@@ -258,26 +258,46 @@ router.get('/getCabs',async function(req,res,next){
                     }
                     
                     let cabTypecheck=cabType.toLowerCase();
-                    
+                    console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabType);
+                    console.log("surgePickpuResult==="+JSON.stringify(surgePickpuResult));
+                    console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
                     if(cabTypecheck!=""){
                         let surgeDataPickup=surgePickpuResult[0]['surge'];
                         let surgeDataPickupObj=JSON.parse(surgeDataPickup);
-                        
+                        console.log("surgeData Pick============="+surgeDataPickupObj+"====="+surgeDataPickupObj[cabType]);
                         surgePrice=surgekm*surgeDataPickupObj[cabType];
                         let surgeDataDrop=surgedestinationResult[0]['surge'];
                         let surgeDataDropObj=JSON.parse(surgeDataDrop);
-                        
+                        console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
                         surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);
-                        
+                        console.log("============surgePrice=========="+surgePrice);
                         finalRate=finalRate+surgePrice;
                         sedanPrice=finalRate;
                     }else{
                         surgePrice=surgekm*1;
                         surgePrice=surgePrice+(surgekm*1);
-                        
+                        console.log("============surgePrice=========="+surgePrice);
                         finalRate=finalRate+surgePrice;
                         sedanPrice=finalRate;
                     }
+                    /*if(cabType=='Sedan'){
+                        surgePrice=surgekm*surgePickpuResult[0]['sedan'];
+                        surgePrice=surgePrice+surgekm*surgedestinationResult[0]['sedan'];
+                        finalRate=finalRate+surgePrice;
+                        sedanPrice=finalRate;
+                    }
+                    if(cabType=='Luxury'){
+                        surgePrice=surgekm*surgePickpuResult[0]['luxury'];                        
+                        surgePrice=surgePrice+surgekm*surgedestinationResult[0]['luxury'];
+                        finalRate=finalRate+surgePrice;
+                        luxuryPrice=finalRate;
+                    }
+                    if(cabType=='Compact'){
+                        surgePrice=surgekm*surgePickpuResult[0]['compact'];
+                        surgePrice=surgePrice+surgekm*surgedestinationResult[0]['compact'];
+                        finalRate=finalRate+surgePrice;
+                        compactPrice=finalRate;
+                    }*/
                     amount=(distanceValue*finalRate);
                     discountAmount=(distanceValue*discount);
                     discountedRate=finalRate-discount;
@@ -331,7 +351,7 @@ router.get('/getCabs',async function(req,res,next){
             }
             const logData={mobileNo:mobileNo,pickup:pickupCity,destination:destinationCity,pickupDate:pickdateTime,returnDate:returnDateTime,pickupLat:originlat,pickupLong:originlng,destinationLat:destinationlat,destinationLong:destinationlng,distance:distancekm,
                 journyTime:journyTime1,sedanRate:sedanPrice,luxuryRate:luxuryPrice,compactRate:compactPrice}
-            //console.log("logData==="+JSON.stringify(logData));
+            console.log("logData==="+JSON.stringify(logData));
             create_booking_log(logData,(err,results)=>{
                 console.log("create_booking_log Error====="+err);
                 console.log("create_booking_log results====="+results);
