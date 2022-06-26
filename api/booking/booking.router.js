@@ -36,7 +36,13 @@ router.get('/book_cab', async function(req,res,next){
     let amount=req.query.amount;
     let discount=req.query.discountAmount;
     let finalAmount=req.query.finalAmount;
-    let status=req.query.status;
+    let status=req.query.status;    
+    let pickupCityName=req.query.pickupCityName;
+    let pickupDistrict=req.query.pickupDistrict;
+    let pickupState=req.query.pickupState;
+    let dropCityName=req.query.dropCityName;
+    let dropDistrict=req.query.dropDistrict;
+    let dropState=req.query.dropState;
     let journyTime=req.query.journyTime;
     let responce;
     resultUser=await getUserByMobile(req.query.mobileNo);
@@ -50,7 +56,9 @@ router.get('/book_cab', async function(req,res,next){
                         //userId=results[0]['id'];
                         userName=fname+" "+lname;
                         const body={userId:userId,userName:userName,email:req.query.email,orderId:orderId,cabId:req.query.cabId,pickup:req.query.pickup,destination:req.query.destination,pickupDate:req.query.pickupDate,returnDate:req.query.returnDate,isReturn:req.query.isReturn,pickupLat:req.query.pickupLat,pickupLong:req.query.pickupLong,
-                            destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,payment_orderId:req.query.payment_orderId}
+                            destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,
+                            payment_orderId:req.query.payment_orderId,pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
+                            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState}
                         //console.log("logData***2*==="+JSON.stringify(body));
                         create_booking(body,(err,results)=>{
                             if(err){
