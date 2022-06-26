@@ -268,7 +268,7 @@ router.get('/getCabs',async function(req,res,next){
                         surgePrice=surgekm*surgeDataPickupObj[cabType];
                         let surgeDataDrop=surgedestinationResult[0]['surge'];
                         let surgeDataDropObj=JSON.parse(surgeDataDrop);
-                        console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDrop[cabType]);
+                        console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
                         surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);
                         console.log("============surgePrice=========="+surgePrice);
                         finalRate=finalRate+surgePrice;
