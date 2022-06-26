@@ -239,7 +239,7 @@ router.get('/getCabs',async function(req,res,next){
                             
                     discount=results[i]['discount'];
                     
-                    finalRate=rate-discount;
+                    finalRate=rate;
                     image=results[i]['image'];
                     ac=results[i]['ac'];
                     bags=results[i]['bags'];
@@ -247,7 +247,7 @@ router.get('/getCabs',async function(req,res,next){
                     capacity=results[i]['capacity'];
                     note=results[i]['note'];
                     multiply=2;
-                    if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'){
+                    if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00+"){
                         multiply=1;
                         finalRate=rate;
                     }else{
