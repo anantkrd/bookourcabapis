@@ -252,10 +252,10 @@ router.get('/getCabs',async function(req,res,next){
                     if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00"){
                         multiply=1;
                         finalRate=rate;
-                        distanceValue=distanceValue;
+                        distanceValue=distancekm;
                     }else{
                         distanceValue=distancekm*2;
-                        distancekm=distancekm*2;                        
+                        //distancekm=distancekm*2;                        
                         finalRate=returnTripRate;
                         originalRate=returnTripRate;
                     }
@@ -346,13 +346,13 @@ router.get('/getCabs',async function(req,res,next){
                     dataObj1['originlng']=originlng;
                     dataObj1['destinationlat']=destinationlat;
                     dataObj1['destinationlng']=destinationlng;
-                    dataObj1['distance']=distancekm;
+                    dataObj1['distance']=distanceValue;
                     //dataObj1['originlng']=originlng;
                     dataObj.push(dataObj1);
                 }
                 responce=JSON.stringify({code:'200',msg:'',data:dataObj});
             }
-            const logData={mobileNo:mobileNo,pickup:pickupCity,destination:destinationCity,pickupDate:pickdateTime,returnDate:returnDateTime,pickupLat:originlat,pickupLong:originlng,destinationLat:destinationlat,destinationLong:destinationlng,distance:distancekm,
+            const logData={mobileNo:mobileNo,pickup:pickupCity,destination:destinationCity,pickupDate:pickdateTime,returnDate:returnDateTime,pickupLat:originlat,pickupLong:originlng,destinationLat:destinationlat,destinationLong:destinationlng,distance:distanceValue,
                 journyTime:journyTime1,sedanRate:sedanPrice,luxuryRate:luxuryPrice,compactRate:compactPrice}
             console.log("logData==="+JSON.stringify(logData));
             create_booking_log(logData,(err,results)=>{
