@@ -220,7 +220,7 @@ router.get('/getCabs',async function(req,res,next){
             let surgePickpuResult=await getSurge(pickupDistrict);
             let destinationcityName=destinationCity.split(",")[0]
             let surgedestinationResult=await getSurge(dropDistrict);
-            console.log(distancekm+"**************surgeResult==="+surgePickpuResult[0]['sedan']);
+            console.log(distancekm+"**************surgeResult===");
             
             let results=await getCabs(req);
             distanceValue=distancekm;
