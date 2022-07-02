@@ -206,6 +206,7 @@ router.get('/getCabs',async function(req,res,next){
            // timeObj=JSON.parse(distances);
             //journyTime1=JSON.parse(distances.rows[0].elements[0].duration);
             //console.log(distances.rows[0].elements[0].duration.text+"***journyTime=="+journyTime);
+            distancekm=0;
             distancekm=Math.round(distanceObj/1000);
             surgekm=Math.round(distancekm/100);
             let searchLog=[];
@@ -247,11 +248,13 @@ router.get('/getCabs',async function(req,res,next){
                     capacity=results[i]['capacity'];
                     note=results[i]['note'];
                     multiply=2;
+                    distanceValue=0;
                     if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00"){
                         multiply=1;
                         finalRate=rate;
+                        distanceValue=distanceValue;
                     }else{
-                        distanceValue=distanceValue*2;
+                        distanceValue=distancekm*2;
                         distancekm=distanceValue;                        
                         finalRate=returnTripRate;
                         originalRate=returnTripRate;
