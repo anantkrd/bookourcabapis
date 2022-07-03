@@ -5,7 +5,10 @@ module.exports={
         let start=((pageId-1)*5);
         let perPage=5;
         sqlcheck="SELECT booking.*,cabs.cabType,cabs.ac,cabs.bags,cabs.capacity,cabs.cars,cabs.note,(select mobileNo from prayag_users where id=booking.userId ) as mobileNo FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and booking.status='waiting' order by booking.id desc limit ?,?";
-        
+        sqlcheckCount="SELECT count(id) as rowCount FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and booking.status='waiting' order by booking.id desc";
+        let resCount=await getPageCount(sqlcheckCount,perPage);
+
+        console.log("resCount=="+resCount);
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[start,perPage],  (error, results)=>{
                 if(error){

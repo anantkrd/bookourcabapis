@@ -3,12 +3,12 @@ const{getBookingsAdminHome,updateAgentAmount,getBookingsForAgent,getCompletedBoo
 module.exports={
     getBookingsAdminHome:async(pageId=1)=>{   
         let data=await getBookingsAdminHome(pageId); 
-         console.log("datares*=="+JSON.stringify(data));
+         //console.log("datares*=="+JSON.stringify(data));
          return data;    
     },
     updateAgentAmount:async(amount,bookingId)=>{
         let data=await updateAgentAmount(amount,bookingId); 
-         console.log("datares*=="+JSON.stringify(data));
+         //console.log("datares*=="+JSON.stringify(data));
          return data;          
     }
     ,
