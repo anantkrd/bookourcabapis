@@ -16,13 +16,12 @@ const Razorpay = require("razorpay");
 router.get('/get_booking_admin', async function(req, res, next) {
     resultsdata =await getBookingsAdminHome(req.query.pageId);
     resultsdata=JSON.parse(resultsdata);
-    console.log("results=====results===******"+JSON.stringify(resultsdata));
+    //console.log("results=====results===******"+JSON.stringify(resultsdata));
             dataObj=[];
             let results=resultsdata.results;
             let rowCount=resultsdata.rowCount;
             let totalPage=Math.ceil(resultsdata.totalPage);
             if(results.length<=0){
-                error=err;
                 responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
             }else{
                 for ( var i = 0; i < results.length; i++)
@@ -118,7 +117,7 @@ router.get('/get_booking_admin', async function(req, res, next) {
 
 router.get('/get_completed_bookings',async function(req,res,next){
     results =await getCompletedBookings(req.query.userId,req.query.pageId);
-    console.log("result="+JSON.stringify(results))
+    //console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });

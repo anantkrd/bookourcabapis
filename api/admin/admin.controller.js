@@ -13,12 +13,16 @@ module.exports={
     }
     ,
     getWaitingForAgentBooking:async(userId,pageId=1)=>{
-        let results=await getBookingsForAgent(pageId); 
+        let resultsdata=await getBookingsForAgent(pageId); 
+        resultsdata=JSON.parse(resultsdata);
+        let results=resultsdata.results;
+            let rowCount=resultsdata.rowCount;
+            let totalPage=Math.ceil(resultsdata.totalPage);
          //console.log("datares*=="+JSON.stringify(datares));
          if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
         }else{            
-            responce=JSON.stringify({code:'200',msg:'',data:results,pageId:pageId});
+            responce=JSON.stringify({code:'200',msg:'',data:results,pageId:pageId,rowCount:rowCount,totalPage:totalPage});
         }
          return responce;         
     },

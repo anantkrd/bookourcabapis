@@ -9,14 +9,14 @@ module.exports={
         let resCount=await module.exports.getPageCount(sqlcheckCount,perPage);
 
         console.log("resCount=="+JSON.stringify(resCount));
-        let rowCount=resCount[0]['rowCount'];
+        let rowCount=resCount[0]['rowCount'];        
+        totalPage=rowCount/perPage;
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[start,perPage],  (error, results)=>{
                 if(error){
                     return reject(error);
                 }
                 //results['rowCount']=rowCount;
-                totalPage=rowCount/perPage;
                 results=JSON.stringify({results:results,rowCount:rowCount,totalPage:totalPage});
                 return resolve(results);
             });
@@ -26,12 +26,18 @@ module.exports={
         let start=((pageId-1)*10);
         let perPage=10;
         sqlcheck="SELECT booking.*,cabs.cabType,cabs.ac,cabs.bags,cabs.capacity,cabs.cars,cabs.note,(select mobileNo from prayag_users where id=booking.userId ) as mobileNo FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and agentPrice>0 and agentId=0 and booking.status='waiting' order by booking.id desc limit ?,?";
-        
+        sqlcheckCount="SELECT count(booking.id) rowCount FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and agentPrice>0 and agentId=0 and booking.status='waiting' order by booking.id desc";
+        let resCount=await module.exports.getPageCount(sqlcheckCount,perPage);
+
+        console.log("resCount=="+JSON.stringify(resCount));
+        let rowCount=resCount[0]['rowCount'];        
+        totalPage=rowCount/perPage;
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[start,perPage],  (error, results)=>{
                 if(error){
                     return reject(error);
                 }
+                results=JSON.stringify({results:results,rowCount:rowCount,totalPage:totalPage});
                 return resolve(results);
             });
         });
