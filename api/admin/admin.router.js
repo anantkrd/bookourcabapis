@@ -15,7 +15,7 @@ const Razorpay = require("razorpay");
 
 router.get('/get_booking_admin', async function(req, res, next) {
     resultsdata =await getBookingsAdminHome(req.query.pageId);
-    console.log("results=====results===******"+JSON.stringify(results));
+    console.log("results=====results===******"+JSON.stringify(resultsdata));
    
             dataObj=[];
             let results=resultsdata.results;
