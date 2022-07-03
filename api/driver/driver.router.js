@@ -16,7 +16,7 @@ router.get('/get_my_trip',authenticate,async function(req,res,next){
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
-        responce=JSON.stringify({code:'200',msg:'',data:results});
+        responce=JSON.stringify({code:'200',msg:'',data:results,pageId:req.query.pageId});
     }
     res.send(responce);
 });
@@ -26,7 +26,7 @@ router.get('/get_payment_report',authenticate,async function(req,res,next){
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
-        responce=JSON.stringify({code:'200',msg:'',data:results});
+        responce=JSON.stringify({code:'200',msg:'',data:results,pageId:req.query.pageId});
     }
     res.send(responce);
 });
@@ -36,7 +36,7 @@ router.get('/get_trip_report',authenticate,async function(req,res,next){
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
     }else{
-        responce=JSON.stringify({code:'200',msg:'',data:results});
+        responce=JSON.stringify({code:'200',msg:'',data:results,pageId:req.query.pageId});
     }
     res.send(responce);
 });

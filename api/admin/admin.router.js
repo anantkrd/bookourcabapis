@@ -99,7 +99,7 @@ router.get('/get_booking_admin', async function(req, res, next) {
                     dataObj.push(dataObj1);
                 }
                 
-                responce=JSON.stringify({code:'200',msg:'',data:dataObj});
+                responce=JSON.stringify({code:'200',msg:'',data:dataObj,pageId:req.query.pageId});
             }
     res.send(responce); 
     /*res1=getBookings(req.query.userId,1,(err,results)=>{
