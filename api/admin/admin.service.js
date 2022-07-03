@@ -9,11 +9,14 @@ module.exports={
         let resCount=await module.exports.getPageCount(sqlcheckCount,perPage);
 
         console.log("resCount=="+JSON.stringify(resCount));
+        let rowCount=resCount[0]['rowCount'];
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[start,perPage],  (error, results)=>{
                 if(error){
                     return reject(error);
                 }
+                results['rowCount']=rowCount;
+                results['totalPage']=rowCount/perPage;
                 return resolve(results);
             });
         })
