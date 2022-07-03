@@ -8,7 +8,7 @@ module.exports={
         sqlcheckCount="SELECT count(booking.id) as rowCount FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.isDeleted='N' and booking.status='waiting' order by booking.id desc";
         let resCount=await module.exports.getPageCount(sqlcheckCount,perPage);
 
-        console.log("resCount=="+resCount);
+        console.log("resCount=="+JSON.stringify(resCount));
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[start,perPage],  (error, results)=>{
                 if(error){
