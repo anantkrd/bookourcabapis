@@ -15,8 +15,9 @@ module.exports={
                 if(error){
                     return reject(error);
                 }
-                results['rowCount']=rowCount;
-                results['totalPage']=rowCount/perPage;
+                //results['rowCount']=rowCount;
+                totalPage=rowCount/perPage;
+                results=JSON.stringify({results:results,rowCount:rowCount,totalPage:totalPage});
                 return resolve(results);
             });
         })
