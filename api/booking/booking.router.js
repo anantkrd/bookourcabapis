@@ -269,12 +269,12 @@ router.get('/getCabs',async function(req,res,next){
                         if(tripDays>1){
                             calculateKm=PerDayKm*tripDays;
                         }
-                        console.log("tripDays*****************: " + tripDays+"======calculateKm==="+calculateKm);  
+                        console.log(distanceValue+"=====tripDays*****************: " + tripDays+"======calculateKm==="+calculateKm);  
                         if(calculateKm>distanceValue)
                         {
-                            calculateKm=distanceValue;
-                        }else{
                             distanceValue=calculateKm;
+                        }else{                            
+                            calculateKm=distanceValue;
                         }
                     }
                     
