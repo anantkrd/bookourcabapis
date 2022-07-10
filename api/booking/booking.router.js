@@ -8,6 +8,7 @@ const {authenticate}=require('../auth/index');
 const router=express.Router();
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
+const moment = require('moment');
 /*const authenticate=function(req,res,next){
     console.log("Here is in auth");
     jwt.verify();
@@ -250,6 +251,8 @@ router.get('/getCabs',async function(req,res,next){
                     multiply=2;
                     distanceValue=0;
                     let isReturnTrip='N';
+                    let tripDays=0;
+                    let PerDayKm=300;
                     if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00"){
                         multiply=1;
                         finalRate=rate;
@@ -260,7 +263,22 @@ router.get('/getCabs',async function(req,res,next){
                         finalRate=returnTripRate;
                         originalRate=returnTripRate;
                         isReturnTrip='Y';
+                        tripDays=moment(returnDateTime).diff(moment(pickdateTime), 'days');
+                        let calculateKm=0;    
+                                      
+                        if(tripDays>1){
+                            calculateKm=PerDayKm*tripDays;
+                        }
+                        console.log("tripDays*****************: " + tripDays+"======calculateKm==="+calculateKm);  
+                        if(calculateKm>distanceValue)
+                        {
+                            calculateKm=distanceValue;
+                        }else{
+                            distanceValue=calculateKm;
+                        }
                     }
+                    
+                    
                     
                     let cabTypecheck=cabType.toLowerCase();
                     console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabType);
@@ -318,10 +336,7 @@ router.get('/getCabs',async function(req,res,next){
                     console.log("surgePrice"+surgePrice);
                     console.log("finalRate"+finalRate);
                     idKey='id';
-                    console.log("returnDateTime*****************: " + returnDateTime);
-                    if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=="undefined" || returnDateTime==null){
-                        returnDateTime="0000-00-00 00:00:00";
-                    }
+                    
                     dataObj1={};
                     bookingId=id+""+Date.now();
                     dataObj1['id']=id;
