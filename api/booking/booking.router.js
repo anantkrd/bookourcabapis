@@ -249,6 +249,7 @@ router.get('/getCabs',async function(req,res,next){
                     note=results[i]['note'];
                     multiply=2;
                     distanceValue=0;
+                    let isReturnTrip='N';
                     if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00"){
                         multiply=1;
                         finalRate=rate;
@@ -258,31 +259,37 @@ router.get('/getCabs',async function(req,res,next){
                         //distancekm=distancekm*2;                        
                         finalRate=returnTripRate;
                         originalRate=returnTripRate;
+                        isReturnTrip='Y';
                     }
                     
                     let cabTypecheck=cabType.toLowerCase();
                     console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabType);
                     console.log("surgePickpuResult==="+JSON.stringify(surgePickpuResult));
                     console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
-                    if(cabTypecheck!=""){
-                        let surgeDataPickup=surgePickpuResult[0]['surge'];
-                        let surgeDataPickupObj=JSON.parse(surgeDataPickup);
-                        console.log("surgeData Pick============="+surgeDataPickupObj+"====="+surgeDataPickupObj[cabType]);
-                        surgePrice=surgekm*surgeDataPickupObj[cabType];
-                        let surgeDataDrop=surgedestinationResult[0]['surge'];
-                        let surgeDataDropObj=JSON.parse(surgeDataDrop);
-                        console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
-                        surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);
-                        console.log("============surgePrice=========="+surgePrice);
-                        finalRate=finalRate+surgePrice;
-                        sedanPrice=finalRate;
+                    if(isReturnTrip=='N'){
+                        if(cabTypecheck!=""){
+                            let surgeDataPickup=surgePickpuResult[0]['surge'];
+                            let surgeDataPickupObj=JSON.parse(surgeDataPickup);
+                            console.log("surgeData Pick============="+surgeDataPickupObj+"====="+surgeDataPickupObj[cabType]);
+                            surgePrice=surgekm*surgeDataPickupObj[cabType];
+                            let surgeDataDrop=surgedestinationResult[0]['surge'];
+                            let surgeDataDropObj=JSON.parse(surgeDataDrop);
+                            console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
+                            surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);
+                            console.log("============surgePrice=========="+surgePrice);
+                            finalRate=finalRate+surgePrice;
+                            sedanPrice=finalRate;
+                        }else{
+                            surgePrice=surgekm*1;
+                            surgePrice=surgePrice+(surgekm*1);
+                            console.log("============surgePrice=========="+surgePrice);
+                            finalRate=finalRate+surgePrice;
+                            sedanPrice=finalRate;
+                        }
                     }else{
-                        surgePrice=surgekm*1;
-                        surgePrice=surgePrice+(surgekm*1);
-                        console.log("============surgePrice=========="+surgePrice);
-                        finalRate=finalRate+surgePrice;
                         sedanPrice=finalRate;
                     }
+                    
                     /*if(cabType=='Sedan'){
                         surgePrice=surgekm*surgePickpuResult[0]['sedan'];
                         surgePrice=surgePrice+surgekm*surgedestinationResult[0]['sedan'];
@@ -301,8 +308,8 @@ router.get('/getCabs',async function(req,res,next){
                         finalRate=finalRate+surgePrice;
                         compactPrice=finalRate;
                     }*/
-                    amount=(distanceValue*finalRate);
-                    discountAmount=(distanceValue*discount);
+                    amount=Math.round(distanceValue*finalRate);
+                    discountAmount=Math.round(distanceValue*discount);
                     discountedRate=finalRate-discount;
                     finalAmount=Math.round(distanceValue*discountedRate);
                     
