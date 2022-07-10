@@ -266,6 +266,7 @@ router.get('/getCabs',async function(req,res,next){
                     console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabType);
                     console.log("surgePickpuResult==="+JSON.stringify(surgePickpuResult));
                     console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
+                    surgePrice=0;
                     if(isReturnTrip=='N'){
                         if(cabTypecheck!=""){
                             let surgeDataPickup=surgePickpuResult[0]['surge'];
