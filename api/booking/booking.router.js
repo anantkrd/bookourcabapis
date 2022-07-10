@@ -304,7 +304,7 @@ router.get('/getCabs',async function(req,res,next){
                     amount=(distanceValue*finalRate);
                     discountAmount=(distanceValue*discount);
                     discountedRate=finalRate-discount;
-                    finalAmount=(distanceValue*discountedRate);
+                    finalAmount=Math.round(distanceValue*discountedRate);
                     
                     console.log("surgekm"+surgekm);
                     console.log("surgePrice"+surgePrice);
