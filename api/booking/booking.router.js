@@ -195,7 +195,7 @@ router.get('/getCabs',async function(req,res,next){
    let dropDistrict=req.query.dropDistrict;
    let dropState=req.query.dropState;
    let timeNow=moment.now();//.format("YYYY-MM-DD H:mm:ss");
-   timeNow = moment().add(5, 'hours');
+   //timeNow = moment().add(5, 'hours');
    //timeNow = moment(timeNow).add(30, 'minutes');
     let formattedDate=moment(pickdateTime).format("YYYY-MM-DD H:mm:ss");
     console.log(timeNow+"==pickdate ="+moment(formattedDate).format("YYYY-MM-DD H:mm:ss"));
