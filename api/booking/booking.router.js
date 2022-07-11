@@ -9,7 +9,6 @@ const router=express.Router();
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
 const moment = require('moment');
-moment().utcOffset("+05:30").format();
 /*const authenticate=function(req,res,next){
     console.log("Here is in auth");
     jwt.verify();
@@ -196,6 +195,8 @@ router.get('/getCabs',async function(req,res,next){
    let dropDistrict=req.query.dropDistrict;
    let dropState=req.query.dropState;
    let timeNow=moment(moment.now()).format("YYYY-MM-DD H:mm:ss");
+   timeNow = moment(timeNow).add(5, 'hours');
+   timeNow = moment(timeNow).add(30, 'minutes');
     let formattedDate=moment(pickdateTime).format("YYYY-MM-DD H:mm:ss");
     console.log(timeNow+"==pickdate ="+moment(formattedDate).format("YYYY-MM-DD H:mm:ss"));
     let tripBookingBEforHours=moment(formattedDate).diff(moment(timeNow), 'hours');
