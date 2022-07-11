@@ -267,6 +267,7 @@ router.get('/getCabs',async function(req,res,next){
                         multiply=1;
                         finalRate=rate;
                         distanceValue=distancekm;
+                        returnDateTime=="0000-00-00 00:00:00";
                     }else{
                         distanceValue=distancekm*2;
                         //distancekm=distancekm*2;                        
