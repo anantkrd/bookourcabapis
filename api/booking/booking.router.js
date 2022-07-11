@@ -202,7 +202,7 @@ router.get('/getCabs',async function(req,res,next){
     let tripBookingBEforHours=moment(formattedDate).diff(moment(timeNow), 'hours');
     let earlyBookingCharges=0;
     if(tripBookingBEforHours<10){
-        let earlyBookingCharges=Math.round((6/tripBookingBEforHours) * 100) / 100;
+        earlyBookingCharges=Math.round((6/tripBookingBEforHours) * 100) / 100;
     }
     console.log(tripBookingBEforHours+"==earlyBookingCharges=="+earlyBookingCharges);
     let distancekm=0;
