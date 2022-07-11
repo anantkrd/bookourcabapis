@@ -196,7 +196,7 @@ router.get('/getCabs',async function(req,res,next){
    let dropState=req.query.dropState;
    let timeNow=moment(moment.now()).format("YYYY-MM-DD H:mm:ss");
     let formattedDate=moment(pickdateTime).format("YYYY-MM-DD H:mm:ss");
-    console.log(timeNow+"==pickdate ="+moment(date).format("YYYY-MM-DD H:mm:ss"));
+    console.log(timeNow+"==pickdate ="+moment(formattedDate).format("YYYY-MM-DD H:mm:ss"));
     let tripBookingBEforHours=moment(formattedDate).diff(moment(timeNow), 'hours');
     let earlyBookingCharges=0;
     if(tripBookingBEforHours<10){
