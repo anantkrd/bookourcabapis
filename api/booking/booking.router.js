@@ -173,7 +173,7 @@ router.get('/getCabs',async function(req,res,next){
     console.log(req);
     originObj=JSON.parse(req.query.originObj);
     destinationObj=JSON.parse(req.query.destinationObj);
-    console.log("=**=="+originObj.lat);
+    //console.log("=**=="+originObj.lat);
    
    let originlat=originObj.lat;
    let originlng=originObj.lng;
@@ -202,7 +202,7 @@ router.get('/getCabs',async function(req,res,next){
     if(tripBookingBEforHours<10){
         let earlyBookingCharges=Math.round((6/tripBookingBEforHours) * 100) / 100;
     }
-    console.log("earlyBookingCharges=="+earlyBookingCharges);
+    console.log(tripBookingBEforHours+"==earlyBookingCharges=="+earlyBookingCharges);
     let distancekm=0;
     
     distance.matrix(origins, destinations, async function (err, distances) {
