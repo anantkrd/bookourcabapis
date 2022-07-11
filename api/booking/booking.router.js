@@ -349,7 +349,7 @@ router.get('/getCabs',async function(req,res,next){
                     idKey='id';
                     
                     dataObj1={};
-                    bookingId=id+""+Date.now();
+                    bookingId=id+""+new Date().valueOf();
                     dataObj1['id']=id;
                     dataObj1['bookingId']=bookingId;
                     
