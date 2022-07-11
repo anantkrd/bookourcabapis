@@ -9,7 +9,7 @@ const router=express.Router();
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
 const moment = require('moment');
-moment().utcOffset("+05:30").format()
+moment().tz("Asia/Kolkata").format();
 /*const authenticate=function(req,res,next){
     console.log("Here is in auth");
     jwt.verify();
