@@ -194,7 +194,15 @@ router.get('/getCabs',async function(req,res,next){
    let dropCityName=req.query.dropCityName;
    let dropDistrict=req.query.dropDistrict;
    let dropState=req.query.dropState;
-   
+   let timeNow=moment(moment.now()).format("YYYY-MM-DD H:mm:ss");
+    let formattedDate=moment(pickdateTime).format("YYYY-MM-DD H:mm:ss");
+    console.log(timeNow+"==pickdate ="+moment(date).format("YYYY-MM-DD H:mm:ss"));
+    let tripBookingBEforHours=moment(formattedDate).diff(moment(timeNow), 'hours');
+    let earlyBookingCharges=0;
+    if(tripBookingBEforHours<10){
+        let earlyBookingCharges=Math.round((6/tripBookingBEforHours) * 100) / 100;
+    }
+    console.log("earlyBookingCharges=="+earlyBookingCharges);
     let distancekm=0;
     
     distance.matrix(origins, destinations, async function (err, distances) {
@@ -241,7 +249,7 @@ router.get('/getCabs',async function(req,res,next){
                             
                     discount=results[i]['discount'];
                     
-                    finalRate=rate;
+                    finalRate=rate+earlyBookingCharges;
                     image=results[i]['image'];
                     ac=results[i]['ac'];
                     bags=results[i]['bags'];
@@ -370,6 +378,7 @@ router.get('/getCabs',async function(req,res,next){
                     dataObj1['destinationlat']=destinationlat;
                     dataObj1['destinationlng']=destinationlng;
                     dataObj1['distance']=distanceValue;
+                    dataObj1['originalRate']=originalRate;
                     //dataObj1['originlng']=originlng;
                     dataObj.push(dataObj1);
                 }
