@@ -1,7 +1,8 @@
 const express=require('express');
 const jwt=require('jsonwebtoken');
-const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking,getConfirmBooking}=require('./admin.controller');
-const{addPaymentAgent,updateBookingDetails,getAgents}=require('./admin.service');
+const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking,getConfirmBooking,
+    getAgents}=require('./admin.controller');
+const{addPaymentAgent,updateBookingDetails}=require('./admin.service');
 const {authenticate}=require('../auth/index');
 
 const router=express.Router();
@@ -144,11 +145,6 @@ router.get('/update_agent_amount',async function(req,res,next){
     results =await updateAgentAmount(req.query.amount,req.query.bookingId);
     res.send(results);
 });  
-router.get('/get_booking',authenticate, async function(req, res, next) {
-    responce=JSON.stringify({code:'501',message:'user not found',data:''});
-    res.send(responce);
-    
-  });
 router.get('/get_agent',authenticate, async function(req,res,next){
     results =await getAgents(req.query.userId);
     

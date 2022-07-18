@@ -111,9 +111,8 @@ module.exports={
             });
         });
     },
-    getAgents:async(pageId,callBack)=>{
-        let start=((pageId-1)*5);
-        let perPage=5;
+    getAgents:async(userId,callBack)=>{
+       
         sqlcheck="SELECT * FROM prayag_users where userType='agent' and isDeleted='N' order by id desc";
         
         return new Promise((resolve, reject)=>{
