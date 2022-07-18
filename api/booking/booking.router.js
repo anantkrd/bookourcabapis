@@ -4,7 +4,7 @@ const jwt=require('jsonwebtoken');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 const {create_booking,getCabs,create_booking_log}=require('../booking/booking.controller');
 const{getSurge,addPayment,updateBookingDetails}=require('../booking/booking.service');
-const {authenticate}=require('../auth/index');
+const authenticate=require("../auth/index");
 const router=express.Router();
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
@@ -487,7 +487,7 @@ router.get('/getCabs',async function(req,res,next){
             });*/
     });
 });
-router.get('/getBookingById',authenticate,function(req,res,next){
+router.get('/getBookingById',authenticate, async function(req,res,next){
 
     let bookingId=req.query.bookingId;
     res1=getBookingById(req,(err,results)=>{
