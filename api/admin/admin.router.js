@@ -117,32 +117,32 @@ router.get('/get_booking_admin',authenticate, async function(req, res, next) {
     });*/
   });
 
-router.get('/get_completed_bookings',async function(req,res,next){
+router.get('/get_completed_bookings',authenticate,async function(req,res,next){
     results =await getCompletedBookings(req.query.userId,req.query.pageId);
     //console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });
-router.get('/get_ready_booking',async function(req,res,next){
+router.get('/get_ready_booking',authenticate,async function(req,res,next){
     results =await getReadyBooking(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });
-router.get('/get_confirms_booking',async function(req,res,next){
+router.get('/get_confirms_booking',authenticate,async function(req,res,next){
     results =await getConfirmBooking(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });
-router.get('/get_waiting_agent_bookings',async function(req,res,next){
+router.get('/get_waiting_agent_bookings',authenticate,async function(req,res,next){
     results =await getWaitingForAgentBooking(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });  
 
-router.get('/update_agent_amount',async function(req,res,next){
+router.get('/update_agent_amount',authenticate,async function(req,res,next){
     results =await updateAgentAmount(req.query.amount,req.query.bookingId);
     res.send(results);
 });  
@@ -156,20 +156,8 @@ router.get('/get_agent',authenticate, async function(req, res, next) {
     res.send(responce);
     
   });
-router.get('/get_agent2', async function(req,res,next){
-    results =await getAgents(req.query.userId);
-    
-    if(results.length<=0){
-        responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
-    }else{
-        
-        responce=JSON.stringify({code:'200',msg:'',data:results});
-    }
-     //return responce; 
-    res.send(responce);
-}); 
 
-router.get('/assign_direct_trip',async function(req,res,next){
+router.get('/assign_direct_trip',authenticate,async function(req,res,next){
     results =await getAgents(req.query.userId);
     
     if(results.length<=0){
