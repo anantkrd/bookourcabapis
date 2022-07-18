@@ -158,7 +158,7 @@ router.get('/get_agent',authenticate,async function(req,res,next){
     res.send(responce);
 }); 
 
-router.get('/assign_direct_trip',authenticate,async function(req,res,next){
+router.get('/assign_direct_trip',async function(req,res,next){
     results =await getAgents(req.query.userId);
     
     if(results.length<=0){
