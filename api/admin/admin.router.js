@@ -157,8 +157,8 @@ router.get('/get_agent',authenticate, async function(req, res, next) {
     
   });
 
-router.get('/assign_direct_trip',authenticate,async function(req,res,next){
-    results =await getAgents(req.query.userId);
+router.get('/assign_agent',authenticate,async function(req,res,next){
+    results =await assignAggent(req.query.agentId,req.query.bookingId);
     
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'No Data found',data:''});

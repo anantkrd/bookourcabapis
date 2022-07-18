@@ -126,5 +126,45 @@ module.exports={
             });
         })
     },
+    assignAggent:async(agentId,bookingId)=>{
+        sqlGetPay="select * from prayag_booking where orderId='"+bookingId+"'";
+        let resData= JSON.stringify({code:'200',msg:'success',data:''});
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlGetPay,  (error, result)=>{
+                
+                if(error){
+                    return reject(error);
+                }
+                bookingAmount=result[0]['finalAmount'];
+                agentId=result[0]['agentId'];
+                pendingAmount=result[0]['bookingId'];
+                //finalAmount=result[0]['finalAmount'];
+                tripAmount=bookingAmount;
+                userPaid=result[0]['paid'];
+                pendingAmount=tripAmount-userPaid;
+                
+                advance=0;
+                paymentid='';
+                sql="INSERT INTO `prayag_agent_booking`(`agentId`, `bookingId`, `agentAmount`, `advance`,`tripAmount`,`userPaid`, `userPending`, `payToAgent`, `payToAgentType`, `paymentId`) VALUES ('"+agentId+"','"+bookingId+"','"+bookingAmount+"','"+advance+"','"+tripAmount+"','"+userPaid+"','"+pendingAmount+"','0','debit','"+paymentid+"')";
+                pool.query(sqlUpdatePayment,  (error, elements)=>{     
+                    if(error){
+                        return reject(error);
+                    }           
+                });
+                sqlUpdateBooking="UPDATE `prayag_booking` SET `agentId`='"+agentId+"',agentPaid='0',`status`='confirm' WHERE orderId='"+bookingId+"'";
+                pool.query(sqlUpdateBooking,  (error, elements)=>{
+                    if(error){
+                        return reject(error);
+                    }
+                });
+                
+                return resolve(result);
+            });
+            
+            
+            
+            
+        });
+    }
 
 }
