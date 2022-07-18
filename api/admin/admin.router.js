@@ -144,8 +144,12 @@ router.get('/update_agent_amount',async function(req,res,next){
     results =await updateAgentAmount(req.query.amount,req.query.bookingId);
     res.send(results);
 });  
-
-router.get('/get_agent',authenticate,async function(req,res,next){
+router.get('/get_booking',authenticate, async function(req, res, next) {
+    responce=JSON.stringify({code:'501',message:'user not found',data:''});
+    res.send(responce);
+    
+  });
+router.get('/get_agent',authenticate, async function(req,res,next){
     results =await getAgents(req.query.userId);
     
     if(results.length<=0){
