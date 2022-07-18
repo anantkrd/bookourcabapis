@@ -1,12 +1,12 @@
-const express=require('express');
+var express = require('express');
+const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
-const { json } = require('body-parser');
+var router = express.Router();
 const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking,getConfirmBooking,
     getAgents}=require('./admin.controller');
 const{addPaymentAgent,updateBookingDetails}=require('./admin.service');
-const {authenticate}=require('../auth/index');
-
-const router=express.Router();
+const { json } = require('body-parser');
+const authenticate=require("../auth/index");
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
 /*const authenticate=function(req,res,next){
