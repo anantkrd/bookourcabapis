@@ -146,7 +146,7 @@ module.exports={
                 advance=0;
                 paymentid='';
                 sql="INSERT INTO `prayag_agent_booking`(`agentId`, `bookingId`, `agentAmount`, `advance`,`tripAmount`,`userPaid`, `userPending`, `payToAgent`, `payToAgentType`, `paymentId`) VALUES ('"+agentId+"','"+bookingId+"','"+bookingAmount+"','"+advance+"','"+tripAmount+"','"+userPaid+"','"+pendingAmount+"','0','debit','"+paymentid+"')";
-                pool.query(sqlUpdatePayment,  (error, elements)=>{     
+                pool.query(sql,  (error, elements)=>{     
                     if(error){
                         return reject(error);
                     }           
