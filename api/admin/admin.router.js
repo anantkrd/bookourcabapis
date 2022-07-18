@@ -146,12 +146,13 @@ router.get('/update_agent_amount',async function(req,res,next){
 });  
 
 router.get('/get_agent',async function(req,res,next){
-    results =await getAgents(req.query.userId,req.query.pageId);
+    results =await getAgents(req.query.userId);
+    
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
     }else{
         
-        responce=JSON.stringify({code:'200',msg:'',data:results,pageId:pageId});
+        responce=JSON.stringify({code:'200',msg:'',data:results});
     }
      //return responce; 
     res.send(responce);
