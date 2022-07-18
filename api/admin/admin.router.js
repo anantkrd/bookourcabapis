@@ -1,5 +1,6 @@
 const express=require('express');
 const jwt=require('jsonwebtoken');
+const { json } = require('body-parser');
 const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking,getConfirmBooking,
     getAgents}=require('./admin.controller');
 const{addPaymentAgent,updateBookingDetails}=require('./admin.service');
@@ -14,7 +15,7 @@ const Razorpay = require("razorpay");
     next();
 }*/
 
-router.get('/get_booking_admin', async function(req, res, next) {
+router.get('/get_booking_admin',authenticate, async function(req, res, next) {
     resultsdata =await getBookingsAdminHome(req.query.pageId);
     resultsdata=JSON.parse(resultsdata);
     //console.log("results=====results===******"+JSON.stringify(resultsdata));
