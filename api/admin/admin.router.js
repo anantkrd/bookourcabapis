@@ -164,7 +164,7 @@ router.get('/assign_agent',authenticate,async function(req,res,next){
         responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
     }else{
         
-        responce=JSON.stringify({code:'200',msg:'',data:results});
+        responce=JSON.stringify({code:'200',msg:'Agent assined successfully',data:''});
     }
      //return responce; 
     res.send(responce);
