@@ -122,7 +122,7 @@ module.exports={
                     return reject(error);
                 }
                 //results['rowCount']=rowCount;
-                results=JSON.stringify({results:results,rowCount:rowCount,totalPage:totalPage});
+                results=JSON.stringify({results:results});
                 return resolve(results);
             });
         })
