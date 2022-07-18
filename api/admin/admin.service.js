@@ -114,7 +114,7 @@ module.exports={
     getAgents:async(pageId,callBack)=>{
         let start=((pageId-1)*5);
         let perPage=5;
-        sqlcheck="SELECT * FROM prayag.prayag_users where userType='agent' and isDeleted='N'; order by id desc order by id desc";
+        sqlcheck="SELECT * FROM prayag_users where userType='agent' and isDeleted='N' order by id desc";
         
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,  (error, results)=>{
