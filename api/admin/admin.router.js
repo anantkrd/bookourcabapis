@@ -1,7 +1,7 @@
 const express=require('express');
 const jwt=require('jsonwebtoken');
 const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking,getConfirmBooking}=require('./admin.controller');
-const{addPaymentAgent,updateBookingDetails}=require('./admin.service');
+const{addPaymentAgent,updateBookingDetails,getAgents}=require('./admin.service');
 const {authenticate}=require('../auth/index');
 
 const router=express.Router();
