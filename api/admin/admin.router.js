@@ -146,7 +146,7 @@ router.get('/update_agent_amount',async function(req,res,next){
     res.send(results);
 });  
 router.get('/get_agent',authenticate, async function(req, res, next) {
-    results =await getAgents(req.query.userId);
+    result =await getAgents(req.query.userId);
     if(result.length<=0){
         responce=JSON.stringify({code:'501',message:'user not found',data:''});
     }else{
@@ -156,7 +156,7 @@ router.get('/get_agent',authenticate, async function(req, res, next) {
     
   });
 router.get('/get_agent2',authenticate, async function(req,res,next){
-   
+    results =await getAgents(req.query.userId);
     
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
