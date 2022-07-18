@@ -487,7 +487,7 @@ router.get('/getCabs',async function(req,res,next){
             });*/
     });
 });
-router.get('/getBookingById',function(req,res,next){
+router.get('/getBookingById',authenticate,function(req,res,next){
 
     let bookingId=req.query.bookingId;
     res1=getBookingById(req,(err,results)=>{
@@ -629,6 +629,33 @@ router.post('/success',async function(req,res,next){
     res.json(resData);
 });
 router.get('/prepayment',async function(req,res,next){
+    try {
+        
+        const instance = new Razorpay({
+            key_id: 'rzp_live_lMUNjJZuvH00Im',
+            key_secret: 'cvzKztFIkcdkU7dZbP9iQQSO',
+        });
+        
+        let amount=req.body.amount;
+        let receiptId=req.body.bookingId;
+
+        const options = {
+            amount: amount, // amount in smallest currency unit
+            currency: "INR",
+            receipt: receiptId,
+        };
+
+        const order = await instance.orders.create(options);
+
+        if (!order) return res.status(500).send("Some error occured");
+
+        res.json(order);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+ });
+ 
+router.get('/upload',authenticate,async function(req,res,next){
     try {
         
         const instance = new Razorpay({

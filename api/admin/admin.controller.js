@@ -30,7 +30,7 @@ module.exports={
         //console.log("Here in controleler");
         let results=await getCompletedBookings(pageId); 
          //console.log("datares*=="+JSON.stringify(datares));
-         if(results.length<=0){
+        if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
         }else{
             

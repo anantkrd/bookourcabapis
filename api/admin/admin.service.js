@@ -110,6 +110,27 @@ module.exports={
                 return resolve(results);
             });
         });
-    }
+    },
+    getAgets:async(pageId,callBack)=>{
+        let start=((pageId-1)*5);
+        let perPage=5;
+        sqlcheck="SELECT * FROM prayag.prayag_users where userType='agent' and isDeleted='N'; order by id desc order by id desc limit ?,?";
+        sqlcheckCount="SELECT * FROM prayag.prayag_users where userType='agent' and isDeleted='N'; order by id desc";
+        let resCount=await module.exports.getPageCount(sqlcheckCount,perPage);
+
+        console.log("resCount=="+JSON.stringify(resCount));
+        let rowCount=resCount[0]['rowCount'];        
+        totalPage=rowCount/perPage;
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[start,perPage],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                //results['rowCount']=rowCount;
+                results=JSON.stringify({results:results,rowCount:rowCount,totalPage:totalPage});
+                return resolve(results);
+            });
+        })
+    },
 
 }

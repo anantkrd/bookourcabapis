@@ -144,6 +144,18 @@ router.get('/update_agent_amount',async function(req,res,next){
     results =await updateAgentAmount(req.query.amount,req.query.bookingId);
     res.send(results);
 });  
+
+router.get('/get_agent',async function(req,res,next){
+    results =await getAgents(req.query.userId,req.query.pageId);
+    if(results.length<=0){
+        responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
+    }else{
+        
+        responce=JSON.stringify({code:'200',msg:'',data:results,pageId:pageId});
+    }
+     //return responce; 
+    res.send(responce);
+});  
 /*
 router.get('/update_agent_amount',authenticate, async function(req, res, next) {
     console.log("in update route")
