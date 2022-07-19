@@ -136,7 +136,7 @@ module.exports={
                     return reject(error);
                 }
                 bookingAmount=result[0]['finalAmount'];
-                agentId=result[0]['agentId'];
+                //agentId=result[0]['agentId'];
                 pendingAmount=result[0]['bookingId'];
                 //finalAmount=result[0]['finalAmount'];
                 tripAmount=bookingAmount;
