@@ -145,13 +145,15 @@ module.exports={
                 
                 advance=0;
                 paymentid='';
-                sql="INSERT INTO `prayag_agent_booking`(`agentId`, `bookingId`, `agentAmount`, `advance`,`tripAmount`,`userPaid`, `userPending`, `payToAgent`, `payToAgentType`, `paymentId`) VALUES ('"+agentId+"','"+bookingId+"','"+bookingAmount+"','"+advance+"','"+tripAmount+"','"+userPaid+"','"+pendingAmount+"','0','debit','"+paymentid+"')";
+                sql="INSERT INTO `prayag_agent_booking`(`agentId`, `bookingId`, `agentAmount`, `advance`,`tripAmount`,`userPaid`, `userPending`, `payToAgent`, `payToAgentType`, `paymentId`,`status`) VALUES ('"+agentId+"','"+bookingId+"','"+bookingAmount+"','"+advance+"','"+tripAmount+"','"+userPaid+"','"+pendingAmount+"','0','debit','"+paymentid+"','completed')";
                 pool.query(sql,  (error, elements)=>{     
                     if(error){
                         return reject(error);
                     }           
                 });
+                console.log("Sql==="+sql);
                 sqlUpdateBooking="UPDATE `prayag_booking` SET `agentId`='"+agentId+"',agentPaid='0',`status`='confirm' WHERE orderId='"+bookingId+"'";
+                console.log("sqlUpdateBooking==="+sqlUpdateBooking);
                 pool.query(sqlUpdateBooking,  (error, elements)=>{
                     if(error){
                         return reject(error);
