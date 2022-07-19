@@ -4,7 +4,7 @@ const jwt=require('jsonwebtoken');
 var router = express.Router();
 const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking,getConfirmBooking,
     getAgents}=require('./admin.controller');
-const{addPaymentAgent,updateBookingDetails}=require('./admin.service');
+const{addPaymentAgent,updateBookingDetails,assignAggent}=require('./admin.service');
 const { json } = require('body-parser');
 const authenticate=require("../auth/index");
 var distance = require('google-distance-matrix');
