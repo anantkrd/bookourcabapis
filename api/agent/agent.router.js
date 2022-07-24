@@ -108,6 +108,8 @@ router.get('/get_drivers',async function(req,res,next){
 });
 router.post('/payment',async function(req,res,next){
     
+    //key_id: 'rzp_test_8KHr7ine3uj7uk',
+    //key_secret: 'PLHjPWgp2HTRzkwvTPX9pp41',
     let amount=req.body.amount;
    let receiptId=req.body.bookingId;
    let agentId=req.body.agentId;
@@ -116,8 +118,8 @@ router.post('/payment',async function(req,res,next){
    let tripAmount=req.body.tripAmount;
    let userPaid=req.body.userPaid;
     const instance = new Razorpay({
-        key_id: 'rzp_test_8KHr7ine3uj7uk',
-        key_secret: 'PLHjPWgp2HTRzkwvTPX9pp41',
+        key_id: process.env.paymentId,
+        key_secret: process.env.paymentSecreat,
     });
     console.log("*****************amount**********"+amount);
     

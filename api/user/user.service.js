@@ -2,6 +2,7 @@ const { PayloadTooLarge } = require("http-errors");
 const pool=require("../../config/database");
 var http = require('http');
 var request = require('request');
+var AWS = require('aws-sdk');
 
 
 module.exports={
@@ -73,10 +74,10 @@ module.exports={
            var sqlUpdate="update prayag_otp set isExpired='Y' where mobileNo=? and isExpired='N' and verified='N' and isDeleted='N'";
            await pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
               
-          }) 
+          }); 
           await request.get({ url: url },      function(error, response, body) {
             if (!error && response.statusCode == 200) {
-                //console.log("==otp sent=="+JSON.stringify(response));
+                console.log("==otp sent=="+JSON.stringify(response));
                }
            });
              
@@ -202,4 +203,7 @@ module.exports={
             });
         });
     },
+    sendSms:async(userId,message,mobileNo)=>{
+        let insertSms=""
+    }
 };

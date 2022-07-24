@@ -1,5 +1,6 @@
 const { json } = require('body-parser');
-const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount,getUserByID,getAgentByID}=require('./user.service');
+const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount
+    ,getUserByID,getAgentByID,sendSms}=require('./user.service');
 const {getCabs}=require('../common/cabs');
 const pool = require('../../config/database');
 const jwt=require('jsonwebtoken');
@@ -357,6 +358,23 @@ module.exports={
         //let rows = pool.query("select * from prayag_cabs where isDeleted='N'" );
        console.log("hererer");
        let data=await getBookingSearchLog(userId,pageId); 
+         console.log("datares*=="+JSON.stringify(data));
+         return data;          
+        /*getBookingSearchLog(userId,pageId,(err,results)=>{
+            if(err){
+                responce=JSON.stringify({code:'500',msg:'no record found'+err,data:''});
+               console.log("Res"+responce);
+                return callBack(responce);
+            }else{
+                console.log("getMobile==")
+                return callBack(null,results);                                 
+            }
+        });    */   
+    },
+    sendSms:async(userId,message,mobileNo,callBack)=>{   
+        //let rows = pool.query("select * from prayag_cabs where isDeleted='N'" );
+       console.log("hererer");
+       let data=await sendSms(userId,message,mobileNo); 
          console.log("datares*=="+JSON.stringify(data));
          return data;          
         /*getBookingSearchLog(userId,pageId,(err,results)=>{

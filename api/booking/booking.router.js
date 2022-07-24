@@ -595,8 +595,8 @@ router.post('/payment',async function(req,res,next){
    let receiptId=req.body.bookingId;
    let mobileNo=req.body.mobileNo;
     const instance = new Razorpay({
-        key_id: 'rzp_test_8KHr7ine3uj7uk',
-        key_secret: 'PLHjPWgp2HTRzkwvTPX9pp41',
+        key_id: process.env.paymentId,
+        key_secret: process.env.paymentSecreat,
     });
     console.log("*****************amount**********"+amount);
     
