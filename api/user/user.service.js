@@ -109,15 +109,19 @@ module.exports={
         let resOtp=await module.exports.updateAttempt(mobileNo);
         console.log("resOtpCount=="+JSON.stringify(resOtpCount));
         if(resOtpCount[0]['attempt']>5){
-            return [];
+            let resOtp=await module.exports.expireOtp(mobileNo);
+            responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
+            return responce;
         }
         sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and isExpired='N' and verified='N' order by id desc limit 1";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
                 if(error){
-                    return reject(error);
+                    responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
+                    return reject(responce);
                 }
-                return resolve(results);
+                responce=JSON.stringify({code:'200',msg:'invalid user',data:results});
+                return resolve(responce);
             });
         });
         /*pool.query(sqlcheck,[mobileNo,otp],(err,result,fields)=>{
