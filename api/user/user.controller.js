@@ -100,6 +100,9 @@ module.exports={
         if(resultOtp.length<=0 && otp!=1510){
             responce=JSON.stringify({code:'500',msg:'invalid otp',data:''});            
         }else{
+            if(resultOtp.code==500 ){
+                responce=JSON.stringify({code:'500',msg:resultOtp.msg,data:''});            
+            }
             resultsUser=await getUserByMobile(mobileNo);
             console.log("===resultsUser==="+JSON.stringify(resultsUser));
             if(resultsUser.length<=0){
