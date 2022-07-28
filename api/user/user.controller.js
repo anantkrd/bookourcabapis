@@ -66,6 +66,7 @@ module.exports={
         }else{
             console.log("results==="+JSON.stringify(results));
             resultOtp=await sendOTP(mobileNo);
+            console.log("resultOtp===Controlller"+JSON.stringify(resultOtp));
             if(resultOtp.length<=0){
                 responce=JSON.stringify({code:'500',msg:'user not found===',data:''});                
             }else{
