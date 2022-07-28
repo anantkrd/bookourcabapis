@@ -156,6 +156,7 @@ module.exports={
     },
     validateOtp:async(mobileNo)=>{
         sqlcheck="select attempt from prayag_otp where mobileNo=? and isExpired='N' and verified='N' order by id desc";
+        console.log(mobileNo+"=validateOtp=="+sqlcheck);
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo],  (error, results)=>{
                 if(error){   
