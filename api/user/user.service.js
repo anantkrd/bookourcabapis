@@ -94,12 +94,14 @@ module.exports={
     },
     expireOtp:async(mobileNo)=>{
         var sqlUpdate="update prayag_otp set isExpired='Y' where mobileNo=? and isExpired='N' and verified='N' and isDeleted='N'";
-           await pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
-            if(err){
-                return reject(err);
-            }
-            return resolve(result);
-          }); 
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlUpdate,[mobileNo],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        }); 
     },
     verifyOtp:async(mobileNo,otp)=>{        
         let resOtp=await module.exports.validateOtp(mobileNo);
