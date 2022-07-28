@@ -130,7 +130,7 @@ module.exports={
             }            
         })*/
     },    
-    updateAttempt:async()=>{
+    updateAttempt:async(mobileNo)=>{
         var sqlUpdate="update prayag_otp set attempt=attempt+1 where mobileNo=? and isExpired='N' and verified='N'";
                     console.log(sqlUpdate+"=resOtp=="+mobileNo);
         return new Promise((resolve, reject)=>{
