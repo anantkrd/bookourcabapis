@@ -106,7 +106,7 @@ module.exports={
     verifyOtp:async(mobileNo,otp)=>{        
         let resOtp=await module.exports.validateOtp(mobileNo);
         console.log("resOtp=="+JSON.stringify(resOtp));
-        sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and verified='N' order by id desc limit 1";
+        sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and isExpired='N' and verified='N' order by id desc limit 1";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
                 if(error){
@@ -133,7 +133,7 @@ module.exports={
         })*/
     },    
     validateOtp:async(mobileNo)=>{
-        sqlcheck="select attempt from prayag_otp where mobileNo=? and verified='N' order by id desc";
+        sqlcheck="select attempt from prayag_otp where mobileNo=? and isExpired='N' and verified='N' order by id desc";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo],  (error, results)=>{
                 if(error){                    
