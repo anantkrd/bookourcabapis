@@ -108,7 +108,7 @@ module.exports={
         
         let resOtp=await module.exports.updateAttempt(mobileNo);
         console.log("resOtpCount=="+JSON.stringify(resOtpCount));
-        if(resOtpCount[0]['attempt']>5){
+        if(resOtpCount.length==0 || resOtpCount[0]['attempt']>5){
             let resOtp=await module.exports.expireOtp(mobileNo);
             responce=JSON.stringify({code:'500',msg:'OTP Expire',data:''});
             return responce;
@@ -146,9 +146,9 @@ module.exports={
                     console.log(sqlUpdate+"=resOtp=="+mobileNo);
         return new Promise((resolve, reject)=>{
             pool.query(sqlUpdate,[mobileNo],  (error, results)=>{
-                if(error){
-                    
-                    return reject(error);
+                if(error){                    
+                    results=[];      
+                    return reject(results);
                 }
                 return resolve(results);
             });
@@ -158,8 +158,9 @@ module.exports={
         sqlcheck="select attempt from prayag_otp where mobileNo=? and isExpired='N' and verified='N' order by id desc";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo],  (error, results)=>{
-                if(error){                    
-                    return reject(error);
+                if(error){   
+                    results=[];      
+                    return reject(results);
                 }
                 return resolve(results);
             });
