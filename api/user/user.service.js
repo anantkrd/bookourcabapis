@@ -110,7 +110,7 @@ module.exports={
         console.log("resOtpCount=="+JSON.stringify(resOtpCount));
         if(resOtpCount[0]['attempt']>5){
             let resOtp=await module.exports.expireOtp(mobileNo);
-            responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
+            responce=JSON.stringify({code:'500',msg:'OTP Expire',data:''});
             return responce;
         }
         sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and isExpired='N' and verified='N' order by id desc limit 1";
@@ -120,7 +120,7 @@ module.exports={
                     responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
                     return reject(responce);
                 }
-                responce=JSON.stringify({code:'200',msg:'invalid user',data:results});
+                responce=JSON.stringify({code:'200',msg:'',data:results});
                 return resolve(responce);
             });
         });
