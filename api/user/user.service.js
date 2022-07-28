@@ -104,18 +104,15 @@ module.exports={
         }); 
     },
     verifyOtp:async(mobileNo,otp)=>{        
-        let resOtp=await module.exports.validateOtp(mobileNo);
+        let resOtpCount=await module.exports.validateOtp(mobileNo);
+        
+        let resOtp=await module.exports.updateAttempt(mobileNo);
         console.log("resOtp=="+JSON.stringify(resOtp));
+        
         sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and isExpired='N' and verified='N' order by id desc limit 1";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
                 if(error){
-                    var sqlUpdate="update prayag_otp set attempt=attempt+1 where mobileNo=? and isExpired='N' and verified='N'";
-                    console.log(sqlUpdate+"=resOtp=="+mobileNo);
-                    pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
-                        
-                    });   
-                    
                     return reject(error);
                 }
                 return resolve(results);
@@ -133,6 +130,19 @@ module.exports={
             }            
         })*/
     },    
+    updateAttempt:async()=>{
+        var sqlUpdate="update prayag_otp set attempt=attempt+1 where mobileNo=? and isExpired='N' and verified='N'";
+                    console.log(sqlUpdate+"=resOtp=="+mobileNo);
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlUpdate,[mobileNo],  (error, results)=>{
+                if(error){
+                    
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
+    },
     validateOtp:async(mobileNo)=>{
         sqlcheck="select attempt from prayag_otp where mobileNo=? and isExpired='N' and verified='N' order by id desc";
         return new Promise((resolve, reject)=>{
