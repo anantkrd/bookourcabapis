@@ -125,7 +125,8 @@ module.exports={
                 if(!results || results.length==0 ||results=='' ||results==undefined || results==null){
                     responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
                     return reject(responce);
-                }else{                    
+                }else{   
+                    let resOtp=await module.exports.verifiedUpdate(mobileNo,otp);                 
                     responce=JSON.stringify({code:'200',msg:'',data:results});
                     return resolve(responce);
                 }
@@ -143,6 +144,19 @@ module.exports={
             }            
         })*/
     },    
+    verifiedUpdate:async(mobileNo,otp)=>{
+        var sqlUpdate="update prayag_otp set verified='Y' where mobileNo=? and otp=?";
+                   // console.log(sqlUpdate+"=resOtp=="+mobileNo);
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlUpdate,[mobileNo,otp],  (error, results)=>{
+                if(error){                    
+                    results=[];      
+                    return reject(results);
+                }
+                return resolve(results);
+            });
+        });
+    },
     updateAttempt:async(mobileNo)=>{
         var sqlUpdate="update prayag_otp set attempt=attempt+1 where mobileNo=? and isExpired='N' and verified='N'";
                    // console.log(sqlUpdate+"=resOtp=="+mobileNo);
