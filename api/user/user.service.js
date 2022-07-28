@@ -111,6 +111,7 @@ module.exports={
             pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
                 if(error){
                     var sqlUpdate="update prayag_otp set attempt=attempt+1 where mobileNo=? and isExpired='N' and verified='N'";
+                    console.log(sqlUpdate+"=resOtp=="+mobileNo);
                     pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
                         
                     });   
