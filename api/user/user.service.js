@@ -117,11 +117,16 @@ module.exports={
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
                 if(error){
-                    responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
+                    responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
                     return reject(responce);
                 }
-                responce=JSON.stringify({code:'200',msg:'',data:results});
-                return resolve(responce);
+                if(results.length>0){
+                    responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
+                    return reject(responce);
+                }else{                    
+                    responce=JSON.stringify({code:'200',msg:'',data:results});
+                    return resolve(responce);
+                }
             });
         });
         /*pool.query(sqlcheck,[mobileNo,otp],(err,result,fields)=>{
