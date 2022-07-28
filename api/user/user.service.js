@@ -121,6 +121,7 @@ module.exports={
                     responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
                     return reject(responce);
                 }
+                console.log("sqlcheck results=="+results)
                 if(results.length==0){
                     responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
                     return reject(responce);
