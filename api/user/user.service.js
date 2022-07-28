@@ -116,7 +116,7 @@ module.exports={
         sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and isExpired='N' and verified='N' order by id desc limit 1";
         console.log("sqlcheck=="+sqlcheck)
         return new Promise((resolve, reject)=>{
-            pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
+            pool.query(sqlcheck,[mobileNo,otp],  async(error, results)=>{
                 if(error){
                     responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
                     return reject(responce);
