@@ -95,10 +95,10 @@ module.exports={
     expireOtp:async(mobileNo)=>{
         var sqlUpdate="update prayag_otp set isExpired='Y' where mobileNo=? and isExpired='N' and verified='N' and isDeleted='N'";
            await pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
-            if(error){
-                return reject(error);
+            if(err){
+                return reject(err);
             }
-            return resolve(results);
+            return resolve(result);
           }); 
     },
     verifyOtp:async(mobileNo,otp)=>{        
