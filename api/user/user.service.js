@@ -71,29 +71,35 @@ module.exports={
         var msg='your otp to login with prayag tourse & travels is '+otp;
         var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
            //console.log(url); 
-           var sqlUpdate="update prayag_otp set isExpired='Y' where mobileNo=? and isExpired='N' and verified='N' and isDeleted='N'";
-           await pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
-            var sql="INSERT INTO prayag_otp (mobileNo, otp) VALUES (?,?)";
-            return new Promise((resolve, reject)=>{
-                pool.query(sql,[mobileNo,otp],  (error, results)=>{
-                    if(error){
-                        return reject(error);
-                    }
-                    return resolve(results);
-                });
-            });
-          }); 
+           let resOtp=await module.exports.expireOtp(mobileNo);
           await request.get({ url: url },      function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("==otp sent=="+JSON.stringify(response));
                }
            });
              
-        
+        var sql="INSERT INTO prayag_otp (mobileNo, otp) VALUES (?,?)";
+        return new Promise((resolve, reject)=>{
+            pool.query(sql,[mobileNo,otp],  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
         /*pool.query(sql,[mobileNo,otp],(err,result,fields)=>{
             if(err)return callBack(err);
             return callBack(null,result);
         })*/
+    },
+    expireOtp:async(mobileNo)=>{
+        var sqlUpdate="update prayag_otp set isExpired='Y' where mobileNo=? and isExpired='N' and verified='N' and isDeleted='N'";
+           await pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
+            if(error){
+                return reject(error);
+            }
+            return resolve(results);
+          }); 
     },
     verifyOtp:async(mobileNo,otp)=>{        
         let resOtp=await module.exports.validateOtp(mobileNo);
