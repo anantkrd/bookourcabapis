@@ -120,7 +120,7 @@ module.exports={
                     responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
                     return reject(responce);
                 }
-                if(results.length>0){
+                if(results.length==0){
                     responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
                     return reject(responce);
                 }else{                    
