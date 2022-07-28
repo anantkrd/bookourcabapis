@@ -130,7 +130,7 @@ module.exports={
                     return resolve(responce);
                 }
             })
-        }).catch(error=>{responce=JSON.stringify({code:'500',msg:'invalid OTP',data:error});});
+        }).catch(error=>{return responce=JSON.stringify({code:'500',msg:'invalid OTP',data:error});});
         /*pool.query(sqlcheck,[mobileNo,otp],(err,result,fields)=>{
             if(err){
                 return callBack(err);
