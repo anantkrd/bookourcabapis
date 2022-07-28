@@ -107,7 +107,7 @@ module.exports={
         let resOtpCount=await module.exports.validateOtp(mobileNo);
         
         let resOtp=await module.exports.updateAttempt(mobileNo);
-        console.log("resOtp=="+JSON.stringify(resOtp));
+        console.log("resOtpCount=="+JSON.stringify(resOtpCount));
         
         sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and isExpired='N' and verified='N' order by id desc limit 1";
         return new Promise((resolve, reject)=>{
