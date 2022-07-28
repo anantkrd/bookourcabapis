@@ -110,8 +110,8 @@ module.exports={
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
                 if(error){
-                    var sqlUpdate="update prayag_otp set attempt=attempt+1 where mobileNo=? and otp=?";
-                    pool.query(sqlUpdate,[mobileNo,otp],(err,result,fields)=>{            
+                    var sqlUpdate="update prayag_otp set attempt=attempt+1 where mobileNo=? and isExpired='N' and verified='N'";
+                    pool.query(sqlUpdate,[mobileNo],(err,result,fields)=>{            
                         
                     });   
                     
