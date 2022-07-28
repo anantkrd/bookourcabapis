@@ -129,8 +129,8 @@ module.exports={
                     responce=JSON.stringify({code:'200',msg:'',data:results});
                     return resolve(responce);
                 }
-            });
-        });
+            })
+        }).catch(error=>{responce=JSON.stringify({code:'500',msg:'invalid OTP',data:error});});
         /*pool.query(sqlcheck,[mobileNo,otp],(err,result,fields)=>{
             if(err){
                 return callBack(err);
