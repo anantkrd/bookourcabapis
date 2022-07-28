@@ -108,7 +108,9 @@ module.exports={
         
         let resOtp=await module.exports.updateAttempt(mobileNo);
         console.log("resOtpCount=="+JSON.stringify(resOtpCount));
-        
+        if(resOtpCount[0]['attempt']>5){
+            return [];
+        }
         sqlcheck="select * from prayag_otp where mobileNo=? and otp=? and isExpired='N' and verified='N' order by id desc limit 1";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[mobileNo,otp],  (error, results)=>{
