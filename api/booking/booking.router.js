@@ -253,12 +253,13 @@ router.get('/getCabs',async function(req,res,next){
                     
                     finalRate=rate+earlyBookingCharges;
                     image=results[i]['image'];
-                    ImgJson=results[i]['images'];
-                    imageArray=JSON.parse(ImgJson);
+                    imageArray=results[i]['images'];
+                    //imageArray=JSON.parse(ImgJson);
                     console.log("imageArray=="+JSON.stringify(imageArray));
                     let max=imageArray.length;
                     let  min=0;
                     let imageNo=Math.floor(Math.random() * (max - min + 1)) + min;
+                    console.log("imageNo=="+imageNo);
                     image=imageArray[imageNo];
                     ac=results[i]['ac'];
                     bags=results[i]['bags'];
