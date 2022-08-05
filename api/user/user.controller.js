@@ -148,13 +148,14 @@ module.exports={
         resultOtp=await verifyPassword(mobileNo,password);  
         resultOtp=JSON.parse(resultOtp);
         console.log("Verify resultOtp==="+JSON.stringify(resultOtp));
-        if(resultOtp.length<=0 && otp!=1510){
+        if(resultOtp.code!=200){
             responce=JSON.stringify({code:'500',msg:'invalid otp',data:''});            
         }else{
             if(resultOtp.code==500 ){
                 responce=JSON.stringify({code:'500',msg:resultOtp.msg,data:''});            
             }else{
-                const token= jwt.sign({ id: resultOtp[0]['id'] }, process.env.secrete);
+                let resObj=resultOtp.data;
+                const token= jwt.sign({ id:resObj[0]['id'] }, process.env.secrete);
                     //console.log("token=="+token);
                 resultOtp[0]['token']=token;   
                 responce=JSON.stringify({code:'200',msg:'',data:resultOtp});
