@@ -262,7 +262,7 @@ router.get('/getCabs',async function(req,res,next){
                     let  min=0;
                     let imageNo=Math.floor(Math.random() * (max - min + 1)) + min;
                     console.log("imageNo=="+imageNo);
-                    image=imageArray[imageNo];
+                    image=imageArray[0];
                     ac=results[i]['ac'];
                     bags=results[i]['bags'];
                     cars=results[i]['cars'];
