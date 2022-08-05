@@ -255,6 +255,7 @@ router.get('/getCabs',async function(req,res,next){
                     image=results[i]['image'];
                     imageArray=results[i]['images'];
                     imageArray=JSON.stringify(imageArray);
+                    imageArray=JSON.parse(imageArray);
                     console.log("imageArray=="+(imageArray));
                     let max=imageArray.length;
                     console.log("Max=="+max);
