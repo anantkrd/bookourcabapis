@@ -166,8 +166,7 @@ module.exports={
                 if(!results || results.length==0 ||results=='' ||results==undefined || results==null){
                     responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
                     return reject(responce);
-                }else{   
-                    let resOtp=await module.exports.verifiedUpdate(mobileNo,otp);                 
+                }else{                
                     responce=JSON.stringify({code:'200',msg:'',data:results});
                     return resolve(responce);
                 }
