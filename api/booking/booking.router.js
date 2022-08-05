@@ -253,7 +253,8 @@ router.get('/getCabs',async function(req,res,next){
                     
                     finalRate=rate+earlyBookingCharges;
                     image=results[i]['image'];
-                    imageArray=results[i]['images'];
+                    ImgJson=results[i]['images'];
+                    imageArray=JSON.parse(ImgJson);
                     console.log("imageArray=="+JSON.stringify(imageArray));
                     let max=imageArray.length;
                     let  min=0;
