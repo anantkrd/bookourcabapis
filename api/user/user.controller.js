@@ -157,8 +157,8 @@ module.exports={
                 let resObj=resultOtp.data;
                 const token= jwt.sign({ id:resObj[0]['id'] }, process.env.secrete);
                     //console.log("token=="+token);
-                resultOtp[0]['token']=token;   
-                responce=JSON.stringify({code:'200',msg:'',data:resultOtp});
+                resultOtp.data[0]['token']=token;   
+                responce=resultOtp;//JSON.stringify({code:'200',msg:'',data:resultOtp});
 
             }
         }
