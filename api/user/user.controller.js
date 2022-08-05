@@ -154,7 +154,7 @@ module.exports={
             if(resultOtp.code==500 ){
                 responce=JSON.stringify({code:'500',msg:resultOtp.msg,data:''});            
             }else{
-                const token= jwt.sign({ id: resultsUser[0]['id'] }, process.env.secrete);
+                const token= jwt.sign({ id: resultOtp[0]['id'] }, process.env.secrete);
                     //console.log("token=="+token);
                 resultOtp[0]['token']=token;   
                 responce=JSON.stringify({code:'200',msg:'',data:resultOtp});
