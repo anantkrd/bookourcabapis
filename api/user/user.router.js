@@ -3,7 +3,7 @@ const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 var router = express.Router();
 const{createUser,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,
-    getBookingSearchLog,getUserByID,getAgentByID}=require('./user.controller');
+    getBookingSearchLog,getUserByID,getAgentByID,verifyPassword}=require('./user.controller');
 const { json } = require('body-parser');
 const authenticate=require("../auth/index");
 
@@ -118,6 +118,12 @@ router.get('/create_user', async function(req, res, next) {
         }
         res.send(responce);
     }); */
+    
+  });
+  router.get('/user_login', async function(req, res, next) {
+    responce =await verifyPassword(req.query.mobileNo,req.query.userPassword);
+    res.send(responce);
+    
     
   });
   

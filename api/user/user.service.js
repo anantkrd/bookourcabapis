@@ -46,7 +46,8 @@ module.exports={
             pool.query(sqlcheck,[mobileNo],  (error, results)=>{
                 if(error){
                     console.log("error=="+error);
-                    return reject(error);
+                    results=[];      
+                    return reject(results);
                 }
                 return resolve(results);
             });
@@ -67,6 +68,12 @@ module.exports={
         });
     },
     sendOTP:async(mobileNo)=>{
+        let CheckUser=await module.exports.getUserByMobile(mobileNo);
+        if(CheckUser.length==0){
+            response=JSON.stringify({code:'500',msg:'User Not found',data:''});
+            return response;
+        }
+        
         let otp=Math.round(Math.random() * (9999 -1000 ) + 1000);
         var msg='your otp to login with prayag tourse & travels is '+otp;
         var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
@@ -124,6 +131,40 @@ module.exports={
                 console.log("sqlcheck results=="+results)
                 if(!results || results.length==0 ||results=='' ||results==undefined || results==null){
                     responce=JSON.stringify({code:'500',msg:'invalid OTP',data:''});
+                    return reject(responce);
+                }else{   
+                    let resOtp=await module.exports.verifiedUpdate(mobileNo,otp);                 
+                    responce=JSON.stringify({code:'200',msg:'',data:results});
+                    return resolve(responce);
+                }
+            })
+        }).catch(error=>{return responce=JSON.stringify({code:'500',msg:'invalid OTP',data:error});});
+        /*pool.query(sqlcheck,[mobileNo,otp],(err,result,fields)=>{
+            if(err){
+                return callBack(err);
+            }else{
+                var sqlUpdate="update prayag_otp set verified='Y' where mobileNo=? and otp=?";
+                pool.query(sqlUpdate,[mobileNo,otp],(err,result,fields)=>{            
+                    
+                });   
+                return callBack(null,result);
+            }            
+        })*/
+    }, 
+    
+    verifyPassword:async(mobileNo,password)=>{        
+        
+        sqlcheck="select * from prayag_users where mobileNo=? and userPassword=? and status='active' and isDeleted='N' order by id desc limit 1";
+        console.log("sqlcheck=="+sqlcheck)
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,[mobileNo,password],  async(error, results)=>{
+                if(error){
+                    responce=JSON.stringify({code:'500',msg:'invalid mobile no or password',data:''});
+                    return reject(responce);
+                }                           
+                console.log("sqlcheck results=="+results)
+                if(!results || results.length==0 ||results=='' ||results==undefined || results==null){
+                    responce=JSON.stringify({code:'500',msg:'invalid user',data:''});
                     return reject(responce);
                 }else{   
                     let resOtp=await module.exports.verifiedUpdate(mobileNo,otp);                 

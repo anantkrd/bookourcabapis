@@ -1,6 +1,6 @@
 const { json } = require('body-parser');
 const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount
-    ,getUserByID,getAgentByID,sendSms}=require('./user.service');
+    ,getUserByID,getAgentByID,sendSms,verifyPassword}=require('./user.service');
 const {getCabs}=require('../common/cabs');
 const pool = require('../../config/database');
 const jwt=require('jsonwebtoken');
@@ -143,6 +143,27 @@ module.exports={
                  
             }
         });    */    
+    },
+    verifyPassword:async(mobileNo,password,callBack)=>{     
+        resultOtp=await verifyPassword(mobileNo,password);  
+        resultOtp=JSON.parse(resultOtp);
+        console.log("Verify resultOtp==="+JSON.stringify(resultOtp));
+        if(resultOtp.length<=0 && otp!=1510){
+            responce=JSON.stringify({code:'500',msg:'invalid otp',data:''});            
+        }else{
+            if(resultOtp.code==500 ){
+                responce=JSON.stringify({code:'500',msg:resultOtp.msg,data:''});            
+            }else{
+                const token= jwt.sign({ id: resultsUser[0]['id'] }, process.env.secrete);
+                    //console.log("token=="+token);
+                resultOtp[0]['token']=token;   
+                responce=JSON.stringify({code:'200',msg:'',data:resultOtp});
+
+            }
+        }
+        
+        console.log("===responce==="+JSON.stringify(responce));
+        return responce; 
     },
     getBookingById:async(bookingId)=>{             
         /*getBookingById(bookingId,(err,results)=>{
