@@ -155,8 +155,9 @@ module.exports={
                 responce=JSON.stringify({code:'500',msg:resultOtp.msg,data:''});            
             }else{
                 let resObj=resultOtp.data;
+                console.log("Userid=="+JSON.stringify(resObj));
                 const token= jwt.sign({ id:resObj[0]['id'] }, process.env.secrete);
-                    //console.log("token=="+token);
+                    console.log("token=="+token);
                 resultOtp.data[0]['token']=token;   
                 responce=resultOtp;//JSON.stringify({code:'200',msg:'',data:resultOtp});
 
