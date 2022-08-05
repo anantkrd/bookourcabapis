@@ -257,7 +257,7 @@ router.get('/getCabs',async function(req,res,next){
                     //imageArray=JSON.stringify(imageArray);
                     imageArray=JSON.parse(imageArray);
                     console.log("imageArray=="+(imageArray));
-                    let max=imageArray.length;
+                    let max=imageArray.length-1;
                     console.log("Max=="+max);
                     let  min=0;
                     let imageNo=Math.floor(Math.random() * (max - min + 1)) + min;
