@@ -8,7 +8,7 @@ var AWS = require('aws-sdk');
 module.exports={
     create:async(data,callBack)=>{
         sqlcheck="select * from prayag_users where mobileNo=?";
-        var sql="INSERT INTO prayag_users (firstName, lastName,mobileNo,email,userType,status) VALUES (?,?,?,?,?,?)";
+        var sql="INSERT INTO prayag_users (firstName, lastName,mobileNo,email,userPassword,userType,status) VALUES (?,?,?,?,?,?,?)";
         //users=[[fName,lName,mobileNo,email,'Active']];
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[data.mobileNo],  (error, results)=>{
@@ -16,7 +16,7 @@ module.exports={
                     let json={code:401,msg:'user already exist'}
                     return reject(json);
                 }else{
-                    pool.query(sql,[data.fname,data.lname,data.mobileNo,data.email,data.type,'Active'],  (error, results)=>{
+                    pool.query(sql,[data.fname,data.lname,data.mobileNo,data.email,data.mobileNo,data.type,'Active'],  (error, results)=>{
                         if(error){
                             return reject(error);
                         }
