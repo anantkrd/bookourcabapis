@@ -11,13 +11,23 @@ module.exports={
         console.log("sqlBookin==="+sqlBooking);
         
         console.log("booking===="+JSON.stringify(booking));
-        pool.query(sqlBooking,booking,(err,results,fields)=>{
+        
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlBooking, booking, (error, elements)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(elements);
+            });
+        });
+
+        /*pool.query(sqlBooking,booking,(err,results,fields)=>{
             if(err){
                 return callBack(err);
             }else{
                 return callBack(null,results);
             }
-        });
+        });*/
     },
     createSearchLog:(data,callBack)=>{
         let returndate=data.returnDate;

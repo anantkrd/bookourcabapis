@@ -2,12 +2,15 @@ const { json } = require('body-parser');
 const{create,getCabs,createSearchLog}=require('./booking.service');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 module.exports={
-    create_booking:(data,callBack)=>{
-        console.log("data===="+JSON.stringify(data));
+    create_booking:(data)=>{
+        let datares=await create(data); 
+         console.log("created Booking*=="+JSON.stringify(datares));
+         return datares;
+        /*console.log("data===="+JSON.stringify(data));
         create(data,(err,results)=>{
             if(err)return callBack(err);
             return callBack(null,results);
-        });
+        });*/
     },
     create_booking_log:(data,callBack)=>{
         console.log("data===="+JSON.stringify(data));

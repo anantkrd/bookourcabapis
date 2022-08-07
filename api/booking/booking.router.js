@@ -61,7 +61,13 @@ router.get('/book_cab', async function(req,res,next){
                             payment_orderId:req.query.payment_orderId,pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
                             dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState}
                         console.log("logData***2*==="+JSON.stringify(body));
-                        create_booking(body,(err,results)=>{
+                        let BookingRe=await create_booking(body);
+                        if(results.length<=0){
+                            responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
+                        }else{
+                            responce=JSON.stringify({code:'200',msg:'success',data:results.insertId});
+                        }
+                        /*create_booking(body,(err,results)=>{
                             if(err){
                                 error=err;
                                 responce=JSON.stringify({code:'500',msg:'some internal error'+err,data:''});
@@ -72,8 +78,9 @@ router.get('/book_cab', async function(req,res,next){
                             }
                             //res.send(responce);
 
-                        });
+                        });*/
         }
+        console.log("Return responce with create user:"+JSON.stringify(responce));
         res.send(responce);
     }else{
         userId=results[0]['id'];
@@ -95,6 +102,7 @@ router.get('/book_cab', async function(req,res,next){
                 }
                 res.send(responce);
             });
+            console.log("Return responce :"+JSON.stringify(responce));
     }
     /*res1=await getUserByMobile(req.query.mobileNo,(err,results)=>{
         if(err){
