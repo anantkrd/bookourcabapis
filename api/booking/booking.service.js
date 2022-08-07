@@ -1,6 +1,6 @@
 const pool=require('../../config/database');
 module.exports={
-    create:(data,callBack)=>{
+    create:async(data)=>{
         let returndate=data.returnDate;
         if(returndate==null || returndate==""){
             returndate='0000-00-00 00:00:00';

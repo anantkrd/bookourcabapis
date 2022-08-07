@@ -2,7 +2,7 @@ const { json } = require('body-parser');
 const{create,getCabs,createSearchLog}=require('./booking.service');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 module.exports={
-    create_booking:(data)=>{
+    create_booking:async(data)=>{
         let datares=await create(data); 
          console.log("created Booking*=="+JSON.stringify(datares));
          return datares;
