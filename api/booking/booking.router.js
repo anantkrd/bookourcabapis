@@ -89,8 +89,14 @@ router.get('/book_cab', async function(req,res,next){
             destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,payment_orderId:req.query.payment_orderId,
             pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
             dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState}
-            
-            create_booking(body,(err,results)=>{
+            let BookingRe=await create_booking(body);
+                        if(results.length<=0){
+                            responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
+                        }else{
+                            responce=JSON.stringify({code:'200',msg:'success',data:results.insertId});
+                        }
+                        res.send(responce);
+            /*create_booking(body,(err,results)=>{
                 if(err){
                     responce=JSON.stringify({code:'500',msg:'some internal error 2'+err,data:''});
                     
@@ -101,7 +107,7 @@ router.get('/book_cab', async function(req,res,next){
                     //res.send(responce);                      
                 }
                 res.send(responce);
-            });
+            });*/
             console.log("Return responce :"+JSON.stringify(responce));
     }
     /*res1=await getUserByMobile(req.query.mobileNo,(err,results)=>{
