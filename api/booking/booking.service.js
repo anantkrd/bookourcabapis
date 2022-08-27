@@ -1,5 +1,6 @@
 const pool=require('../../config/database');
 var request = require('request');
+const moment = require('moment');
 module.exports={
     create:async(data)=>{
         let returndate=data.returnDate;
@@ -130,13 +131,22 @@ module.exports={
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  async(error, result)=>{
-                console.log("result==="+JSON.stringify(result));
+                console.log("result booking query==="+JSON.stringify(result));
                 userMobileNo=result[0]['userMobileNo'];
                 userName=result[0]['userName'];
                 pickupCityName=result[0]['pickupCityName'];
                 dropCityName=result[0]['dropCityName'];
-                pickupDate=result[0]['pickupDate'];
-                returnDate=result[0]['returnDate'];
+                pickupDate='';
+                if(result[0]['pickupDate']!=''){
+                    pickupDate=result[0]['pickupDate'];
+                    pickupDate=moment(pickupDate).format('llll');
+                }
+                
+                returnDate='';
+                if(result[0]['returnDate']!=''){
+                    returnDate=result[0]['returnDate'];
+                    returnDate=moment(returnDate).format('llll');
+                }
                 orderId=result[0]['orderId'];
                 var msg='Thank You For booking with Bookourcar, '+userName+' here is your trip details Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate;
                 //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
