@@ -53,7 +53,6 @@ module.exports={
     },
     getCabs:async(data,callBack)=>{
         
-        console.log("sendSms=="+JSON.stringify(sendSms));
         sql="select * from prayag_cabs where isDeleted='N'";
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
