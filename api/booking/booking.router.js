@@ -275,12 +275,12 @@ router.get('/getCabs',async function(req,res,next){
                     imageArray=results[i]['images'];
                     //imageArray=JSON.stringify(imageArray);
                     imageArray=JSON.parse(imageArray);
-                    console.log("imageArray=="+(imageArray));
+                    //console.log("imageArray=="+(imageArray));
                     let max=imageArray.length-1;
-                    console.log("Max=="+max);
+                    //console.log("Max=="+max);
                     let  min=0;
                     let imageNo=Math.floor(Math.random() * (max - min + 1)) + min;
-                    console.log("imageNo=="+imageNo);
+                    //console.log("imageNo=="+imageNo);
                     image=imageArray[imageNo];
                     ac=results[i]['ac'];
                     bags=results[i]['bags'];
@@ -309,7 +309,7 @@ router.get('/getCabs',async function(req,res,next){
                         if(tripDays>1){
                             calculateKm=PerDayKm*tripDays;
                         }
-                        console.log(distanceValue+"=====tripDays*****************: " + tripDays+"======calculateKm==="+calculateKm);  
+                        //console.log(distanceValue+"=====tripDays*****************: " + tripDays+"======calculateKm==="+calculateKm);  
                         if(calculateKm>distanceValue)
                         {
                             distanceValue=calculateKm;
@@ -322,17 +322,17 @@ router.get('/getCabs',async function(req,res,next){
                     
                     let cabTypecheck=cabType.toLowerCase();
                     console.log("=returnDateTime="+returnDateTime+"+==multiply="+multiply+"==cabTypecheck=="+cabType);
-                    console.log("surgePickpuResult==="+JSON.stringify(surgePickpuResult));
-                    console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
+                    //console.log("surgePickpuResult==="+JSON.stringify(surgePickpuResult));
+                    //console.log("surgedestinationResult==="+JSON.stringify(surgedestinationResult));
                     surgePrice=0;
                     if(isReturnTrip=='N'){
                         if(cabTypecheck!=""){
                             let surgeDataPickup=surgePickpuResult[0]['surge'];
                             let surgeDataPickupObj=JSON.parse(surgeDataPickup);
-                            console.log("surgeData Pick============="+surgeDataPickupObj+"====="+surgeDataPickupObj[cabType]);
+                            //console.log("surgeData Pick============="+surgeDataPickupObj+"====="+surgeDataPickupObj[cabType]);
                             let surgeDataDrop=surgedestinationResult[0]['surge'];
                             let surgeDataDropObj=JSON.parse(surgeDataDrop);
-                            console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
+                            //console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
                             if(tripType=='local')
                             {
                                 surgePrice=surgeDataPickupObj['local'];
@@ -426,10 +426,10 @@ router.get('/getCabs',async function(req,res,next){
             }
             const logData={mobileNo:mobileNo,pickup:pickupCity,destination:destinationCity,pickupDate:pickdateTime,returnDate:returnDateTime,pickupLat:originlat,pickupLong:originlng,destinationLat:destinationlat,destinationLong:destinationlng,distance:distanceValue,
                 journyTime:journyTime1,sedanRate:sedanPrice,luxuryRate:luxuryPrice,compactRate:compactPrice}
-            console.log("logData==="+JSON.stringify(logData));
+            //console.log("logData==="+JSON.stringify(logData));
             create_booking_log(logData,(err,results)=>{
-                console.log("create_booking_log Error====="+err);
-                console.log("create_booking_log results====="+JSON.stringify(results));
+                //console.log("create_booking_log Error====="+err);
+                //console.log("create_booking_log results====="+JSON.stringify(results));
             });
             res.send(responce);
             
