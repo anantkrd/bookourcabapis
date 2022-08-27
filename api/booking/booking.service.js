@@ -144,7 +144,7 @@ module.exports={
                    //console.log(url); 
                    //let resOtp=await module.exports.expireOtp(mobileNo);
                   await request.get({ url: url },      function(error, response, body) {
-                    console.log("SMs Res: "+JSON.stringify(response));
+                    //console.log("SMs Res: "+JSON.stringify(response));
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
                        }

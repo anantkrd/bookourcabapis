@@ -250,7 +250,7 @@ router.get('/getCabs',async function(req,res,next){
             let surgePickpuResult=await getSurge(pickupDistrict,pickupcityName);
             let destinationcityName=destinationCity.split(",")[0]
             let surgedestinationResult=await getSurge(dropDistrict,destinationcityName);
-            console.log(distancekm+"**************surgeResult===");
+            //console.log(distancekm+"**************surgeResult===");
             
             let results=await getCabs(req);
             distanceValue=distancekm;
@@ -429,7 +429,7 @@ router.get('/getCabs',async function(req,res,next){
             console.log("logData==="+JSON.stringify(logData));
             create_booking_log(logData,(err,results)=>{
                 console.log("create_booking_log Error====="+err);
-                console.log("create_booking_log results====="+results);
+                console.log("create_booking_log results====="+JSON.stringify(results));
             });
             res.send(responce);
             
