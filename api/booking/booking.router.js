@@ -181,7 +181,7 @@ router.get('/book_cab', async function(req,res,next){
 });
 router.get('/getCabs',async function(req,res,next){
 
-    console.log("herere");
+   // console.log("herere");
     distance.key('AIzaSyDzlGIoqMbQKaNwu1tCMXCtW3UEjzCfUvs');
     distance.mode('driving');
     console.log(req);
@@ -303,7 +303,7 @@ router.get('/getCabs',async function(req,res,next){
                         finalRate=returnTripRate;
                         originalRate=returnTripRate;
                         isReturnTrip='Y';
-                        tripDays=moment(returnDateTime).diff(moment(pickdateTime), 'days');
+                        tripDays=moment(returnDateTime).diff(moment(pickdateTime), 'days')+1;
                         let calculateKm=0;    
                                       
                         if(tripDays>1){
