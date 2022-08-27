@@ -76,7 +76,7 @@ module.exports={
                 console.log("errorerror==="+elements)
                 if(elements=='' || elements.length<=0){
                     console.log("No elements")
-                    let json=[{"city":"Pune","surge":'{"Compact":1,"Sedan":1,"Luxury":1,"SUVErtiga":1,"Innova":1,"InnovaCrysta":1,"other":1}'}]
+                    let json=[{"city":"Pune","surge":'{"Compact":1,"Sedan":1,"Luxury":1,"SUVErtiga":1,"Innova":1,"InnovaCrysta":1,"other":1,"local":20}'}]
                     return resolve(json);
                 }
                 console.log(JSON.stringify(elements))
