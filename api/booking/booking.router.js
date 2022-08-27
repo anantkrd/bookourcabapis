@@ -59,7 +59,7 @@ router.get('/book_cab', async function(req,res,next){
                         const body={userId:userId,userName:userName,email:req.query.email,orderId:orderId,cabId:req.query.cabId,pickup:req.query.pickup,destination:req.query.destination,pickupDate:req.query.pickupDate,returnDate:req.query.returnDate,isReturn:req.query.isReturn,pickupLat:req.query.pickupLat,pickupLong:req.query.pickupLong,
                             destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,
                             payment_orderId:req.query.payment_orderId,pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
-                            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState}
+                            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState,mobileNo:req.query.mobileNo}
                         console.log("logData***2*==="+JSON.stringify(body));
                         let BookingRe=await create_booking(body);
                         if(results.length<=0){

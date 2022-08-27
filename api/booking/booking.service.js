@@ -5,9 +5,9 @@ module.exports={
         if(returndate==null || returndate==""){
             returndate='0000-00-00 00:00:00';
         }
-        sqlBooking="INSERT INTO prayag_booking (userId,userName,orderId,cabId,pickup,destination,pickupDate,returnDate,isReturn,pickupLat,pickupLong,destinationLat,destinationLong,distance,journyTime,rate,amount,discount,finalAmount,payment_orderId,status,pickupCityName,pickupDistrict,pickupState,dropCityName,dropDistrict,dropState) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        sqlBooking="INSERT INTO prayag_booking (userId,userName,orderId,cabId,pickup,destination,pickupDate,returnDate,isReturn,pickupLat,pickupLong,destinationLat,destinationLong,distance,journyTime,rate,amount,discount,finalAmount,payment_orderId,status,pickupCityName,pickupDistrict,pickupState,dropCityName,dropDistrict,dropState,userMobileNo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         booking=[data.userId,data.userName,data.orderId,data.cabId,data.pickup,data.destination,data.pickupDate,returndate,data.isReturn,data.pickupLat,data.pickupLong,data.destinationLat,data.destinationLong,data.distance,data.journyTime,data.rate,data.amount,data.discount,data.finalAmount,data.payment_orderId,data.status,
-            data.pickupCityName,data.pickupDistrict,data.pickupState,data.dropCityName,data.dropDistrict,data.dropState];
+            data.pickupCityName,data.pickupDistrict,data.pickupState,data.dropCityName,data.dropDistrict,data.dropState,data.mobileNo];
         console.log("sqlBookin==="+sqlBooking);
         
         console.log("booking===="+JSON.stringify(booking));
@@ -114,13 +114,25 @@ module.exports={
                 });
                 console.log("sqlUpdatePayment=="+sqlUpdatePayment);
                 console.log("sqlUpdateBooking=="+sqlUpdateBooking);
+                let CheckUser=await module.exports.sentBookingSmsToCustomer(razorpayOrderId);
                 return resolve(resData);
             });
             return resolve(resData);
-            
-            
-            
         });
     },
-
+    sentBookingSmsToCustomer:async(razorpayOrderId)=>{
+        sqlGetPay="select * from prayag_booking where payment_orderId='"+razorpayOrderId+"'";
+        console.log("sqlGetPay=="+sqlGetPay);
+        let rawResponcedata=JSON.stringify(rawResponce);
+        let resData= JSON.stringify({code:'200',msg:'success',data:''});
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlGetPay,  (error, result)=>{
+                console.log("result==="+JSON.stringify(result));
+                bookingAmount=result[0]['amount'];
+                
+                return resolve(resData);
+            });
+            return resolve(resData);
+        });
+    }
 }
