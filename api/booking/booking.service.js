@@ -50,6 +50,8 @@ module.exports={
         });
     },
     getCabs:async(data,callBack)=>{
+        let sendSms=await module.exports.sentBookingSmsToCustomer('order_J9r1WIGwfTNdVP');
+        console.log("sendSms=="+JSON.stringify(sendSms));
         sql="select * from prayag_cabs where isDeleted='N'";
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
@@ -114,7 +116,7 @@ module.exports={
                 });
                 console.log("sqlUpdatePayment=="+sqlUpdatePayment);
                 console.log("sqlUpdateBooking=="+sqlUpdateBooking);
-                let CheckUser=await module.exports.sentBookingSmsToCustomer(razorpayOrderId);
+                
                 return resolve(resData);
             });
             return resolve(resData);
@@ -128,8 +130,24 @@ module.exports={
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  (error, result)=>{
                 console.log("result==="+JSON.stringify(result));
-                bookingAmount=result[0]['amount'];
-                
+                userMobileNo=result[0]['userMobileNo'];
+                userName=result[0]['userName'];
+                pickupCityName=result[0]['pickupCityName'];
+                dropCityName=result[0]['dropCityName'];
+                pickupDate=result[0]['pickupDate'];
+                returnDate=result[0]['returnDate'];
+                orderId=result[0]['orderId'];
+                var msg='Thank You For booking with Bookourcar, '+userName+' here is your trip details Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate;
+                //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
+                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Anant&Password=ptpq6277PT&SenderID=BKOCAR&Phno=7722055354&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=BookSMSTOCustomer";
+                   //console.log(url); 
+                   //let resOtp=await module.exports.expireOtp(mobileNo);
+                  await request.get({ url: url },      function(error, response, body) {
+                    console.log("SMs Res: "+JSON.stringify(response));
+                    if (!error && response.statusCode == 200) {
+                        console.log("==otp sent=="+JSON.stringify(response));
+                       }
+                   });
                 return resolve(resData);
             });
             return resolve(resData);
