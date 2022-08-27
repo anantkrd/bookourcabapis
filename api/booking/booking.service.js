@@ -102,7 +102,7 @@ module.exports={
         let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
-            pool.query(sqlGetPay,  (error, result)=>{
+            pool.query(sqlGetPay, async(error, result)=>{
                 console.log("result==="+JSON.stringify(result));
                 bookingAmount=result[0]['amount'];
                 sqlUpdatePayment="UPDATE `prayag_booking_payment` SET `status`='completed',rawResponce='"+rawResponcedata+"' WHERE paymentId='"+razorpayOrderId+"'";
