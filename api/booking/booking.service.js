@@ -68,7 +68,7 @@ module.exports={
             }
         });*/
     },    
-    getSurge:async(cityName,callBack)=>{
+    getSurge:async(cityName,location='',callBack)=>{
         sql="SELECT * FROM `prayag_surge` WHERE `city` LIKE '"+cityName+"' and isDeleted='N'";
         console.log("SQL=="+sql);
         return new Promise((resolve, reject)=>{

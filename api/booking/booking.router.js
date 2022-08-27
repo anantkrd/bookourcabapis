@@ -234,6 +234,11 @@ router.get('/getCabs',async function(req,res,next){
             distancekm=0;
             distancekm=Math.round(distanceObj/1000);
             surgekm=Math.round(distancekm/100);
+            let tripType="india";
+            if(distancekm<=80)
+            {
+                tripType="local";
+            }
             let searchLog=[];
             //booking=[data.mobileNo,data.pickup,data.destination,data.pickupDate,data.returnDate,data.pickupLat,data.pickupLong,data.destinationLat,data.destinationLong,data.distance,data.journyTime,'N'];
             
@@ -325,11 +330,19 @@ router.get('/getCabs',async function(req,res,next){
                             let surgeDataPickup=surgePickpuResult[0]['surge'];
                             let surgeDataPickupObj=JSON.parse(surgeDataPickup);
                             console.log("surgeData Pick============="+surgeDataPickupObj+"====="+surgeDataPickupObj[cabType]);
-                            surgePrice=surgekm*surgeDataPickupObj[cabType];
                             let surgeDataDrop=surgedestinationResult[0]['surge'];
                             let surgeDataDropObj=JSON.parse(surgeDataDrop);
                             console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
-                            surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);
+                            if(tripType=='local')
+                            {
+                                surgePrice=surgekm*surgeDataPickupObj['local'];
+                                //surgePrice=surgePrice+(surgekm*surgeDataDropObj['local']);
+                            }else{
+                                surgePrice=surgekm*surgeDataPickupObj[cabType];
+                                surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);
+                            }
+                            //surgePrice=surgekm*surgeDataPickupObj[cabType];
+                            //surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);                            
                             console.log("============surgePrice=========="+surgePrice);
                             finalRate=finalRate+surgePrice;
                             sedanPrice=finalRate;
