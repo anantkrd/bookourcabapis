@@ -125,7 +125,7 @@ module.exports={
     sentBookingSmsToCustomer:async(razorpayOrderId)=>{
         sqlGetPay="select * from prayag_booking where payment_orderId='"+razorpayOrderId+"'";
         console.log("sqlGetPay=="+sqlGetPay);
-        let rawResponcedata=JSON.stringify(rawResponce);
+        //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  async(error, result)=>{
