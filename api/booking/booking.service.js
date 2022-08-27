@@ -134,8 +134,10 @@ module.exports={
                 console.log("result booking query==="+JSON.stringify(result));
                 userMobileNo=result[0]['userMobileNo'];
                 userName=result[0]['userName'];
-                pickupCityName=result[0]['pickupCityName'];
-                dropCityName=result[0]['dropCityName'];
+                pickup=result[0]['pickup'];
+                destination=result[0]['destination'];
+                let pickupCityName=pickup.split(",")[0];
+                let dropCityName=destination.split(",")[0];
                 pickupDate='';
                 if(result[0]['pickupDate']!=''){
                     pickupDate=result[0]['pickupDate'];
