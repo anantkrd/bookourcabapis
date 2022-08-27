@@ -335,7 +335,7 @@ router.get('/getCabs',async function(req,res,next){
                             console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
                             if(tripType=='local')
                             {
-                                surgePrice=surgekm*surgeDataPickupObj['local'];
+                                surgePrice=surgeDataPickupObj['local'];
                                 //surgePrice=surgePrice+(surgekm*surgeDataDropObj['local']);
                             }else{
                                 surgePrice=surgekm*surgeDataPickupObj[cabType];
