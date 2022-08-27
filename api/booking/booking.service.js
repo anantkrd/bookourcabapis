@@ -52,7 +52,7 @@ module.exports={
         });
     },
     getCabs:async(data,callBack)=>{
-        let sendSms=await module.exports.sentBookingSmsToCustomer('order_J9r1WIGwfTNdVP');
+        
         console.log("sendSms=="+JSON.stringify(sendSms));
         sql="select * from prayag_cabs where isDeleted='N'";
         return new Promise((resolve, reject)=>{
@@ -118,7 +118,7 @@ module.exports={
                 });
                 console.log("sqlUpdatePayment=="+sqlUpdatePayment);
                 console.log("sqlUpdateBooking=="+sqlUpdateBooking);
-                
+                let sendSms=await module.exports.sentBookingSmsToCustomer(razorpayOrderId);
                 return resolve(resData);
             });
             return resolve(resData);
