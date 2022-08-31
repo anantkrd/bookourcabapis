@@ -52,7 +52,9 @@ module.exports={
         });
     },
     getCabs:async(data,callBack)=>{
-        
+        userMobileNo=7722055354;
+        msg='testing msg';
+        await module.exports.sendSms(userMobileNo,'Customer',msg);
         sql="select * from prayag_cabs where isDeleted='N'";
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
@@ -149,9 +151,11 @@ module.exports={
                     returnDate=moment(returnDate).format('llll');
                 }
                 orderId=result[0]['orderId'];
+                
                 var msg='Thank You For booking with Bookourcar, '+userName+' here is your trip details Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate;
+                await module.exports.sendSms(userMobileNo,'Customer',msg);
                 //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
-                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Anant&Password=ptpq6277PT&SenderID=BKOCAR&Phno=7722055354&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=BookSMSTOCustomer";
+                /*let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Anant&Password=ptpq6277PT&SenderID=BKOCAR&Phno=7722055354&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=BookSMSTOCustomer";
                    //console.log(url); 
                    //let resOtp=await module.exports.expireOtp(mobileNo);
                   await request.get({ url: url },      function(error, response, body) {
@@ -159,10 +163,39 @@ module.exports={
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
                        }
-                   });
+                   });*/
                 return resolve(resData);
             });
             return resolve(resData);
         });
+    },
+    sendSms:async(mobileNo,type,message)=>{
+        try{
+            var msg=message;
+                //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
+                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Dteam&Password=456123&SenderID=IVRMSG&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=Varified";
+                   //console.log(url); 
+                   //let resOtp=await module.exports.expireOtp(mobileNo);
+                  await request.get({ url: url },      function(error, response, body) {
+                    //console.log("SMs Res: "+JSON.stringify(response));
+                    let status=response.statusCode;
+                    if (!error && response.statusCode == 200) {
+                        console.log("==otp sent=="+JSON.stringify(response));
+                        
+                       }
+                       sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+response+"')";
+                        console.log("SQL=="+sql);
+                        return new Promise((resolve, reject)=>{
+                            pool.query(sql,  (error, elements)=>{
+                                if(error){
+                                    return reject(error);
+                                }
+                                return resolve(elements);
+                            });
+                        });
+                   });
+        }catch(error){
+            console.log("[ERROR]: while sending sms"+error);
+        }
     }
 }
