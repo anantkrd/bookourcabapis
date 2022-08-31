@@ -182,7 +182,7 @@ module.exports={
                     reData=error;
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
-                        reData=response;
+                        reData=response.data;
                        }
                        sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
                         console.log("SQL=="+sql);
