@@ -179,11 +179,12 @@ module.exports={
                   await request.get({ url: url },      function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
                     let status=response.statusCode;
+                    reData=error;
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
-                        
+                        reData=JSON.stringify(response);
                        }
-                       sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+response+"')";
+                       sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
                         console.log("SQL=="+sql);
                         return new Promise((resolve, reject)=>{
                             pool.query(sql,  (error, elements)=>{
