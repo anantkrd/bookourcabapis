@@ -3,7 +3,8 @@ const jwt=require('jsonwebtoken');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 const {getBookingsForAgent,getMyBookings,getMyCompletedBookings}=require('./agent.controller');
 const{getSurge,addPayment,}=require('../booking/booking.service');
-const{addPaymentAgent,updateBookingDetails,addCar,getCars,addDriver,getDrivers,searchCar,searchDriver,assignBookingCar,assignBookingDriver}=require('./agent.service');
+const{addPaymentAgent,updateBookingDetails,addCar,getCars,addDriver,getDrivers,searchCar,searchDriver,assignBookingCar,assignBookingDriver,
+    isCarAssign}=require('./agent.service');
 const {authenticate}=require('../auth/index');
 const router=express.Router();
 var distance = require('google-distance-matrix');
@@ -77,13 +78,19 @@ router.post('/assign_booking_car',async function(req,res,next){
 });
 
 router.post('/assign_booking_driver',async function(req,res,next){
-    
-    results =await assignBookingDriver(req.body.agentId,req.body.driverId,req.body.driverName,req.body.mobileNo,req.body.bookingId,req.body.contactNo);
-    if(results.length<=0){
-        responce=JSON.stringify({code:'500',msg:'No data found',data:''});
+    console.log("req.body.bookingId=="+req.body.bookingId);
+    checkCar=await isCarAssign(req.body.bookingId);
+    if(checkCar.length>0){
+        results =await assignBookingDriver(req.body.agentId,req.body.driverId,req.body.driverName,req.body.mobileNo,req.body.bookingId,req.body.contactNo);
+        if(results.length<=0){
+            responce=JSON.stringify({code:'500',msg:'No data found',data:''});
+        }else{
+            responce=JSON.stringify({code:'200',msg:'Car added successfully',data:''});
+        }   
     }else{
-        responce=JSON.stringify({code:'200',msg:'Car added successfully',data:''});
-    }   
+        responce=JSON.stringify({code:'403',msg:'Please assign driver first',data:''});
+    }
+    
     res.send(responce);
 });
 

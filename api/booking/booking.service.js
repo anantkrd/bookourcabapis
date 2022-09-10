@@ -52,9 +52,9 @@ module.exports={
         });
     },
     getCabs:async(data,callBack)=>{
-        userMobileNo=7722055354;
-        msg='testing msg';
-        await module.exports.sendSms(userMobileNo,'Customer',msg);
+        //userMobileNo=7722055354;
+        //msg='testing msg';
+        //await module.exports.sendSms(userMobileNo,'Customer',msg);
         sql="select * from prayag_cabs where isDeleted='N'";
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
@@ -152,7 +152,7 @@ module.exports={
                 }
                 orderId=result[0]['orderId'];
                 
-                var msg='Thank You For booking with Bookourcar, '+userName+' here is your trip details Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate;
+                var msg='Hi '+userName+', Greetings from BookOurCar. Here are the details for your upcomming trip, Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
                 await module.exports.sendSms(userMobileNo,'Customer',msg);
                 //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
                 /*let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Anant&Password=ptpq6277PT&SenderID=BKOCAR&Phno=7722055354&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=BookSMSTOCustomer";
@@ -182,7 +182,7 @@ module.exports={
                     reData=error;
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
-                        reData=response.data;
+                        reData=response;
                        }
                        sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
                         console.log("SQL=="+sql);

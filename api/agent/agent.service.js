@@ -116,9 +116,7 @@ module.exports={
                 
                 return resolve(resData);
             });
-            return resolve(resData);
-            
-            
+            return resolve(resData);            
             
         });
     },    
@@ -239,13 +237,98 @@ module.exports={
         updateSql="update prayag_booking set driverName='"+driverName+"',driverContact='"+mobileNo+"',driverId='"+driverId+"' where orderId='"+bookingId+"'";
         console.log(updateSql);  
         return new Promise((resolve, reject)=>{
-            pool.query(updateSql,[],  (error, results)=>{
+            pool.query(updateSql,[],  async(error, results)=>{
                 if(error){
                     return reject(error);
                 }
+                await sentBookingSmsToCustomer(bookingId,'driver')
                 return resolve(results);
             });
         });
     },    
+    isCarAssign:async(bookingId)=>{
+        qlGetPay="select * from prayag_booking where orderId='"+bookingId+"'";
+        console.log("sqlGetPay=="+sqlGetPay);
+        //let rawResponcedata=JSON.stringify(rawResponce);
+        let resData= JSON.stringify({code:'200',msg:'success',gadiNo:''});
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlGetPay,  async(error, result)=>{
+                if(error){
+                    resData= JSON.stringify({code:'200',msg:'success',gadiNo:''});
+                    return reject(resData);
+                }else{
+                    console.log("result booking query==="+JSON.stringify(result));
+                    gadiNo=result[0]['gadiNo'];
+                    resData= JSON.stringify({code:'200',msg:'success',gadiNo:gadiNo});
+                    return resolve(resData);
+                }                
+            });
+        });
+    },
+    sentBookingSmsToCustomer:async(orderId,type='partner')=>{
+        sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
+        console.log("sqlGetPay=="+sqlGetPay);
+        //let rawResponcedata=JSON.stringify(rawResponce);
+        let resData= JSON.stringify({code:'200',msg:'success',data:''});
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlGetPay,  async(error, result)=>{
+                console.log("result booking query==="+JSON.stringify(result));
+                userMobileNo=result[0]['userMobileNo'];
+                userName=result[0]['userName'];
+                pickup=result[0]['pickup'];
+                destination=result[0]['destination'];
+                let pickupCityName=pickup.split(",")[0];
+                let dropCityName=destination.split(",")[0];
+                pickupDate='';
+                if(result[0]['pickupDate']!=''){
+                    pickupDate=result[0]['pickupDate'];
+                    pickupDate=moment(pickupDate).format('llll');
+                }
+                
+                returnDate='';
+                if(result[0]['returnDate']!=''){
+                    returnDate=result[0]['returnDate'];
+                    returnDate=moment(returnDate).format('llll');
+                }
+                orderId=result[0]['orderId'];
+                
+                var msg='Hi Partner, Thank you for confirming booking Here is trip detials Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
+                await module.exports.sendSms(userMobileNo,'Partner',msg);
+                
+                return resolve(resData);
+            });
+            return resolve(resData);
+        });
+    },
+    sendSms:async(mobileNo,type,message)=>{
+        try{
+            var msg=message;
+                //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
+                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Dteam&Password=456123&SenderID=IVRMSG&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=Varified";
+                   //console.log(url); 
+                   //let resOtp=await module.exports.expireOtp(mobileNo);
+                  await request.get({ url: url },      function(error, response, body) {
+                    //console.log("SMs Res: "+JSON.stringify(response));
+                    let status=response.statusCode;
+                    reData=error;
+                    if (!error && response.statusCode == 200) {
+                        console.log("==otp sent=="+JSON.stringify(response));
+                        reData=response;
+                       }
+                       sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
+                        console.log("SQL=="+sql);
+                        return new Promise((resolve, reject)=>{
+                            pool.query(sql,  (error, elements)=>{
+                                if(error){
+                                    return reject(error);
+                                }
+                                return resolve(elements);
+                            });
+                        });
+                   });
+        }catch(error){
+            console.log("[ERROR]: while sending sms"+error);
+        }
+    }
     
 }
