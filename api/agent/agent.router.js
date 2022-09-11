@@ -90,7 +90,7 @@ router.post('/assign_booking_driver',async function(req,res,next){
             responce=JSON.stringify({code:'200',msg:'Car added successfully',data:''});
         }   
     }else{
-        responce=JSON.stringify({code:'403',msg:'Please assign driver first',data:''});
+        responce=JSON.stringify({code:'403',msg:'Please assign car first',data:''});
     }
     
     res.send(responce);
