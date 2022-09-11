@@ -1,5 +1,6 @@
 const pool=require('../../config/database');
 const moment = require('moment');
+var request = require('request');
 module.exports={
     getMyBookings:async(agentId,pageId)=>{
         let start=((pageId-1)*10);
@@ -318,7 +319,7 @@ module.exports={
                 let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Dteam&Password=456123&SenderID=IVRMSG&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=Varified";
                    //console.log(url); 
                    //let resOtp=await module.exports.expireOtp(mobileNo);
-                  await request.get({ url: url },      function(error, response, body) {
+                  await request.get({ url: url },function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
                     let status=response.statusCode;
                     reData=error;
