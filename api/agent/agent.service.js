@@ -303,7 +303,7 @@ module.exports={
                 orderId=result[0]['orderId'];
                 
                 var msgDriver='Hi '+driverName+', You have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
-                await module.exports.sendSms(driverContact,'Diver',msgDriver);
+                await module.exports.sendSms(driverContact,'Driver',msgDriver);
                 var msgCusotmer='Hi '+userName+', Here is driver and car detials Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
                 await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);
                 
@@ -322,10 +322,10 @@ module.exports={
                   await request.get({ url: url },function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
                     let status=response.statusCode;
-                    reData=error;
+                    reData=JSON.stringify(response);
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
-                        reData=response;
+                        reData=JSON.stringify(response);
                        }
                        sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
                         console.log("SQL=="+sql);
