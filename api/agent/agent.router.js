@@ -10,26 +10,26 @@ const router=express.Router();
 var distance = require('google-distance-matrix');
 const Razorpay = require("razorpay");
 
-router.get('/get_booking_agent',async function(req,res,next){
+router.get('/get_booking_agent',authenticate,async function(req,res,next){
     results =await getBookingsForAgent(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });
-router.get('/get_my_bookings',async function(req,res,next){
+router.get('/get_my_bookings',authenticate,async function(req,res,next){
     results =await getMyBookings(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });
-router.get('/get_my_completed_bookings',async function(req,res,next){
+router.get('/get_my_completed_bookings',authenticate,async function(req,res,next){
     results =await getMyCompletedBookings(req.query.userId,req.query.pageId);
     console.log("result="+JSON.stringify(results))
    
     res.send(results);
 });
 
-router.get('/search_car',async function(req,res,next){
+router.get('/search_car',authenticate,async function(req,res,next){
     results =await searchCar(req.query.carno);
     console.log("result="+JSON.stringify(results))
     if(results.length<=0){
@@ -40,7 +40,7 @@ router.get('/search_car',async function(req,res,next){
     res.send(responce);
 });
 
-router.get('/search_driver',async function(req,res,next){
+router.get('/search_driver',authenticate,async function(req,res,next){
     results =await searchDriver(req.query.driverMobile);
     console.log("result="+JSON.stringify(results))
     if(results.length<=0){
@@ -50,13 +50,13 @@ router.get('/search_driver',async function(req,res,next){
     }
     res.send(responce);
 });
-router.get('/add_car',async function(req,res,next){
+router.get('/add_car',authenticate,async function(req,res,next){
     results =await addCar(req.query.userId,req.query.carModelNo,req.query.carNo,req.query.carType,req.query.rcBook);
     console.log("****************result="+JSON.stringify(results))
    
     res.send(results);
 });
-router.get('/get_cars',async function(req,res,next){
+router.get('/get_cars',authenticate,async function(req,res,next){
     results =await getCars(req.query.userId,req.query.pageId);
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'No data found',data:''});
@@ -80,6 +80,7 @@ router.post('/assign_booking_car',async function(req,res,next){
 router.post('/assign_booking_driver',async function(req,res,next){
     console.log("req.body.bookingId=="+req.body.bookingId);
     checkCar=await isCarAssign(req.body.bookingId);
+    console.log("checkCar=="+JSON.stringify(checkCar));
     if(checkCar.length>0){
         results =await assignBookingDriver(req.body.agentId,req.body.driverId,req.body.driverName,req.body.mobileNo,req.body.bookingId,req.body.contactNo);
         if(results.length<=0){
