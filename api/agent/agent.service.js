@@ -247,7 +247,7 @@ module.exports={
         });
     },    
     isCarAssign:async(bookingId)=>{
-        qlGetPay="select * from prayag_booking where orderId='"+bookingId+"'";
+        sqlGetPay="select * from prayag_booking where orderId='"+bookingId+"'";
         console.log("sqlGetPay=="+sqlGetPay);
         //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',gadiNo:''});
