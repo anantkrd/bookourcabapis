@@ -321,8 +321,8 @@ module.exports={
                    //let resOtp=await module.exports.expireOtp(mobileNo);
                   await request.get({ url: url },function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
-                    let status=response.body;
-                    reData=JSON.stringify(error);
+                    let status=response.statusCode;
+                    reData=error;
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
                         reData=JSON.stringify(response.body);
