@@ -241,7 +241,9 @@ module.exports={
                 if(error){
                     return reject(error);
                 }
-                await sentBookingSmsToCustomer(bookingId,'driver')
+                let sendSms=await module.exports.sentBookingSmsDriverAssined(bookingId,'driver');
+                //let sendSmsCusotmer=await module.exports.sentBookingSms(bookingId,0,'customer');
+                //await sentBookingSmsToCustomer(bookingId,'driver')
                 return resolve(results);
             });
         });
@@ -265,16 +267,22 @@ module.exports={
             });
         });
     },
-    sentBookingSmsToCustomer:async(orderId,type='partner')=>{
+    sentBookingSmsDriverAssined:async(orderId,type='partner')=>{
         sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
         console.log("sqlGetPay=="+sqlGetPay);
         //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  async(error, result)=>{
-                console.log("result booking query==="+JSON.stringify(result));
+                //console.log("result booking query==="+JSON.stringify(result));
                 userMobileNo=result[0]['userMobileNo'];
                 userName=result[0]['userName'];
+                driverName=result[0]['driverName'];
+                driverContact=result[0]['driverContact'];
+                gadiNo=result[0]['gadiNo'];
+                gadiModel=result[0]['gadiModel'];
+                gadiNo=gadiNo+" "+gadiModel
+                
                 pickup=result[0]['pickup'];
                 destination=result[0]['destination'];
                 let pickupCityName=pickup.split(",")[0];
@@ -292,8 +300,10 @@ module.exports={
                 }
                 orderId=result[0]['orderId'];
                 
-                var msg='Hi Partner, Thank you for confirming booking Here is trip detials Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
-                await module.exports.sendSms(userMobileNo,'Partner',msg);
+                var msgDriver='Hi '+driverName+', You have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
+                await module.exports.sendSms(driverContact,'Diver',msgDriver);
+                var msgCusotmer='Hi '+userName+', Here is driver and car detials Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
+                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);
                 
                 return resolve(resData);
             });
