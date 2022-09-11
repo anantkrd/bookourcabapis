@@ -250,16 +250,16 @@ module.exports={
         sqlGetPay="select * from prayag_booking where orderId='"+bookingId+"'";
         console.log("sqlGetPay=="+sqlGetPay);
         //let rawResponcedata=JSON.stringify(rawResponce);
-        let resData= JSON.stringify({code:'200',msg:'success',gadiNo:''});
+        let resData= JSON.stringify({code:'200',msg:'success',carId:0});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  async(error, result)=>{
                 if(error){
-                    resData= JSON.stringify({code:'200',msg:'success',gadiNo:''});
+                    resData= JSON.stringify({code:'200',msg:'success',carId:0});
                     return reject(resData);
                 }else{
                     console.log("result booking query==="+JSON.stringify(result));
-                    gadiNo=result[0]['gadiNo'];
-                    resData= JSON.stringify({code:'200',msg:'success',gadiNo:gadiNo});
+                    carId=result[0]['carId'];
+                    resData= JSON.stringify({code:'200',msg:'success',carId:carId});
                     return resolve(resData);
                 }                
             });

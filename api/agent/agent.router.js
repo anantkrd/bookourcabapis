@@ -81,7 +81,8 @@ router.post('/assign_booking_driver',async function(req,res,next){
     console.log("req.body.bookingId=="+req.body.bookingId);
     checkCar=await isCarAssign(req.body.bookingId);
     console.log("checkCar=="+JSON.stringify(checkCar));
-    if(checkCar.length>0){
+
+    if(checkCar.carId>0){
         results =await assignBookingDriver(req.body.agentId,req.body.driverId,req.body.driverName,req.body.mobileNo,req.body.bookingId,req.body.contactNo);
         if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'No data found',data:''});
