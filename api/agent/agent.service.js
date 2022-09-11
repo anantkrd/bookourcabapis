@@ -321,11 +321,11 @@ module.exports={
                    //let resOtp=await module.exports.expireOtp(mobileNo);
                   await request.get({ url: url },function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
-                    let status=response.statusCode;
-                    reData=JSON.stringify(response);
+                    let status=response.body;
+                    reData=JSON.stringify(error);
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
-                        reData=JSON.stringify(response);
+                        reData=JSON.stringify(response.body);
                        }
                        sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
                         console.log("SQL=="+sql);
