@@ -80,7 +80,7 @@ router.post('/assign_booking_car',async function(req,res,next){
 router.post('/assign_booking_driver',async function(req,res,next){
     console.log("req.body.bookingId=="+req.body.bookingId);
     checkCar=await isCarAssign(req.body.bookingId);
-    console.log(checkCar.carId+"==checkCar=="+JSON.stringify(checkCar));
+    console.log(checkCar['carId']+"==checkCar=="+JSON.stringify(checkCar));
 
     if(checkCar.carId>0){
         results =await assignBookingDriver(req.body.agentId,req.body.driverId,req.body.driverName,req.body.mobileNo,req.body.bookingId,req.body.contactNo);
