@@ -60,7 +60,7 @@ module.exports={
     },    
     getSurge:async(cityName,callBack)=>{
         sql="SELECT city,compact,sedan,luxury,other FROM `prayag_surge` WHERE `city` LIKE '"+cityName+"' and isDeleted='N'";
-        //console.log("SQL=="+sql);
+        
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
                 
@@ -167,7 +167,7 @@ module.exports={
         
         return new Promise((resolve, reject)=>{
             pool.query(sqlCars,  (error, result)=>{
-                //console.log("result==="+JSON.stringify(result));
+                
                 if(result.length>0){
                     return resolve({code:500,msg:"Car already added"});
                 }else{
@@ -226,7 +226,7 @@ module.exports={
     assignBookingCar:async(agentId,carId,modelName,carNo,carType,bookingId)=>{
         modelName=carType+" "+modelName;
         updateSql="update prayag_booking set carId='"+carId+"',gadiNo='"+carNo+"',gadiModel='"+modelName+"'  where orderId='"+bookingId+"'";
-        //console.log(updateSql);           
+               
         return new Promise((resolve, reject)=>{
             pool.query(updateSql,[],  (error, results)=>{
                 if(error){
@@ -238,7 +238,7 @@ module.exports={
     },    
     assignBookingDriver:async(agentId,driverId,driverName,mobileNo,bookingId,contactNo)=>{
         updateSql="update prayag_booking set driverName='"+driverName+"',driverContact='"+mobileNo+"',driverId='"+driverId+"' where orderId='"+bookingId+"'";
-        //console.log(updateSql);  
+        
         return new Promise((resolve, reject)=>{
             pool.query(updateSql,[],  async(error, results)=>{
                 if(error){
@@ -251,7 +251,7 @@ module.exports={
     },    
     isCarAssign:async(bookingId)=>{
         sqlGetPay="select * from prayag_booking where orderId='"+bookingId+"'";
-        //console.log("sqlGetPay=="+sqlGetPay);
+        
         //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',carId:0});
         return new Promise((resolve, reject)=>{
@@ -260,7 +260,7 @@ module.exports={
                     resData= JSON.stringify({code:'200',msg:'success',carId:0});
                     return reject(resData);
                 }else{
-                    //console.log("result booking query==="+JSON.stringify(result));
+                    
                     carId=result[0]['carId'];
                     resData= JSON.stringify({code:'200',msg:'success',carId:carId});
                     return resolve(resData);
@@ -270,15 +270,15 @@ module.exports={
     },
     sentBookingSmsDriverAssined:async(orderId,type='partner')=>{
         let bookingData=await getBookingByOrderId(orderId);
-        console.log("sms bookingData:"+JSON.stringify(bookingData));
+        
         sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
-        //console.log("sqlGetPay=="+sqlGetPay);
+        
         //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         result=bookingData;
         return new Promise(async(resolve, reject)=>{
             //pool.query(sqlGetPay,  async(error, result)=>{
-                //console.log("result booking query==="+JSON.stringify(result));
+                
                 userMobileNo=result[0]['userMobileNo'];
                 userName=result[0]['userName'];
                 driverName=result[0]['driverName'];
