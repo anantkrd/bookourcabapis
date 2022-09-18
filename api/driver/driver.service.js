@@ -66,9 +66,13 @@ module.exports={
                     extraAmount=extraRate*extraKm;
                     sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId=?";   
                     //console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId="+bookingId)     
-                    new Promise((resolve, reject)=>{
-                        pool.query(sqlcheck,[endKm,dateNow,extraAmount,extraRate,journyDistance,bookingId],  (error, resultsup)=>{
-                            
+                    new Promise(async(resolve, reject)=>{
+                        pool.query(sqlcheck,[endKm,dateNow,extraAmount,extraRate,journyDistance,bookingId],  async(error, resultsup)=>{
+                           if(error){
+
+                           }else{
+                            sms=await module.exports.tripCompletedsms(bookingId);
+                           } 
                         });
                     });
                 }
@@ -96,7 +100,7 @@ module.exports={
                             
                         });
                     });
-                }
+                }                
                 return resolve(results);
             });
         });
@@ -125,5 +129,72 @@ module.exports={
             });
         });
     },    
+    
+    tripCompletedsms:async(orderId,type='customer')=>{
+        let bookingData=await getBookingByOrderId(orderId);
+        
+        sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
+        
+        //let rawResponcedata=JSON.stringify(rawResponce);
+        let resData= JSON.stringify({code:'200',msg:'success',data:''});
+        result=bookingData;
+        return new Promise(async(resolve, reject)=>{
+            //pool.query(sqlGetPay,  async(error, result)=>{
+                
+                userMobileNo=result[0]['userMobileNo'];
+                userName=result[0]['userName'];
+                driverName=result[0]['driverName'];
+                driverContact=result[0]['driverContact'];
+                gadiNo=result[0]['gadiNo'];
+                gadiModel=result[0]['gadiModel'];
+                agentId=result[0]['agentId'];
+                distance=result[0]['distance'];
+                actualJourny=result[0]['journyDistance'];
+                journyTime=result[0]['journyTime'];
+                extraRate=result[0]['extraRate'];
+                finalAmount=result[0]['finalAmount'];
+                extraAmount=result[0]['extraAmount'];
+                
+                paid=result[0]['paid'];
+                pending=finalAmount-paid;
+                gadiNo=gadiNo+" "+gadiModel
+                
+                pickup=result[0]['pickup'];
+                destination=result[0]['destination'];
+                let pickupCityName=pickup.split(",")[0];
+                let dropCityName=destination.split(",")[0];
+                pickupDate='';
+                if(result[0]['pickupDate']!=''){
+                    pickupDate=result[0]['pickupDate'];
+                    pickupDate=moment(pickupDate).format('llll');
+                }
+                
+                returnDate='';
+                if(result[0]['returnDate']!=''){
+                    returnDate=result[0]['returnDate'];
+                    returnDate=moment(returnDate).format('llll');
+                }
+                let extraKm=0;
+                if(actualJourny>distance)
+                {
+                    extraKm=actualJourny-distance;
+                }
+                orderId=result[0]['orderId'];
+
+
+
+                var msgDriver='Dear '+driverName+', You have ednded trip. Trip Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'),  Total journey:'+actualJourny+'KM, Extra Km:'+extraKm+' Extra charges:'+extraAmount+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Night charges,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
+                    console.log("msgDriver:"+msgDriver);
+                    await sendSms(driverContact,'Driver',msgDriver);
+                    var msgCusotmer='Dear '+userName+', Your trip has been ended.  Your trip details, Total journey:'+actualJourny+'KM, Extra Km:'+extraKm+' Extra charges:'+extraAmount+', Your final payment amount Rs '+finalAmount+', Advance Paid:Rs '+paid+', Please pay Rs'+pending+' + Night charges Rs.250,Toll,Parking (if Applicable) to '+driverName+' to completed trip Thank You Team BookOurCar';
+                    console.log("msgCusotmer:"+msgCusotmer);
+                    await sendSms(userMobileNo,'Customer',msgCusotmer);
+                
+               // return resolve(resData);
+            //});
+            resData= JSON.stringify({code:'200',msg:'sms sent successfully',orderId:orderId});
+            return resolve(resData);
+        });
+    }
     
 }

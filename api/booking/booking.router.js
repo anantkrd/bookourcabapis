@@ -118,48 +118,51 @@ router.post('/book_cab', async function(req,res,next){
     let userId=0;
     let error='';
     
-    let fname=req.query.fname;
-    let lname=req.query.lname;
-    let orderId=req.query.bookingId;
-    let cabId=req.query.cabId;
-    let pickup=req.query.pickup;
-    let destination=req.query.destination;
-    let pickupDate=req.query.pickupDate;
-    let returnDate=req.query.returnDate;
-    let isReturn=req.query.isReturn;
-    let pickupLat=req.query.pickupLat;
-    let pickupLong=req.query.pickupLong;
-    let destinationLat=req.query.destinationLat;
-    let destinationLong=req.query.destinationLong;
-    let distance=req.query.distance;
-    let rate=req.query.rate;
-    let amount=req.query.amount;
-    let discount=req.query.discountAmount;
-    let finalAmount=req.query.finalAmount;
-    let status=req.query.status;    
-    let pickupCityName=req.query.pickupCityName;
-    let pickupDistrict=req.query.pickupDistrict;
-    let pickupState=req.query.pickupState;
-    let dropCityName=req.query.dropCityName;
-    let dropDistrict=req.query.dropDistrict;
-    let dropState=req.query.dropState;
-    let journyTime=req.query.journyTime;
-    let extraRate=req.query.extraRate;
+    let fname=req.body.fname;
+    let lname=req.body.lname;
+    let mobileNo=req.body.mobileNo;
+    let email=req.body.email;
+    let orderId=req.body.bookingId;
+    let cabId=req.body.cabId;
+    let pickup=req.body.pickup;
+    let destination=req.body.destination;
+    let pickupDate=req.body.pickupDate;
+    let returnDate=req.body.returnDate;
+    let isReturn=req.body.isReturn;
+    let pickupLat=req.body.pickupLat;
+    let pickupLong=req.body.pickupLong;
+    let destinationLat=req.body.destinationLat;
+    let destinationLong=req.body.destinationLong;
+    let distance=req.body.distance;
+    let rate=req.body.rate;
+    let amount=req.body.amount;
+    let discount=req.body.discountAmount;
+    let finalAmount=req.body.finalAmount;
+    let status=req.body.status;    
+    let pickupCityName=req.body.pickupCityName;
+    let pickupDistrict=req.body.pickupDistrict;
+    let pickupState=req.body.pickupState;
+    let dropCityName=req.body.dropCityName;
+    let dropDistrict=req.body.dropDistrict;
+    let dropState=req.body.dropState;
+    let journyTime=req.body.journyTime;
+    let extraRate=req.body.extraRate;
+    let payment_orderId=req.query.payment_orderId;
     let responce;
-    resultUser=await getUserByMobile(req.query.mobileNo);
+    resultUser=await getUserByMobile(mobileNo);
     if(resultUser.length<=0){
         
-        results=await createUser(req.query.fname,req.query.lname,req.query.mobileNo,req.query.email,'user');
+        results=await createUser(fname,lname,mobileNo,email,'user');
         if(results.length<=0){
             responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
         }else{
             userId=results.insertId;
                         //userId=results[0]['id'];
                         userName=fname+" "+lname;
-                        const body={userId:userId,userName:userName,email:req.query.email,orderId:orderId,cabId:req.query.cabId,pickup:req.query.pickup,destination:req.query.destination,pickupDate:req.query.pickupDate,returnDate:req.query.returnDate,isReturn:req.query.isReturn,pickupLat:req.query.pickupLat,pickupLong:req.query.pickupLong,
-                            destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,
-                            payment_orderId:req.query.payment_orderId,pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
-                            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState,mobileNo:req.query.mobileNo,extraRate:req.query.extraRate}
+                        const body={userId:userId,userName:userName,email:email,orderId:orderId,cabId:cabId,pickup:pickup,destination:destination,pickupDate:pickupDate,returnDate:returnDate,isReturn:isReturn,pickupLat:pickupLat,pickupLong:pickupLong,
+                            destinationLat:destinationLat,destinationLong:destinationLong,distance:distance,rate:rate,amount:amount,discount:discount,finalAmount:finalAmount,status:'pending',journyTime:journyTime,
+                            payment_orderId:payment_orderId,pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
+                            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState,mobileNo:mobileNo,extraRate:extraRate}
                         console.log("logData***2*==="+JSON.stringify(body));
                         let BookingRe=await create_booking(body);
                         if(results.length<=0){
@@ -167,28 +170,17 @@ router.post('/book_cab', async function(req,res,next){
                         }else{
                             responce=JSON.stringify({code:'200',msg:'success',data:results.insertId});
                         }
-                        /*create_booking(body,(err,results)=>{
-                            if(err){
-                                error=err;
-                                responce=JSON.stringify({code:'500',msg:'some internal error'+err,data:''});
-                                
-                            }else{
-                                responce=JSON.stringify({code:'200',msg:'success',data:results.insertId});
-                                                                //responce=JSON.stringify({code:'200',msg:'user added',data:results.insertId});
-                            }
-                            //res.send(responce);
-
-                        });*/
+                        
         }
         console.log("Return responce with create user:"+JSON.stringify(responce));
         res.send(responce);
     }else{
         userId=results[0]['id'];
         userName=fname+" "+lname;
-        const body={userId:userId,userName:userName,email:req.query.email,orderId:orderId,cabId:req.query.cabId,pickup:req.query.pickup,destination:req.query.destination,pickupDate:req.query.pickupDate,returnDate:req.query.returnDate,isReturn:req.query.isReturn,pickupLat:req.query.pickupLat,pickupLong:req.query.pickupLong,
-            destinationLat:req.query.destinationLat,destinationLong:req.query.destinationLong,distance:req.query.distance,rate:rate,amount:req.query.amount,discount:discount,finalAmount:req.query.finalAmount,status:'pending',journyTime:journyTime,payment_orderId:req.query.payment_orderId,
+        const body={userId:userId,userName:userName,email:email,orderId:orderId,cabId:cabId,pickup:pickup,destination:destination,pickupDate:pickupDate,returnDate:returnDate,isReturn:isReturn,pickupLat:pickupLat,pickupLong:pickupLong,
+            destinationLat:destinationLat,destinationLong:destinationLong,distance:distance,rate:rate,amount:amount,discount:discount,finalAmount:finalAmount,status:'pending',journyTime:journyTime,payment_orderId:payment_orderId,
             pickupCityName:pickupCityName,pickupDistrict:pickupDistrict,pickupState:pickupState,
-            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState,mobileNo:req.query.mobileNo,extraRate:req.query.extraRate}
+            dropCityName:dropCityName,dropDistrict:dropDistrict,dropState:dropState,mobileNo:mobileNo,extraRate:extraRate}
             let BookingRe=await create_booking(body);
                         if(results.length<=0){
                             responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
@@ -196,18 +188,7 @@ router.post('/book_cab', async function(req,res,next){
                             responce=JSON.stringify({code:'200',msg:'success',data:results.insertId});
                         }
                         res.send(responce);
-            /*create_booking(body,(err,results)=>{
-                if(err){
-                    responce=JSON.stringify({code:'500',msg:'some internal error 2'+err,data:''});
-                    
-                }else{
-                    userId=results.insertId;
-                    //responce=JSON.stringify({code:'200',msg:'user added',data:results.insertId});
-                    responce=JSON.stringify({code:'200',msg:'success',data:userId});  
-                    //res.send(responce);                      
-                }
-                res.send(responce);
-            });*/
+            
             console.log("Return responce :"+JSON.stringify(responce));
     }     
 });
