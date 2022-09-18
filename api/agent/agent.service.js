@@ -315,17 +315,17 @@ module.exports={
                     agentName=agentData[0]['firstName'];
                     agentMobileno=agentData[0]['mobileNo'];
                     let msgAdmin='Hi Admin, Agent '+agentName+' confirmed booking. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
-                    +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
+                    +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAdmin:"+msgAdmin);
                     await module.exports.sendSms('9821224861','Admin',msgAdmin);
 
-                    let msgAgent='Dear '+agentName+' Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
+                    let msgAgent='Dear '+agentName+' Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : ,'+pickupCityName+' Drop : '+dropCityName+', starting on '+pickupDate
                     +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAgent:"+msgAgent);
                     await module.exports.sendSms(agentMobileno,'Partner',msgAgent);
                 }else{
-                    var msgDriver='Dear '+driverName+', Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
-                    +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
+                    var msgDriver='Dear '+driverName+', Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+', Drop : '+dropCityName+', starting on '+pickupDate
+                    +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgDriver:"+msgDriver);
                     await module.exports.sendSms(driverContact,'Driver',msgDriver);
                     var msgCusotmer='Hi '+userName+', Here is driver and car detials Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
