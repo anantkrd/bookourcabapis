@@ -130,7 +130,7 @@ module.exports={
         
         sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
         
-        //let rawResponcedata=JSON.stringify(rawResponce);
+        let rawResponcedata=JSON.stringify(bookingData);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         result=bookingData;
         return new Promise(async(resolve, reject)=>{
