@@ -147,7 +147,7 @@ router.post('/book_cab', async function(req,res,next){
     let dropState=req.body.dropState;
     let journyTime=req.body.journyTime;
     let extraRate=req.body.extraRate;
-    let payment_orderId=req.query.payment_orderId;
+    let payment_orderId=req.body.payment_orderId;
     let responce;
     resultUser=await getUserByMobile(mobileNo);
     if(resultUser.length<=0){
