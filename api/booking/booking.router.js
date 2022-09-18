@@ -287,6 +287,7 @@ router.get('/getCabs',async function(req,res,next){
                     cars=results[i]['cars'];
                     capacity=results[i]['capacity'];
                     note=results[i]['note'];
+                    extraRate=results[i]['extraRate'];
                     multiply=2;
                     distanceValue=0;
                     let isReturnTrip='N';
@@ -401,6 +402,8 @@ router.get('/getCabs',async function(req,res,next){
                     dataObj1['destinationlng']=destinationlng;
                     dataObj1['distance']=distanceValue;
                     dataObj1['originalRate']=originalRate;
+                    dataObj1['extraRate']=extraRate;
+                    
                     //dataObj1['originlng']=originlng;
                     dataObj.push(dataObj1);
                 }
