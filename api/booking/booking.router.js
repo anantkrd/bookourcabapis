@@ -294,13 +294,13 @@ router.get('/getCabs',async function(req,res,next){
                     let PerDayKm=300;
                     if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00"){
                         multiply=1;
-                        finalRate=rate;
+                        finalRate=rate+earlyBookingCharges;
                         distanceValue=distancekm;
                         returnDateTime="0000-00-00 00:00:00";
                     }else{
                         distanceValue=distancekm*2;
                         //distancekm=distancekm*2;                        
-                        finalRate=returnTripRate;
+                        finalRate=returnTripRate+earlyBookingCharges;
                         originalRate=returnTripRate;
                         isReturnTrip='Y';
                         tripDays=moment(returnDateTime).diff(moment(pickdateTime), 'days')+1;
@@ -357,24 +357,6 @@ router.get('/getCabs',async function(req,res,next){
                         sedanPrice=finalRate;
                     }
                     
-                    /*if(cabType=='Sedan'){
-                        surgePrice=surgekm*surgePickpuResult[0]['sedan'];
-                        surgePrice=surgePrice+surgekm*surgedestinationResult[0]['sedan'];
-                        finalRate=finalRate+surgePrice;
-                        sedanPrice=finalRate;
-                    }
-                    if(cabType=='Luxury'){
-                        surgePrice=surgekm*surgePickpuResult[0]['luxury'];                        
-                        surgePrice=surgePrice+surgekm*surgedestinationResult[0]['luxury'];
-                        finalRate=finalRate+surgePrice;
-                        luxuryPrice=finalRate;
-                    }
-                    if(cabType=='Compact'){
-                        surgePrice=surgekm*surgePickpuResult[0]['compact'];
-                        surgePrice=surgePrice+surgekm*surgedestinationResult[0]['compact'];
-                        finalRate=finalRate+surgePrice;
-                        compactPrice=finalRate;
-                    }*/
                     amount=Math.round(distanceValue*finalRate);
                     discountAmount=Math.round(distanceValue*discount);
                     discountedRate=finalRate-discount;
@@ -563,7 +545,7 @@ router.get('/getBooking_by_order',function(req,res,next){
             for ( var i = 0; i < results.length; i++)
             {
                 rate=results[i]['rate'];
-                finalRate=results[i]['finalRate'];
+                finalRate=results[i]['rate'];
                 id=results[i]['id'];                
                 //console.log("ID: " + id);
                 cabType=results[i]['cabType'];
@@ -574,6 +556,7 @@ router.get('/getBooking_by_order',function(req,res,next){
                 bags=results[i]['bags'];
                 cars=results[i]['cars'];
                 capacity=results[i]['capacity'];
+                extraRate=results[i]['extraRate'];
                 note=results[i]['note'];
                 let multiply=2;
                 if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'){
@@ -616,6 +599,7 @@ router.get('/getBooking_by_order',function(req,res,next){
                 dataObj1['destinationlat']=destinationlat;
                 dataObj1['destinationlng']=destinationlng;
                 dataObj1['distance']=distancekm;
+                dataObj1['extraRate']=extraRate;
                 //dataObj1['originlng']=originlng;
                 dataObj.push(dataObj1)
             }

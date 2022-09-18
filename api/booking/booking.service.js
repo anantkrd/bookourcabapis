@@ -7,9 +7,9 @@ module.exports={
         if(returndate==null || returndate==""){
             returndate='0000-00-00 00:00:00';
         }
-        sqlBooking="INSERT INTO prayag_booking (userId,userName,orderId,cabId,pickup,destination,pickupDate,returnDate,isReturn,pickupLat,pickupLong,destinationLat,destinationLong,distance,journyTime,rate,amount,discount,finalAmount,payment_orderId,status,pickupCityName,pickupDistrict,pickupState,dropCityName,dropDistrict,dropState,userMobileNo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        sqlBooking="INSERT INTO prayag_booking (userId,userName,orderId,cabId,pickup,destination,pickupDate,returnDate,isReturn,pickupLat,pickupLong,destinationLat,destinationLong,distance,journyTime,rate,amount,discount,finalAmount,payment_orderId,status,pickupCityName,pickupDistrict,pickupState,dropCityName,dropDistrict,dropState,userMobileNo,extraRate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         booking=[data.userId,data.userName,data.orderId,data.cabId,data.pickup,data.destination,data.pickupDate,returndate,data.isReturn,data.pickupLat,data.pickupLong,data.destinationLat,data.destinationLong,data.distance,data.journyTime,data.rate,data.amount,data.discount,data.finalAmount,data.payment_orderId,data.status,
-            data.pickupCityName,data.pickupDistrict,data.pickupState,data.dropCityName,data.dropDistrict,data.dropState,data.mobileNo];
+            data.pickupCityName,data.pickupDistrict,data.pickupState,data.dropCityName,data.dropDistrict,data.dropState,data.mobileNo,data.extraRate];
         console.log("sqlBookin==="+sqlBooking);
         
         console.log("booking===="+JSON.stringify(booking));
@@ -125,16 +125,22 @@ module.exports={
             return resolve(resData);
         });
     },
-    sentBookingSmsToCustomer:async(razorpayOrderId)=>{
-        sqlGetPay="select * from prayag_booking where payment_orderId='"+razorpayOrderId+"'";
-        console.log("sqlGetPay=="+sqlGetPay);
+    sentBookingSmsToCustomer:async(orderId,type='Customer')=>{
+        sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
+        //console.log("sqlGetPay=="+sqlGetPay);
         //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  async(error, result)=>{
-                console.log("result booking query==="+JSON.stringify(result));
+                //console.log("result booking query==="+JSON.stringify(result));
                 userMobileNo=result[0]['userMobileNo'];
                 userName=result[0]['userName'];
+                driverName=result[0]['driverName'];
+                driverContact=result[0]['driverContact'];
+                gadiNo=result[0]['gadiNo'];
+                gadiModel=result[0]['gadiModel'];
+                gadiNo=gadiNo+" "+gadiModel
+                
                 pickup=result[0]['pickup'];
                 destination=result[0]['destination'];
                 let pickupCityName=pickup.split(",")[0];
@@ -152,23 +158,28 @@ module.exports={
                 }
                 orderId=result[0]['orderId'];
                 
-                var msg='Hi '+userName+', Greetings from BookOurCar. Here are the details for your upcomming trip, Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
-                await module.exports.sendSms(userMobileNo,'Customer',msg);
-                //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
-                /*let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Anant&Password=ptpq6277PT&SenderID=BKOCAR&Phno=7722055354&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=BookSMSTOCustomer";
-                   //console.log(url); 
-                   //let resOtp=await module.exports.expireOtp(mobileNo);
-                  await request.get({ url: url },      function(error, response, body) {
-                    //console.log("SMs Res: "+JSON.stringify(response));
-                    if (!error && response.statusCode == 200) {
-                        console.log("==otp sent=="+JSON.stringify(response));
-                       }
-                   });*/
+                var msgDriver='Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
+                await module.exports.sendSms(driverContact,'Admin',msgDriver);
+                var msgCusotmer='Hi '+userName+' Thank you for booking with us, here is your trip detials Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId+' www.bookourcar.com';
+                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);
+                
                 return resolve(resData);
             });
             return resolve(resData);
         });
     },
+    getBookingByOrderId:async(orderId)=>{
+        sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
+        console.log("SQL=="+sql);
+        return new Promise((resolve, reject)=>{
+            pool.query(sql,  (error, elements)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(elements);
+            });
+        });
+    },    
     sendSms:async(mobileNo,type,message)=>{
         try{
             var msg=message;
@@ -176,16 +187,16 @@ module.exports={
                 let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Dteam&Password=456123&SenderID=IVRMSG&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=Varified";
                    //console.log(url); 
                    //let resOtp=await module.exports.expireOtp(mobileNo);
-                  await request.get({ url: url },      function(error, response, body) {
+                  await request.get({ url: url },function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
                     let status=response.statusCode;
                     reData=error;
                     if (!error && response.statusCode == 200) {
                         console.log("==otp sent=="+JSON.stringify(response));
-                        reData=response;
+                        reData=JSON.stringify(response.body);
                        }
                        sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
-                        console.log("SQL=="+sql);
+                        //console.log("SQL=="+sql);
                         return new Promise((resolve, reject)=>{
                             pool.query(sql,  (error, elements)=>{
                                 if(error){

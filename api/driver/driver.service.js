@@ -54,6 +54,7 @@ module.exports={
                     //console.log("********"+JSON.stringify(results));
                     let startKm=results[0]['startKm'];
                     let rate=results[0]['rate'];
+                    let extraRate=results[0]['extraRate'];
                     let journyDistance=endKm-startKm;
                     let distance=results[0]['distance'];
                     let extraKm=0;
@@ -62,11 +63,11 @@ module.exports={
                     {
                         extraKm=journyDistance-distance;
                     }
-                    extraAmount=rate*extraKm;
+                    extraAmount=extraRate*extraKm;
                     sqlcheck="update `prayag_booking` set endKm=?,journyEndTime=?,journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId=?";   
                     //console.log("update `prayag_booking` set endKm='"+endKm+"',journyEndTime='"+dateNow+"',journyStatus='completed',extraAmount=?,extraRate=?,journyDistance=? WHERE orderId="+bookingId)     
                     new Promise((resolve, reject)=>{
-                        pool.query(sqlcheck,[endKm,dateNow,extraAmount,rate,journyDistance,bookingId],  (error, resultsup)=>{
+                        pool.query(sqlcheck,[endKm,dateNow,extraAmount,extraRate,journyDistance,bookingId],  (error, resultsup)=>{
                             
                         });
                     });

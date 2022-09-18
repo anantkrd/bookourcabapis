@@ -1,6 +1,7 @@
 const pool=require('../../config/database');
 const moment = require('moment');
 var request = require('request');
+const{getBookingByOrderId}=require('../booking/booking.service');
 module.exports={
     getMyBookings:async(agentId,pageId)=>{
         let start=((pageId-1)*10);
@@ -95,7 +96,7 @@ module.exports={
         sqlGetPay="select * from prayag_agent_booking where paymentId='"+razorpayOrderId+"'";
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
-            pool.query(sqlGetPay,  (error, result)=>{
+            pool.query(sqlGetPay,  async(error, result)=>{
                 
                 if(error){
                     return reject(error);
@@ -106,16 +107,16 @@ module.exports={
                 sqlUpdatePayment="UPDATE `prayag_agent_booking` SET `status`='completed',rawResponce='"+rawResponce+"' WHERE paymentId='"+razorpayOrderId+"'";
                 pool.query(sqlUpdatePayment,  (error, elements)=>{     
                     if(error){
-                        return reject(error);
+                        //return reject(error);
                     }           
                 });
                 sqlUpdateBooking="UPDATE `prayag_booking` SET `agentId`='"+agentId+"',`status`='confirm' WHERE orderId='"+bookingId+"'";
                 pool.query(sqlUpdateBooking,  (error, elements)=>{
                     if(error){
-                        return reject(error);
+                        //return reject(error);
                     }
                 });
-                
+                let sendSms=await module.exports.sentBookingSmsDriverAssined(bookingId,'agent');
                 return resolve(resData);
             });
             return resolve(resData);            
@@ -268,6 +269,8 @@ module.exports={
         });
     },
     sentBookingSmsDriverAssined:async(orderId,type='partner')=>{
+        let bookingData=await getBookingByOrderId(orderId);
+        console.log("sms bookingData:"+JSON.stringify(bookingData));
         sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
         //console.log("sqlGetPay=="+sqlGetPay);
         //let rawResponcedata=JSON.stringify(rawResponce);
@@ -281,6 +284,14 @@ module.exports={
                 driverContact=result[0]['driverContact'];
                 gadiNo=result[0]['gadiNo'];
                 gadiModel=result[0]['gadiModel'];
+                agentId=result[0]['agentId'];
+                distance=result[0]['distance'];
+                actualJourny=result[0]['journyDistance'];
+                journyTime=result[0]['journyTime'];
+                extraRate=result[0]['extraRate'];
+                finalAmount=result[0]['finalAmount'];
+                paid=result[0]['paid'];
+                pending=finalAmount-paid;
                 gadiNo=gadiNo+" "+gadiModel
                 
                 pickup=result[0]['pickup'];
@@ -299,11 +310,28 @@ module.exports={
                     returnDate=moment(returnDate).format('llll');
                 }
                 orderId=result[0]['orderId'];
-                
-                var msgDriver='Hi '+driverName+', You have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
-                await module.exports.sendSms(driverContact,'Driver',msgDriver);
-                var msgCusotmer='Hi '+userName+', Here is driver and car detials Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
-                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);
+                if(type=='agent'){
+                    let agentData=await module.exports.getAgent(agentId);
+                    agentName=agentData[0]['firstName'];
+                    agentMobileno=agentData[0]['mobileNo'];
+                    let msgAdmin='Hi Admin, Agent '+agentName+' confirmed booking. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
+                    +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
+                    console.log("msgAdmin:"+msgAdmin);
+                    await module.exports.sendSms('9821224861','Admin',msgAdmin);
+
+                    let msgAgent='Dear '+agentName+' Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
+                    +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
+                    console.log("msgAgent:"+msgAgent);
+                    await module.exports.sendSms(agentMobileno,'Agent',msgAgent);
+                }else{
+                    var msgDriver='Dear '+driverName+', Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
+                    +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
+                    console.log("msgDriver:"+msgDriver);
+                    await module.exports.sendSms(driverContact,'Driver',msgDriver);
+                    var msgCusotmer='Hi '+userName+', Here is driver and car detials Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
+                    console.log("msgCusotmer:"+msgCusotmer);
+                    await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);
+                }               
                 
                 return resolve(resData);
             });
@@ -313,9 +341,11 @@ module.exports={
     sendSms:async(mobileNo,type,message)=>{
         try{
             var msg=message;
+            let smsUserID=process.env.smsId;
+            let smsPassword=process.env.smsPassword;
                 //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
-                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID=Dteam&Password=456123&SenderID=IVRMSG&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=Varified";
-                   //console.log(url); 
+                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID="+smsUserID+"&Password="+smsPassword+"&SenderID=IVRMSG&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=Varified";
+                   console.log("BulkSMS========"+url); 
                    //let resOtp=await module.exports.expireOtp(mobileNo);
                   await request.get({ url: url },function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
