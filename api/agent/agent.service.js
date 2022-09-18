@@ -275,8 +275,9 @@ module.exports={
         //console.log("sqlGetPay=="+sqlGetPay);
         //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
-        return new Promise((resolve, reject)=>{
-            pool.query(sqlGetPay,  async(error, result)=>{
+        result=bookingData;
+        return new Promise(async(resolve, reject)=>{
+            //pool.query(sqlGetPay,  async(error, result)=>{
                 //console.log("result booking query==="+JSON.stringify(result));
                 userMobileNo=result[0]['userMobileNo'];
                 userName=result[0]['userName'];
@@ -333,8 +334,9 @@ module.exports={
                     await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);
                 }               
                 
-                return resolve(resData);
-            });
+               // return resolve(resData);
+            //});
+            resData= JSON.stringify({code:'200',msg:'sms sent successfully',orderId:orderId});
             return resolve(resData);
         });
     },
