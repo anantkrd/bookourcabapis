@@ -110,6 +110,7 @@ module.exports={
             pool.query(sqlGetPay, async(error, result)=>{
                 console.log("result==="+JSON.stringify(result));
                 bookingAmount=result[0]['amount'];
+                orderId=result[0]['orderId'];
                 sqlUpdatePayment="UPDATE `prayag_booking_payment` SET `status`='completed',rawResponce='"+rawResponcedata+"' WHERE paymentId='"+razorpayOrderId+"'";
                 pool.query(sqlUpdatePayment,  (error, elements)=>{                
                 });
@@ -119,7 +120,7 @@ module.exports={
                 });
                 console.log("sqlUpdatePayment=="+sqlUpdatePayment);
                 console.log("sqlUpdateBooking=="+sqlUpdateBooking);
-                let sendSms=await module.exports.sentBookingSmsToCustomer(razorpayOrderId);
+                let sendSms=await module.exports.sentBookingSmsToCustomer(orderId);
                 return resolve(resData);
             });
             return resolve(resData);
