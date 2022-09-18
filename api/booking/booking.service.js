@@ -170,9 +170,9 @@ module.exports={
     },
     getBookingByOrderId:async(orderId)=>{
         sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
-        console.log("SQL=="+sql);
+        console.log("SQL=="+sqlGetPay);
         return new Promise((resolve, reject)=>{
-            pool.query(sql,  (error, elements)=>{
+            pool.query(sqlGetPay,  (error, elements)=>{
                 if(error){
                     return reject(error);
                 }
