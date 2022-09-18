@@ -1,7 +1,7 @@
 const pool=require('../../config/database');
 const moment = require('moment');
 var request = require('request');
-const{getBookingByOrderId}=require('../booking/booking.service');
+const{getBookingByOrderId,sendSms}=require('../booking/booking.service');
 module.exports={
     getMyBookings:async(agentId,pageId)=>{
         let start=((pageId-1)*10);
@@ -318,20 +318,20 @@ module.exports={
                     let msgAdmin='Hi Admin, Agent '+agentName+' confirmed booking. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAdmin:"+msgAdmin);
-                    await module.exports.sendSms('9821224861','Admin',msgAdmin);
+                    await sendSms('9821224861','Admin',msgAdmin);
 
                     let msgAgent='Dear '+agentName+' Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : ,'+pickupCityName+' Drop : '+dropCityName+', starting on '+pickupDate
                     +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAgent:"+msgAgent);
-                    await module.exports.sendSms(agentMobileno,'Partner',msgAgent);
+                    await sendSms(agentMobileno,'Partner',msgAgent);
                 }else{
                     var msgDriver='Dear '+driverName+', Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+', Drop : '+dropCityName+', starting on '+pickupDate
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgDriver:"+msgDriver);
-                    await module.exports.sendSms(driverContact,'Driver',msgDriver);
+                    await sendSms(driverContact,'Driver',msgDriver);
                     var msgCusotmer='Hi '+userName+', Here is driver and car detials Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
                     console.log("msgCusotmer:"+msgCusotmer);
-                    await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);
+                    await sendSms(userMobileNo,'Customer',msgCusotmer);
                 }               
                 
                // return resolve(resData);
@@ -340,37 +340,6 @@ module.exports={
             return resolve(resData);
         });
     },
-    sendSms:async(mobileNo,type,message)=>{
-        try{
-            var msg=message;
-            let smsUserID=process.env.smsId;
-            let smsPassword=process.env.smsPassword;
-                //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
-                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID="+smsUserID+"&Password="+smsPassword+"&SenderID=IVRMSG&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCar&TemplateID=Varified";
-                   console.log("BulkSMS========"+url); 
-                   //let resOtp=await module.exports.expireOtp(mobileNo);
-                  await request.get({ url: url },function(error, response, body) {
-                    //console.log("SMs Res: "+JSON.stringify(response));
-                    let status=response.statusCode;
-                    reData=error;
-                    if (!error && response.statusCode == 200) {
-                        console.log("==otp sent=="+JSON.stringify(response));
-                        reData=JSON.stringify(response.body);
-                       }
-                       sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
-                        //console.log("SQL=="+sql);
-                        return new Promise((resolve, reject)=>{
-                            pool.query(sql,  (error, elements)=>{
-                                if(error){
-                                    return reject(error);
-                                }
-                                return resolve(elements);
-                            });
-                        });
-                   });
-        }catch(error){
-            console.log("[ERROR]: while sending sms"+error);
-        }
-    }
+    
     
 }
