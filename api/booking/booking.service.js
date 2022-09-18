@@ -126,6 +126,60 @@ module.exports={
         });
     },
     sentBookingSmsToCustomer:async(orderId,type='Customer')=>{
+        let bookingData=await module.exports.getBookingByOrderId(orderId);
+        
+        sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
+        
+        //let rawResponcedata=JSON.stringify(rawResponce);
+        let resData= JSON.stringify({code:'200',msg:'success',data:''});
+        result=bookingData;
+        return new Promise(async(resolve, reject)=>{
+            //pool.query(sqlGetPay,  async(error, result)=>{
+                
+                userMobileNo=result[0]['userMobileNo'];
+                userName=result[0]['userName'];
+                driverName=result[0]['driverName'];
+                driverContact=result[0]['driverContact'];
+                gadiNo=result[0]['gadiNo'];
+                gadiModel=result[0]['gadiModel'];
+                agentId=result[0]['agentId'];
+                distance=result[0]['distance'];
+                actualJourny=result[0]['journyDistance'];
+                journyTime=result[0]['journyTime'];
+                extraRate=result[0]['extraRate'];
+                finalAmount=result[0]['finalAmount'];
+                paid=result[0]['paid'];
+                pending=finalAmount-paid;
+                gadiNo=gadiNo+" "+gadiModel
+                
+                pickup=result[0]['pickup'];
+                destination=result[0]['destination'];
+                let pickupCityName=pickup.split(",")[0];
+                let dropCityName=destination.split(",")[0];
+                pickupDate='';
+                if(result[0]['pickupDate']!=''){
+                    pickupDate=result[0]['pickupDate'];
+                    pickupDate=moment(pickupDate).format('llll');
+                }
+                
+                returnDate='';
+                if(result[0]['returnDate']!=''){
+                    returnDate=result[0]['returnDate'];
+                    returnDate=moment(returnDate).format('llll');
+                }
+                orderId=result[0]['orderId'];
+                var msgDriver='Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
+                await module.exports.sendSms(driverContact,'Admin',msgDriver);
+                var msgCusotmer='Hi '+userName+' Thank you for booking with us, here is your trip detials Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId+' www.bookourcar.com';
+                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);             
+                
+               // return resolve(resData);
+            //});
+            resData= JSON.stringify({code:'200',msg:'sms sent successfully',orderId:orderId});
+            return resolve(resData);
+        });
+    },
+    sentBookingSmsToCustomer1:async(orderId,type='Customer')=>{
         sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
         //console.log("sqlGetPay=="+sqlGetPay);
         //let rawResponcedata=JSON.stringify(rawResponce);
