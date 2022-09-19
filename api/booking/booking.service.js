@@ -170,9 +170,9 @@ module.exports={
                 }
                 orderId=result[0]['orderId'];
                 var msgDriver='Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
-                await module.exports.sendSms(driverContact,'Admin',msgDriver);
+                await module.exports.sendSms(driverContact,'Admin',msgDriver,006);
                 var msgCusotmer='Hi '+userName+' Thank you for booking with us, here is your trip detials Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId+' www.bookourcar.com';
-                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);             
+                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer,001);             
                 
                // return resolve(resData);
             //});

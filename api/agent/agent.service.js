@@ -318,14 +318,14 @@ module.exports={
                     let msgAdmin='Hi Admin, Agent '+agentName+' confirmed booking. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAdmin:"+msgAdmin);
-                    await sendSms('9821224861','Admin',msgAdmin);
+                    await sendSms('9821224861','Admin',msgAdmin,005);
 
-                    let msgAgent='Dear '+agentName+' Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : ,'+pickupCityName+' Drop : '+dropCityName+', starting on '+pickupDate
+                    let msgAgent='Dear '+agentName+' Your upcoming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : ,'+pickupCityName+' Drop : '+dropCityName+', starting on '+pickupDate
                     +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAgent:"+msgAgent);
-                    await sendSms(agentMobileno,'Partner',msgAgent);
+                    await sendSms(agentMobileno,'Partner',msgAgent,004);
                 }else{
-                    var msgDriver='Dear '+driverName+', Your upcomming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+', Drop : '+dropCityName+', starting on '+pickupDate
+                    var msgDriver='Dear '+driverName+', Your upcoming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+', Drop : '+dropCityName+', starting on '+pickupDate
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgDriver:"+msgDriver);
                     await sendSms(driverContact,'Driver',msgDriver,002);
