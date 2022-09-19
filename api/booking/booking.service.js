@@ -219,9 +219,10 @@ module.exports={
                     returnDate=moment(returnDate).format('llll');
                 }
                 orderId=result[0]['orderId'];
+                adminMobile=7722055354;
                 var msgDriver='Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
-                await module.exports.sendSms(driverContact,'Admin',msgDriver);
-                var msgCusotmer='Hi '+userName+' Thank you for booking with us, here is your trip detials Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId+' www.bookourcar.com';
+                await module.exports.sendSms(adminMobile,'Admin',msgDriver);
+                var msgCusotmer='Hi '+userName+' Thank you for booking with us, Your trip details are Pickup : '+pickupCityName+', Drop : '+dropCityName+' On '+pickupDate+' PRN : '+orderId+' www.bookourcar.com';
                 await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer);             
                 
                 resData= JSON.stringify({code:'200',msg:'sms sent successfully',orderId:orderId});

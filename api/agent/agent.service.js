@@ -329,7 +329,7 @@ module.exports={
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgDriver:"+msgDriver);
                     await sendSms(driverContact,'Driver',msgDriver);
-                    var msgCusotmer='Hi '+userName+', Here is driver and car detials Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
+                    var msgCusotmer='Hi '+userName+', Here is driver and car details Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
                     console.log("msgCusotmer:"+msgCusotmer);
                     await sendSms(userMobileNo,'Customer',msgCusotmer);
                 }               
