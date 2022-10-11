@@ -1,4 +1,5 @@
 const pool=require('../../config/database');
+const{getBookingByOrderId,sendSms}=require('../booking/booking.service');
 var moment = require('moment')
 module.exports={
     getMyBookings:async(driverId,pageId)=>{
@@ -185,10 +186,10 @@ module.exports={
 
                 var msgDriver='Dear '+driverName+', You have ednded trip. Trip Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'),  Total journey:'+actualJourny+'KM, Extra Km:'+extraKm+' Extra charges:'+extraAmount+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Night charges,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgDriver:"+msgDriver);
-                    await sendSms(driverContact,'Driver',msgDriver);
+                    await sendSms(driverContact,'Driver',msgDriver,007);
                     var msgCusotmer='Dear '+userName+', Your trip has been ended.  Your trip details, Total journey:'+actualJourny+'KM, Extra Km:'+extraKm+' Extra charges:'+extraAmount+', Your final payment amount Rs '+finalAmount+', Advance Paid:Rs '+paid+', Please pay Rs'+pending+' + Night charges Rs.250,Toll,Parking (if Applicable) to '+driverName+' to completed trip Thank You Team BookOurCar';
-                    console.log("msgCusotmer:"+msgCusotmer);
-                    await sendSms(userMobileNo,'Customer',msgCusotmer);
+                    console.log("msgCusotmer:"+msgCusotmer);                    
+                    await sendSms(userMobileNo,'Customer',msgCusotmer,008);
                 
                // return resolve(resData);
             //});

@@ -187,4 +187,16 @@ router.get('/prepayment',async function(req,res,next){
         res.status(500).send(error);
     }
  });
+router.post("/uploadfile",async function (req, res,next){
+    const newpath ="files/";
+    const file = req.files.file;
+    const filename = file.name;
+   console.log("filename="+filename);
+    file.mv(`${newpath}${filename}`, (err) => {
+      if (err) {
+        res.status(500).send({ message: "File upload failed", code: 200 });
+      }
+      res.status(200).send({ message: "File Uploaded", code: 200 });
+    });
+  });
 module.exports=router;
