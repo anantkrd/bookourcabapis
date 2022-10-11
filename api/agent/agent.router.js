@@ -189,8 +189,9 @@ router.get('/prepayment',async function(req,res,next){
  });
 router.post("/uploadfile",async function (req, res,next){
     const newpath ="files/";
+    console.log("Req:"+stringify.JSON(req))
     const file = req.files.file;
-    const filename = file.name;
+    const filename = file.fileName;
    console.log("filename="+filename);
     file.mv(`${newpath}${filename}`, (err) => {
       if (err) {
