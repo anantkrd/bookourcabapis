@@ -169,7 +169,7 @@ module.exports={
             pool.query(sqlCars,  (error, result)=>{
                 
                 if(result.length>0){
-                    return resolve({code:500,msg:"Car already added"});
+                    return resolve({code:500,msg:"Driver is already added"});
                 }else{
                     var insertDiver="INSERT INTO prayag_users (firstName, lastName,mobileNo,email,userPassword,parentId,idProof,idNumber,userType,status) VALUES (?,?,?,?,?,?,?,?,?,?)";
                     data=[firstName,lastName,mobileNo,email,mobileNo,userId,licenseUrl,licenseNo,'driver','Active'];
