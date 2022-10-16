@@ -171,15 +171,14 @@ module.exports={
                 if(result.length>0){
                     return resolve({code:500,msg:"Car already added"});
                 }else{
-                    var insertDiver="INSERT INTO prayag_users (firstName, lastName,mobileNo,email,parentId,idProof,idNumber,userType,status) VALUES (?,?,?,?,?,?,?,?,?)";
-                    data=[firstName,lastName,mobileNo,email,userId,licenseUrl,licenseNo,'driver','Active'];
+                    var insertDiver="INSERT INTO prayag_users (firstName, lastName,mobileNo,email,userPassword,parentId,idProof,idNumber,userType,status) VALUES (?,?,?,?,?,?,?,?,?)";
+                    data=[firstName,lastName,mobileNo,email,mobileNo,userId,licenseUrl,licenseNo,'driver','Active'];
                     pool.query(insertDiver, data, (error, resultData)=>{
                         if(error){
                             return reject(error);
                         }
                     });
-                }
-                
+                }                
                 
             });
             //return reject({code:500,msg:"some thing went wrong"});
