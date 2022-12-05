@@ -317,20 +317,20 @@ module.exports={
                     let msgAdmin='Hi Admin, Agent '+agentName+' confirmed booking. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+' Drop : '+dropCityName+' starting on '+pickupDate
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAdmin:"+msgAdmin);
-                    await sendSms('9821224861','Admin',msgAdmin,005);
+                    await sendSms('9821224861','Admin',msgAdmin,'1507166598352410718');
 
                     let msgAgent='Dear '+agentName+' Your upcoming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : ,'+pickupCityName+' Drop : '+dropCityName+', starting on '+pickupDate
                     +' Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+' Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgAgent:"+msgAgent);
-                    await sendSms(agentMobileno,'Partner',msgAgent,004);
+                    await sendSms(agentMobileno,'Partner',msgAgent,'1507166598305065342');
                 }else{
                     var msgDriver='Dear '+driverName+', Your upcoming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+', Drop : '+dropCityName+', starting on '+pickupDate
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgDriver:"+msgDriver);
-                    await sendSms(driverContact,'Driver',msgDriver,002);
+                    await sendSms(driverContact,'Driver',msgDriver,'1507166555802314044');
                     var msgCusotmer='Hi '+userName+', Here is driver and car details Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
                     console.log("msgCusotmer:"+msgCusotmer);
-                    await sendSms(userMobileNo,'Customer',msgCusotmer,003);
+                    await sendSms(userMobileNo,'Customer',msgCusotmer,'1507166555767787860');
                 }               
                 
                // return resolve(resData);

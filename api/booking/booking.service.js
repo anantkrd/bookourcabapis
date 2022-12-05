@@ -172,7 +172,7 @@ module.exports={
                 var msgDriver='Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
                 await module.exports.sendSms(driverContact,'Admin',msgDriver,006);
                 var msgCusotmer='Hi '+userName+' Thank you for booking with us, here is your trip detials Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId+' www.bookourcar.com';
-                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer,001);             
+                await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer,'1507166555747097090');             
                 
                // return resolve(resData);
             //});
@@ -249,7 +249,7 @@ module.exports={
             let smsUserID=process.env.smsId;
             let smsPassword=process.env.smsPassword;
                 //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
-                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID="+smsUserID+"&Password="+smsPassword+"&SenderID=MSGTST&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=BookOurCarEnt&TemplateID="+templateId;
+                let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID="+smsUserID+"&Password="+smsPassword+"&SenderID=TRVLPR&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=1501482300000054811&TemplateID="+templateId;
                    console.log("BulkSMS========"+url); 
                    //let resOtp=await module.exports.expireOtp(mobileNo);
                   await request.get({ url: url },function(error, response, body) {

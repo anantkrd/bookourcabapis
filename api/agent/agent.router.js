@@ -164,11 +164,11 @@ router.post('/success',async function(req,res,next){
 router.get('/prepayment',async function(req,res,next){
     try {
         
+
         const instance = new Razorpay({
-            key_id: 'rzp_live_lMUNjJZuvH00Im',
-            key_secret: 'cvzKztFIkcdkU7dZbP9iQQSO',
+            key_id: process.env.paymentId,
+            key_secret: process.env.paymentSecreat,
         });
-        
         let amount=req.body.amount;
         let receiptId=req.body.bookingId;
 
