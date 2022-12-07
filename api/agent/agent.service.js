@@ -327,10 +327,10 @@ module.exports={
                     var msgDriver='Dear '+driverName+', Your upcoming trip. Booking ID:'+orderId+'. Customer Name: '+userName+' ('+userMobileNo+'), Pickup : '+pickupCityName+', Drop : '+dropCityName+', starting on '+pickupDate
                     +', Total Limit:'+distance+'KM, Extra Km Charges:Rs '+extraRate+', Night driving charges(If Applicable):Rs 250, Total Amount: Rs '+finalAmount+', Advance Paid:Rs '+paid+', cash to collect Rs'+pending+' + Extra,Toll,Parking,Other. For any queries call +919821224861. Team BookOurCar';
                     console.log("msgDriver:"+msgDriver);
-                    await sendSms(driverContact,'Driver',msgDriver,'1507166555802314044');
+                    await sendSms(driverContact,'Driver',msgDriver,'1507167043815196732');
                     var msgCusotmer='Hi '+userName+', Here is driver and car details Driver Name: '+driverName+', Contact No : '+driverContact+' GadiNo : '+gadiNo+" Thank You";
                     console.log("msgCusotmer:"+msgCusotmer);
-                    await sendSms(userMobileNo,'Customer',msgCusotmer,'1507166555767787860');
+                    await sendSms(userMobileNo,'Customer',msgCusotmer,'1507167043796613416');
                 }               
                 
                // return resolve(resData);
