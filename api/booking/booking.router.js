@@ -2,7 +2,7 @@ const express=require('express');
 
 const jwt=require('jsonwebtoken');
 const{createUser,getUserByMobile}=require('../user/user.controller');
-const {create_booking,getCabs,create_booking_log}=require('../booking/booking.controller');
+const {create_booking,getCabs,create_booking_log,updateCab}=require('../booking/booking.controller');
 const{getSurge,addPayment,updateBookingDetails}=require('../booking/booking.service');
 const authenticate=require("../auth/index");
 const router=express.Router();
@@ -522,6 +522,7 @@ router.get('/getCabs',async function(req,res,next){
             });*/
     });
 });
+router.update('/updateCabs',authenticate,await updateCab(req,res));
 router.get('/getBookingById',authenticate, async function(req,res,next){
 
     let bookingId=req.query.bookingId;

@@ -1,5 +1,5 @@
 const { json } = require('body-parser');
-const{create,getCabs,createSearchLog}=require('./booking.service');
+const{create,getCabs,createSearchLog,updateCab}=require('./booking.service');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 module.exports={
     create_booking:async(data)=>{
@@ -28,14 +28,13 @@ module.exports={
         let datares=await getCabs(data); 
          console.log("datares*=="+JSON.stringify(datares));
          return datares;
-        /*await getCabs(data,(err,results)=>{
-            if(err){
-                return  err;//callBack(err);
-            }else{
-
-            }
-            console.log("results*=="+results);
-            return results;//callBack(null,results);
-        });*/
+    },
+    updateCab:async(data)=>{
+        try{
+            let res=await this.updateCab(data);
+            return res;
+        }catch(err){
+            throw err;
+        }
     }
 }

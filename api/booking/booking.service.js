@@ -12,8 +12,6 @@ module.exports={
             data.pickupCityName,data.pickupDistrict,data.pickupState,data.dropCityName,data.dropDistrict,data.dropState,data.mobileNo,data.extraRate];
         console.log("sqlBookin==="+sqlBooking);
         
-        console.log("booking===="+JSON.stringify(booking));
-        
         return new Promise((resolve, reject)=>{
             pool.query(sqlBooking, booking, (error, elements)=>{
                 if(error){
@@ -22,14 +20,6 @@ module.exports={
                 return resolve(elements);
             });
         });
-
-        /*pool.query(sqlBooking,booking,(err,results,fields)=>{
-            if(err){
-                return callBack(err);
-            }else{
-                return callBack(null,results);
-            }
-        });*/
     },
     createSearchLog:(data,callBack)=>{
         let returndate=data.returnDate;
@@ -52,9 +42,7 @@ module.exports={
         });
     },
     getCabs:async(data,callBack)=>{
-        //userMobileNo=7722055354;
-        //msg='testing msg';
-        //await module.exports.sendSms(userMobileNo,'Customer',msg);
+        
         sql="select * from prayag_cabs where isDeleted='N'";
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
@@ -64,18 +52,24 @@ module.exports={
                 return resolve(elements);
             });
         });
-        /*pool.query(sql,(err,results,fields)=>{
-            if(err){
-                return callBack(err);
-            }else{
-                console.log("results*="+JSON.stringify(results));
-                return callBack(null,results);
-            }
-        });*/
+    },    
+    updateCab:async(data)=>{
+        
+        updateCabs=[data.ac,data.bags,data.capacity,data.cars,data.note,data.rate,data.returnTripRate,data.discount,data.extraRate,cadId];
+        sqlupdate="update prayag_cabs set ac=?,bags=?,capacity=?,cars=?,note=?,rate=?,returnTripRate=?,discount=?,extraRate=? where id=?"
+        
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlupdate,  updateCabs,(error, elements)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(elements);
+            });
+        });
     },    
     getSurge:async(cityName,location='',callBack)=>{
         sql="SELECT * FROM `prayag_surge` WHERE `city` LIKE '"+cityName+"' and isDeleted='N'";
-        console.log("SQL=="+sql);
+        
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
                 console.log("errorerror==="+elements)
@@ -84,14 +78,14 @@ module.exports={
                     let json=[{"city":"Pune","surge":'{"Compact":1,"Sedan":1,"Luxury":1,"SUVErtiga":1,"Innova":1,"InnovaCrysta":1,"other":1,"local":20}'}]
                     return resolve(json);
                 }
-                console.log(JSON.stringify(elements))
+                //console.log(JSON.stringify(elements))
                 return resolve(elements);
             });
         });
     },    
     addPayment:async(amount,bookingId,mobileNo,paymentId)=>{
         sql="INSERT INTO `prayag_booking_payment`(`bookingId`, `paymentId`, `mobileNo`, `amount`, `rawResponce`, `paymentType`, `status`, `isDeleted`) VALUES ('"+bookingId+"','"+paymentId+"','"+mobileNo+"','"+amount+"','','credit','pending','N')";
-        console.log("SQL=="+sql);
+        
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
                 if(error){
@@ -103,12 +97,12 @@ module.exports={
     },    
     updateBookingDetails:async(razorpayOrderId,rawResponce)=>{
         sqlGetPay="select * from prayag_booking_payment where paymentId='"+razorpayOrderId+"'";
-        console.log("sqlGetPay=="+sqlGetPay);
+        
         let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay, async(error, result)=>{
-                console.log("result==="+JSON.stringify(result));
+                
                 bookingAmount=result[0]['amount'];
                 orderId=result[0]['orderId'];
                 sqlUpdatePayment="UPDATE `prayag_booking_payment` SET `status`='completed',rawResponce='"+rawResponcedata+"' WHERE paymentId='"+razorpayOrderId+"'";
@@ -118,8 +112,6 @@ module.exports={
                 pool.query(sqlUpdateBooking,  (error, elements)=>{
                 
                 });
-                //console.log("sqlUpdatePayment=="+sqlUpdatePayment);
-                //console.log("sqlUpdateBooking=="+sqlUpdateBooking);
                 let sendSms=await module.exports.sentBookingSmsToCustomer(razorpayOrderId);
                 return resolve(resData);
             });
@@ -136,7 +128,7 @@ module.exports={
         result=bookingData;
         return new Promise(async(resolve, reject)=>{
             //pool.query(sqlGetPay,  async(error, result)=>{
-                console.log("Result data="+JSON.stringify(result));
+                
                 userMobileNo=result[0]['userMobileNo'];
                 userName=result[0]['userName'];
                 driverName=result[0]['driverName'];
@@ -184,7 +176,7 @@ module.exports={
     },
     sentBookingSmsToCustomer:async(orderId,type='Customer')=>{
         sqlGetPay="select * from prayag_booking where payment_orderId='"+orderId+"'";
-        console.log("sqlGetPay=="+sqlGetPay);
+        
         //let rawResponcedata=JSON.stringify(rawResponce);
         let resData= JSON.stringify({code:'200',msg:'success',data:''});
         return new Promise((resolve, reject)=>{
@@ -235,7 +227,7 @@ module.exports={
     },
     getBookingByOrderId:async(orderId)=>{
         sqlGetPay="select * from prayag_booking where orderId='"+orderId+"'";
-        console.log("SQL=="+sqlGetPay);
+        
         return new Promise((resolve, reject)=>{
             pool.query(sqlGetPay,  (error, elements)=>{
                 if(error){
@@ -252,7 +244,7 @@ module.exports={
             let smsPassword=process.env.smsPassword;
                 //var url='http://nimbusit.biz/api/SmsApi/SendSingleApi?UserID=anantkrd&Password=snra7522SN&SenderID=ANANTZ&Phno='+mobileNo+'&Msg='+encodeURIComponent(msg);
                 let url="http://servermsg.com/api/SmsApi/SendSingleApi?UserID="+smsUserID+"&Password="+smsPassword+"&SenderID=TRVLPR&Phno="+mobileNo+"&Msg="+encodeURIComponent(msg)+"&EntityID=1501482300000054811&TemplateID="+templateId;
-                   console.log("BulkSMS========"+url); 
+                   
                    //let resOtp=await module.exports.expireOtp(mobileNo);
                   await request.get({ url: url },function(error, response, body) {
                     //console.log("SMs Res: "+JSON.stringify(response));
@@ -263,7 +255,7 @@ module.exports={
                         reData=JSON.stringify(response.body);
                        }
                        sql="INSERT INTO `prayag_sms_log`(`mobileNo`, `msg`, `isSent`, `type`, `userType`, `status`, `reData`) VALUES ('"+mobileNo+"','"+message+"','Y','Booking','"+type+"','"+status+"','"+reData+"')";
-                        //console.log("SQL=="+sql);
+                        
                         return new Promise((resolve, reject)=>{
                             pool.query(sql,  (error, elements)=>{
                                 if(error){
