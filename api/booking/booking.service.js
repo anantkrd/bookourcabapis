@@ -163,7 +163,7 @@ module.exports={
                 orderId=result[0]['orderId'];
                 var msgDriver='TRVLPR: Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
                 console.log("AdminMsg:"+msgDriver)
-                await module.exports.sendSms(driverContact,'Admin',msgDriver,'1507167043980322643');
+                await module.exports.sendSms('7722055354','Admin',msgDriver,'1507167043980322643');
                 var msgCusotmer='TOURPR: Hi '+userName+' Thank you for booking with us, here is your trip details Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId+' Team BookOurCar';
                 console.log("msgCusotmer:"+msgCusotmer);
                 await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer,'1507167043966993678');             
@@ -216,6 +216,7 @@ module.exports={
                 adminMobile=7722055354;
                 var msgDriver='TRVLPR: Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
                 await module.exports.sendSms(adminMobile,'Admin',msgDriver,'1507167043980322643');
+                await module.exports.sendSms('9821224861','Admin',msgDriver,'1507167043980322643');
                 var msgCusotmer='TOURPR: Hi '+userName+' Thank you for booking with us, Your trip details Pickup : '+pickupCityName+', Drop : '+dropCityName+' On '+pickupDate+' PRN : '+orderId+' www.bookourcar.com';
                 await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer,'1507167043966993678');             
                 
