@@ -522,7 +522,7 @@ router.get('/getCabs',async function(req,res,next){
             });*/
     });
 });
-router.update('/updateCabs',authenticate,await updateCab(req,res));
+//router.update('/updateCabs',authenticate,await updateCab(req,res));
 router.get('/getBookingById',authenticate, async function(req,res,next){
 
     let bookingId=req.query.bookingId;
