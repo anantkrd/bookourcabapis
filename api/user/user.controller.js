@@ -4,6 +4,7 @@ const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getB
 const {getCabs}=require('../common/cabs');
 const pool = require('../../config/database');
 const jwt=require('jsonwebtoken');
+const moment = require('moment');
 module.exports={
     createUser_old:(req,res)=>{
         const body=req.query;
@@ -188,15 +189,18 @@ module.exports={
                 data={};
                 let status=results[i]['status'];
                 let bokkingStatus='';
+                let canCancel='N';
                 if(status=='pending')
                 {
                     bokkingStatus="Pending";
                 }else if(status=='waiting')
                 {
                     bokkingStatus="Waiting for Approval";
+                    canCancel='Y';
                 }else if(status=='confirm')
                 {
                     bokkingStatus="Driver Assigned";
+                    canCancel='Y';
                 }else if(status=='canceled')
                 {
                     bokkingStatus="Canceled";
@@ -215,7 +219,19 @@ module.exports={
                 }else{
                     bokkingStatus=status;
                 }
+                let timeNow=moment().format("YYYY-MM-DD H:mm:ss");
+                timeNow = moment().add(5, 'hours');
+                timeNow = moment(timeNow).add(30, 'minutes');
+                let pickdateTime=results[i]['pickupDate'];
+                let formattedDate=moment(pickdateTime);//.format("YYYY-MM-DD H:mm:ss");
+                console.log(timeNow+"==pickdate ="+moment(formattedDate).format("YYYY-MM-DD H:mm:ss"));
+                let tripBookingBEforHours=moment(formattedDate).diff(moment(timeNow), 'hours');
+                let earlyBookingCharges=0;
+                if(tripBookingBEforHours<2 && canCancel=='Y'){
+                    canCancel='N';
+                }
                 data['id']=results[i]['id'];
+                data['canCancel']=canCancel;
                 data['userId']=results[i]['userId'];
                 data['userName']=results[i]['userName'];
                 data['orderId']=results[i]['orderId'];
