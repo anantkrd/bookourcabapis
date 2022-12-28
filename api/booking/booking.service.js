@@ -217,8 +217,8 @@ module.exports={
                 var msgDriver='TRVLPR: Hi Admin, We have new booking. Customer Name: '+userName+', Pickup : '+pickupCityName+' Drop : '+dropCityName+' On '+pickupDate+" PRN : "+orderId;
                 await module.exports.sendSms(adminMobile,'Admin',msgDriver,'1507167043980322643');
                 await module.exports.sendSms('9821224861','Admin',msgDriver,'1507167043980322643');
-                var msgCusotmer='TOURPR: Hi '+userName+' Thank you for booking with us, Your trip details Pickup : '+pickupCityName+', Drop : '+dropCityName+' On '+pickupDate+' PRN : '+orderId+' www.bookourcar.com';
-                ='TOURPR: Hi '+userName+' Thank you for booking with us, here is your trip details Pickup : '+pickupCityName+', Drop : '+dropCityName+' On '+pickupDate+' PRN : '+orderId+' Team BookOurCar'
+                //var msgCusotmer='TOURPR: Hi '+userName+' Thank you for booking with us, Your trip details Pickup : '+pickupCityName+', Drop : '+dropCityName+' On '+pickupDate+' PRN : '+orderId+' www.bookourcar.com';
+                var msgCusotmer='TOURPR: Hi '+userName+' Thank you for booking with us, here is your trip details Pickup : '+pickupCityName+', Drop : '+dropCityName+' On '+pickupDate+' PRN : '+orderId+' Team BookOurCar'
                 await module.exports.sendSms(userMobileNo,'Customer',msgCusotmer,'1507167043966993678');             
                 
                 resData= JSON.stringify({code:'200',msg:'sms sent successfully',orderId:orderId});
