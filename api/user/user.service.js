@@ -224,7 +224,7 @@ module.exports={
         });
     },
     getBookingById:async(orderId,callBack)=>{
-        sqlcheck="SELECT booking.*,cabs.cabType,cabs.ac,cabs.bags,cabs.capacity,cabs.cars,cabs.note ,(select mobileNo from prayag_users where id=booking.userId ) as mobileNo FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.orderId=? and isDeleted='N' limit 1";
+        sqlcheck="SELECT booking.*,cabs.cabType,cabs.ac,cabs.bags,cabs.capacity,cabs.cars,cabs.note ,(select mobileNo from prayag_users where id=booking.userId ) as mobileNo FROM `prayag_booking` booking inner JOIN prayag_cabs cabs ON booking.cabId=cabs.id WHERE booking.orderId=? and booking.isDeleted='N' limit 1";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[orderId],  (error, results)=>{
                 if(error){
