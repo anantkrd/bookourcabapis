@@ -3,7 +3,7 @@ const bcryptjs=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 var router = express.Router();
 const{createUser,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,
-    getBookingSearchLog,getUserByID,getAgentByID,verifyPassword}=require('./user.controller');
+    getBookingSearchLog,getUserByID,getAgentByID,verifyPassword,cancelBooking}=require('./user.controller');
 const { json } = require('body-parser');
 const authenticate=require("../auth/index");
 
@@ -137,7 +137,16 @@ router.get('/create_user', async function(req, res, next) {
     res.send(responce);
     
   });
-  
+  router.get('/cancel_booking',authenticate, async function(req, res, next) {
+    result =await cancelBooking(req.query.bookingId,req.query.userId);
+    if(result.length<=0){
+        responce=JSON.stringify({code:'501',message:'something is going wrong please try after sometime',data:''});
+    }else{
+        responce=JSON.stringify({code:'200',message:'booking canceled successfully',data:''});
+    }
+    res.send(responce);
+    
+  });
   router.get('/get_user_booking',authenticate, async function(req, res, next) {
     responce =await getBookingByUser(req.query.userId);
     res.send(responce);

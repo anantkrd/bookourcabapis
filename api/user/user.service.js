@@ -284,12 +284,19 @@ module.exports={
     getBookingSearchLog:async(userId,pageId)=>{
         let start=((pageId-1)*10);
         let perPage=10;
+        sqlcheckCount="SELECT count(id) as rowCount from prayag_search_log where isDeleted='N' order by id desc";
+        let resCount=await module.exports.getPageCount(sqlcheckCount,perPage);
+
+        console.log("resCount=="+JSON.stringify(resCount));
+        let rowCount=resCount[0]['rowCount'];        
+        totalPage=rowCount/perPage;
         sqlcheck="SELECT * from prayag_search_log where isDeleted='N' order by id desc limit ?,?";
         return new Promise((resolve, reject)=>{
             pool.query(sqlcheck,[start,perPage],  (error, results)=>{
                 if(error){
                     return reject(error);
                 }
+                results=JSON.stringify({results:results,rowCount:rowCount,totalPage:totalPage});
                 return resolve(results);
             });
         })
@@ -311,5 +318,26 @@ module.exports={
     },
     sendSms:async(userId,message,mobileNo)=>{
         let insertSms=""
+    },
+    cancelBooking:async(id,orderId,userId,returnAmount,reason)=>{
+        var sqlUpdate="update prayag_booking set status='canceled' where id=?";
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlUpdate,[bookingId],  (error, results)=>{
+                if(error){                    
+                    results=[];      
+                    return reject(results);
+                }else{
+                    var sql="INSERT INTO boc_canceled_booking (bookingId, orderId,canceledBy,userId,returnAmount,reason,returnStatus) VALUES (?,?,?,?,?,?,?)";
+                    new Promise((resolve, reject)=>{
+                        pool.query(sql,[id,orderId,userId,returnAmount,reason,'pending'],  (error, results)=>{
+                            
+                        });
+                    });
+                }
+                return resolve(results);
+                
+            });
+        });
+        
     }
 };

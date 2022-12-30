@@ -1,6 +1,6 @@
 const { json } = require('body-parser');
 const{create,getUserByMobile,sendOTP,verifyOtp,getBookings,getBookingByUser,getBookingById,getBookingSearchLog,updateAgentAmount
-    ,getUserByID,getAgentByID,sendSms,verifyPassword}=require('./user.service');
+    ,getUserByID,getAgentByID,sendSms,verifyPassword,cancelBooking}=require('./user.service');
 const {getCabs}=require('../common/cabs');
 const pool = require('../../config/database');
 const jwt=require('jsonwebtoken');
@@ -432,7 +432,65 @@ module.exports={
                 return callBack(null,results);                                 
             }
         });    */   
+    },
+    cancelBooking:async(bookingId,userId)=>{
+        try{
+            let results= await getBookingById(bookingId);
+            console.log("getBookingById="+JSON.stringify(results));
+            dataObj=[];
+            if(results.length<=0){            
+                responce=JSON.stringify({code:'500',msg:'No data found',data:''});
+            }else{
+                for ( var i = 0; i < results.length; i++)
+                {
+                    let status=results[i]['status'];
+                    id=results[i]['id'];
+                    bookingUserId=results[i]['userId'];
+                    finalAmount=results[i]['finalAmount'];
+                    paid=results[i]['paid'];
+                    let bokkingStatus='';
+                    let canCancel='N';
+                    
+                    if(bookingUserId==userId)
+                    {
+                        if(status=='waiting')
+                        {
+                            bokkingStatus="Waiting for Approval";
+                            canCancel='Y';
+                        }else if(status=='confirm')
+                        {
+                            bokkingStatus="Driver Assigned";
+                            canCancel='Y';
+                        }
+                        let timeNow=moment().format("YYYY-MM-DD H:mm:ss");
+                        timeNow = moment().add(5, 'hours');
+                        timeNow = moment(timeNow).add(30, 'minutes');
+                        let pickdateTime=results[i]['pickupDate'];
+                        let formattedDate=moment(pickdateTime);//.format("YYYY-MM-DD H:mm:ss");
+                        console.log(timeNow+"==pickdate ="+moment(formattedDate).format("YYYY-MM-DD H:mm:ss"));
+                        let tripBookingBEforHours=moment(formattedDate).diff(moment(timeNow), 'hours');
+                        let earlyBookingCharges=0;
+                        returnAmount=0;
+                        if(tripBookingBEforHours>24 && canCancel=='Y'){
+                            returnAmount=paid;
+                        }else if(tripBookingBEforHours>2  && canCancel=='Y'){
+                            returnAmount=(finalAmount*50)/100;
+                            if(paid<returnAmount){
+                                returnAmount=paid;
+                            }
+                        }
+                        reason='Booking canceled by customer';
+                        await cancelBooking(id,bookingId,userId,returnAmount,reason);
+                    }
+                    
+                    
+                }
+            }
+        }catch(e){
+
+        }
     }
+
 }
 const getCabs1=async()=>{
     return "hello";
