@@ -302,6 +302,16 @@ module.exports={
         })
     },
     
+    getPageCount:async(sqlcheck,pageCount)=>{
+        return new Promise((resolve, reject)=>{
+            pool.query(sqlcheck,  (error, results)=>{
+                if(error){
+                    return reject(error);
+                }
+                return resolve(results);
+            });
+        });
+    },
     getAgentByID:async (userId)=>{
         sqlcheck="select * from prayag_agent_detials where agentId=?";
         console.log("select * from prayag_agent_detials where agentId="+userId)
