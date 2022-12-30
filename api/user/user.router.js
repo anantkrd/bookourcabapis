@@ -184,7 +184,7 @@ router.get('/create_user', async function(req, res, next) {
         responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
         
     }else{
-        responce=JSON.stringify({code:'200',msg:'agent create successfully',data:results});
+        responce=JSON.stringify({code:'200',msg:'log fetched successfully',data:results.results,rowCount:results.rowCount,totalPage:results.totalPage});
     }
     res.send(responce);  
     /*res1=getBookingSearchLog(req.query.userId,1,(err,results)=>{
