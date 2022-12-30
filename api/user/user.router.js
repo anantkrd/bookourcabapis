@@ -177,7 +177,7 @@ router.get('/create_user', async function(req, res, next) {
   });
   router.get('/get_search_log',authenticate, async function(req, res, next) {   
      
-    results =await getBookingSearchLog(req.query.userId,1);
+    results =await getBookingSearchLog(req.query.userId,req.query.pageId);
     results=JSON.parse(results);
     //res.send(results);
     if(results.length<=0){
