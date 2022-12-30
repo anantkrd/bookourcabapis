@@ -268,6 +268,7 @@ router.get('/getCabs',async function(req,res,next){
             let results=await getCabs(req);
             distanceValue=distancekm;
             dataObj=[];
+            let logPrice='';
             if(results.length<=0){
                 error=err;
                 responce=JSON.stringify({code:'500',msg:'some internal error',data:''});
@@ -306,10 +307,16 @@ router.get('/getCabs',async function(req,res,next){
                     let isReturnTrip='N';
                     let tripDays=0;
                     let PerDayKm=300;
+                    let PerDayKmSingle=150;
                     if(returnDateTime=="" || returnDateTime==undefined || returnDateTime=='undefined'|| returnDateTime=="0000-00-00 00:00:00"){
                         multiply=1;
                         finalRate=rate+earlyBookingCharges;
-                        distanceValue=distancekm;
+                        if(PerDayKmSingle>distancekm){
+                            distanceValue=PerDayKmSingle;
+                        }else{
+                            distanceValue=distancekm;
+                        }
+                        
                         returnDateTime="0000-00-00 00:00:00";
                     }else{
                         distanceValue=distancekm*2;
@@ -322,6 +329,8 @@ router.get('/getCabs',async function(req,res,next){
                                       
                         if(tripDays>1){
                             calculateKm=PerDayKm*tripDays;
+                        }else{
+                            calculateKm=PerDayKm;
                         }
                         //console.log(distanceValue+"=====tripDays*****************: " + tripDays+"======calculateKm==="+calculateKm);  
                         if(calculateKm>distanceValue)
@@ -347,7 +356,7 @@ router.get('/getCabs',async function(req,res,next){
                             let surgeDataDrop=surgedestinationResult[0]['surge'];
                             let surgeDataDropObj=JSON.parse(surgeDataDrop);
                             //console.log("surgeData Drop============="+surgeDataDropObj+"====="+surgeDataDropObj[cabType]);
-                            if(tripType=='local')
+                            if(tripType=='local' && distanceValue<=80)
                             {
                                 surgePrice=surgeDataPickupObj['local'];
                                 //surgePrice=surgePrice+(surgekm*surgeDataDropObj['local']);
@@ -380,7 +389,7 @@ router.get('/getCabs',async function(req,res,next){
                     console.log("surgePrice"+surgePrice);
                     console.log("finalRate"+finalRate);
                     idKey='id';
-                    
+                    logPrice=logPrice+" "+cabType+":"+finalAmount;
                     dataObj1={};
                     bookingId=id+""+new Date().valueOf();
                     dataObj1['id']=id;
@@ -423,7 +432,7 @@ router.get('/getCabs',async function(req,res,next){
                 responce=JSON.stringify({code:'200',msg:'',data:dataObj});
             }
             const logData={mobileNo:mobileNo,pickup:pickupCity,destination:destinationCity,pickupDate:pickdateTime,returnDate:returnDateTime,pickupLat:originlat,pickupLong:originlng,destinationLat:destinationlat,destinationLong:destinationlng,distance:distanceValue,
-                journyTime:journyTime1,sedanRate:sedanPrice,luxuryRate:luxuryPrice,compactRate:compactPrice}
+                journyTime:journyTime1,sedanRate:sedanPrice,luxuryRate:luxuryPrice,compactRate:compactPrice,note:logPrice}
             //console.log("logData==="+JSON.stringify(logData));
             create_booking_log(logData,(err,results)=>{
                 //console.log("create_booking_log Error====="+err);
