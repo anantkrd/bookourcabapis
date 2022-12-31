@@ -19,6 +19,7 @@ var http = require('http');
 var https = require('https');
 var privateKey  = fs.readFileSync('/etc/letsencrypt/live/www.bookourcar.com/privkey.pem', 'utf8');
 var certificate = fs.readFileSync('/etc/letsencrypt/live/www.bookourcar.com/fullchain.pem', 'utf8');
+console.log("certificate:"+certificate)
 var credentials = {key: privateKey, cert: certificate};
 var app = express();
 app.use(cors());
