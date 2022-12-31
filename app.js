@@ -79,7 +79,7 @@ httpServer.listen(port, () => {
     console.log('HTTP Server running on port '+port);
 });
 
-httpsServer.listen(80443, () => {
+httpsServer.listen(443, () => {
     console.log('HTTPS Server running on port'+port);
 });
 module.exports = app;
