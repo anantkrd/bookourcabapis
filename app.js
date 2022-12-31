@@ -76,11 +76,11 @@ port=process.env.API_PORT;
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(port, () => {
+httpServer.listen(4434, () => {
     console.log('HTTP Server running on port '+port);
 });
 
-httpsServer.listen(3443, () => {
+httpsServer.listen(port, () => {
     console.log('HTTPS Server running on port'+port);
 });
 module.exports = app;
