@@ -14,7 +14,12 @@ var bookingRouter=require('./api/booking/booking.router');
 var agentsRouters=require('./api/agent/agent.router');
 var adminRouters=require('./api/admin/admin.router');
 var driverRouters=require('./api/driver/driver.router');
-
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+var privateKey  = fs.readFileSync('/etc/letsencrypt/live/www.bookourcar.com/privkey.pem', 'utf8');
+var certificate = fs.readFileSync('/etc/letsencrypt/live/www.bookourcar.com/fullchain.pem', 'utf8');
+var credentials = {key: privateKey, cert: certificate};
 var app = express();
 app.use(cors());
 // view engine setup
@@ -63,7 +68,18 @@ app.use(function(err, req, res, next) {
 });
 console.log("=====port=="+process.env.API_PORT);
 port=process.env.API_PORT;
-app.listen(port, () => {
+
+/*app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
-})
+})*/
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(port, () => {
+    console.log('HTTP Server running on port '+port);
+});
+
+httpsServer.listen(port, () => {
+    console.log('HTTPS Server running on port'+port);
+});
 module.exports = app;
