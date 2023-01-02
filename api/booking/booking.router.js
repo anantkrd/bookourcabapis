@@ -3,7 +3,7 @@ const express=require('express');
 const jwt=require('jsonwebtoken');
 const{createUser,getUserByMobile}=require('../user/user.controller');
 const {create_booking,getCabs,create_booking_log,updateCab}=require('../booking/booking.controller');
-const{getSurge,addPayment,updateBookingDetails}=require('../booking/booking.service');
+const{wurge,addPayment,updateBookingDetails}=require('../booking/booking.service');
 const authenticate=require("../auth/index");
 const router=express.Router();
 var distance = require('google-distance-matrix');
@@ -260,9 +260,9 @@ router.get('/getCabs',async function(req,res,next){
             let luxuryPrice=0;
             let compactPrice=0;
             let pickupcityName=pickupCity.split(",")[0]
-            let surgePickpuResult=await getSurge(pickupDistrict,pickupcityName);
+            let surgePickpuResult=await getSurge(pickupcityName,pickupCityName);
             let destinationcityName=destinationCity.split(",")[0]
-            let surgedestinationResult=await getSurge(dropDistrict,destinationcityName);
+            let surgedestinationResult=await getSurge(destinationcityName,dropCityName);
             //console.log(distancekm+"**************surgeResult===");
             
             let results=await getCabs(req);
@@ -409,7 +409,7 @@ router.get('/getCabs',async function(req,res,next){
                     dataObj1['bags']=bags;
                     dataObj1['cars']=cars;
                     dataObj1['capacity']=capacity;
-                    dataObj1['note']=note;
+                    dataObj13['note']=note;
                     dataObj1['amount']=amount;
                     dataObj1['journyTime']=journyTime1;
                     dataObj1['discountAmount']=discountAmount;
