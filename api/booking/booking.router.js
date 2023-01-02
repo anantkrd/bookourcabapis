@@ -364,7 +364,7 @@ router.get('/getCabs',async function(req,res,next){
                                 surgePrice=surgekm*surgeDataPickupObj[cabType];
                                 surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);
                             }
-                            console.log(surgeDataPickupObj[cabType]+"============surgeamout=========="+surgeDataDropObj[cabType]);
+                            //console.log(surgeDataPickupObj[cabType]+"============surgeamout=========="+surgeDataDropObj[cabType]);
                             //surgePrice=surgekm*surgeDataPickupObj[cabType];
                             //surgePrice=surgePrice+(surgekm*surgeDataDropObj[cabType]);                            
                             
@@ -377,7 +377,7 @@ router.get('/getCabs',async function(req,res,next){
                             finalRate=finalRate+surgePrice;
                             sedanPrice=finalRate;
                         }
-                        console.log(finalRate+"============surgePrice=========="+surgePrice);
+                        //console.log(finalRate+"============surgePrice=========="+surgePrice);
                     }else{
                         sedanPrice=finalRate;
                     }

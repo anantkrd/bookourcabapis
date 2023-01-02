@@ -69,10 +69,10 @@ module.exports={
     },    
     getSurge:async(cityName,location='',callBack)=>{
         sql="SELECT * FROM `prayag_surge` WHERE `city` LIKE '"+cityName+"' or `city` LIKE '"+location+"' and isDeleted='N'";
-        console.log("sql::"+sql);
+        //console.log("sql::"+sql);
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
-                console.log("errorerror==="+elements)
+                //console.log("errorerror==="+elements)
                 if(elements=='' || elements.length<=0){
                     console.log("No elements")
                     let json=[{"city":"Pune","surge":'{"Compact":1,"Sedan":1,"Luxury":1,"SUVErtiga":1,"Innova":1,"InnovaCrysta":1,"other":1,"local":20}'}]
