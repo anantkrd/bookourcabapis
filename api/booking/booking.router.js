@@ -385,9 +385,9 @@ router.get('/getCabs',async function(req,res,next){
                     discountedRate=finalRate-discount;
                     finalAmount=Math.round(distanceValue*discountedRate);
                     
-                    console.log("surgekm"+surgekm);
-                    console.log("surgePrice"+surgePrice);
-                    console.log("finalRate"+finalRate);
+                    //console.log("surgekm"+surgekm);
+                    //console.log("surgePrice"+surgePrice);
+                    //console.log("finalRate"+finalRate);
                     idKey='id';
                     logPrice=logPrice+" "+cabType+":"+finalAmount;
                     dataObj1={};
