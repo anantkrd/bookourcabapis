@@ -69,7 +69,7 @@ module.exports={
     },    
     getSurge:async(cityName,location='',callBack)=>{
         sql="SELECT * FROM `prayag_surge` WHERE `city` LIKE '"+cityName+"' or `city` LIKE '"+location+"' and isDeleted='N'";
-        
+        console.log("sql::"+sql);
         return new Promise((resolve, reject)=>{
             pool.query(sql,  (error, elements)=>{
                 console.log("errorerror==="+elements)
