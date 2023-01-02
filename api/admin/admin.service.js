@@ -180,6 +180,21 @@ module.exports={
         }catch(e){
             throw "Error while adding surge";
         }
+    },    
+    getSurge:async(userId)=>{
+        try{
+            sqlGet="select * from `prayag_surge` where isDeleted='N'";
+            return new Promise((resolve, reject)=>{
+                pool.query(sqlGet,  (error, results)=>{
+                    if(error){
+                        return reject(error);
+                    }
+                    return resolve(results);
+                });
+            })
+        }catch(e){
+            throw "Error while adding surge";
+        }
     },
     addCab:async(userId,data)=>{
         try{
@@ -198,7 +213,22 @@ module.exports={
         }catch(e){
             throw "Error while adding cab";
         }
-    }
+    },   
+    getCab:async(userId)=>{
+        try{
+            sqlGet="select * from `prayag_cabs` where isDeleted='N'";
+            return new Promise((resolve, reject)=>{
+                pool.query(sqlGet,  (error, results)=>{
+                    if(error){
+                        return reject(error);
+                    }
+                    return resolve(results);
+                });
+            })
+        }catch(e){
+            throw "Error while adding surge";
+        }
+    },
 
 
 }
