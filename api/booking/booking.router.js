@@ -409,7 +409,7 @@ router.get('/getCabs',async function(req,res,next){
                     dataObj1['bags']=bags;
                     dataObj1['cars']=cars;
                     dataObj1['capacity']=capacity;
-                    dataObj13['note']=note;
+                    dataObj1['note']=note;
                     dataObj1['amount']=amount;
                     dataObj1['journyTime']=journyTime1;
                     dataObj1['discountAmount']=discountAmount;
