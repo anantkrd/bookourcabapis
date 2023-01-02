@@ -259,9 +259,9 @@ router.get('/getCabs',async function(req,res,next){
             let sedanPrice=0;
             let luxuryPrice=0;
             let compactPrice=0;
-            let pickupcityName=pickupCity.split(",")[0]
+            let pickupcityName=pickupCity.split(",")[0];
             let surgePickpuResult=await getSurge(pickupcityName,pickupCityName);
-            let destinationcityName=destinationCity.split(",")[0]
+            let destinationcityName=destinationCity.split(",")[0];
             let surgedestinationResult=await getSurge(destinationcityName,dropCityName);
             //console.log(distancekm+"**************surgeResult===");
             
