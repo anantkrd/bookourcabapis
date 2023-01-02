@@ -162,11 +162,43 @@ module.exports={
                 
                 return resolve(result);
             });
-            
-            
-            
-            
         });
+    },
+    addSurge:async(userId,city,surgeData)=>{
+        try{
+            sqlInsert="INSERT INTO `prayag_surge`(`city`, `surge`, `isDeleted`) VALUES(?,?,'N')";
+            return new Promise((resolve, reject)=>{
+                pool.query(sqlInsert,[city,surgeData],  (error, results)=>{
+                    if(error){
+                        return reject(error);
+                    }
+                    //results['rowCount']=rowCount;
+                    results=JSON.stringify({results:results});
+                    return resolve(results);
+                });
+            })
+        }catch(e){
+            throw "Error while adding surge";
+        }
+    },
+    addCab:async(userId,data)=>{
+        try{
+            console.log("data:"+JSON.stringify(data));
+            /*sqlInsert="INSERT INTO `prayag_surge`(`city`, `surge`, `isDeleted`) VALUES(?,?,'N')";
+            return new Promise((resolve, reject)=>{
+                pool.query(sqlInsert,[city,surgeData],  (error, results)=>{
+                    if(error){
+                        return reject(error);
+                    }
+                    //results['rowCount']=rowCount;
+                    results=JSON.stringify({results:results});
+                    return resolve(results);
+                });
+            })*/
+        }catch(e){
+            throw "Error while adding cab";
+        }
     }
+
 
 }

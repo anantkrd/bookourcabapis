@@ -4,7 +4,7 @@ const jwt=require('jsonwebtoken');
 var router = express.Router();
 const {getBookingsAdminHome,updateAgentAmount,getWaitingForAgentBooking,getCompletedBookings,getReadyBooking,getConfirmBooking,
     getAgents}=require('./admin.controller');
-const{addPaymentAgent,updateBookingDetails,assignAggent}=require('./admin.service');
+const{addPaymentAgent,updateBookingDetails,assignAggent,addSurge,addCab}=require('./admin.service');
 const { json } = require('body-parser');
 const authenticate=require("../auth/index");
 var distance = require('google-distance-matrix');
@@ -169,6 +169,27 @@ router.get('/assign_agent',authenticate,async function(req,res,next){
      //return responce; 
     res.send(responce);
 });  
+
+router.post('/add_surge',authenticate,async function(req,res,next){
+    
+    results =await addSurge(req.body.userId,req.body.city,req.body.surgeData);
+    console.log("****************result="+JSON.stringify(results));  
+    if(results.length<=0){
+        responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
+    }else{
+        
+        responce=JSON.stringify({code:'200',msg:'Agent assined successfully',data:''});
+    }
+     //return responce; 
+    res.send(responce);
+});
+
+router.post('/add_cab',authenticate,async function(req,res,next){
+    
+    results =await addCab(req.body.userId,req.body);
+    console.log("****************result="+JSON.stringify(results));   
+    res.send(results);
+});
 /*
 router.get('/update_agent_amount',authenticate, async function(req, res, next) {
     console.log("in update route")
