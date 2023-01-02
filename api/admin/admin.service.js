@@ -183,7 +183,7 @@ module.exports={
     },    
     getSurge:async(userId)=>{
         try{
-            sqlGet="select * from `prayag_surge` where isDeleted='N'";
+            sqlGet="select * from `prayag_surge` where isDeleted='N' order by id desc";
             return new Promise((resolve, reject)=>{
                 pool.query(sqlGet,  (error, results)=>{
                     if(error){
@@ -216,7 +216,7 @@ module.exports={
     },   
     getCab:async(userId)=>{
         try{
-            sqlGet="select * from `prayag_cabs` where isDeleted='N'";
+            sqlGet="select * from `prayag_cabs` where isDeleted='N' order by id desc";
             return new Promise((resolve, reject)=>{
                 pool.query(sqlGet,  (error, results)=>{
                     if(error){

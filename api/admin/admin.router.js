@@ -203,8 +203,7 @@ router.get('/get_surge',authenticate,async function(req,res,next){
     console.log("****************result="+JSON.stringify(results));  
     if(results.length<=0){
         responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
-    }else{
-        
+    }else{        
         responce=JSON.stringify({code:'200',msg:'successfully',data:results});
     }
      //return responce; 
