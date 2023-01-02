@@ -196,6 +196,33 @@ router.post('/add_cab',authenticate,async function(req,res,next){
      //return responce; 
     res.send(responce);
 });
+
+router.get('/get_surge',authenticate,async function(req,res,next){
+    
+    results =await getSurge(req.query.userId);
+    console.log("****************result="+JSON.stringify(results));  
+    if(results.length<=0){
+        responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
+    }else{
+        
+        responce=JSON.stringify({code:'200',msg:'successfully',data:results});
+    }
+     //return responce; 
+    res.send(responce);
+});
+
+router.get('/get_cab',authenticate,async function(req,res,next){
+    
+    results =await getCab(req.query.userId);
+    if(results.length<=0){
+        responce=JSON.stringify({code:'500',msg:'No Data found',data:''});
+    }else{
+        
+        responce=JSON.stringify({code:'200',msg:'successfully',data:results});
+    }
+     //return responce; 
+    res.send(responce);
+});
 /*
 router.get('/update_agent_amount',authenticate, async function(req, res, next) {
     console.log("in update route")
